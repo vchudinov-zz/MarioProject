@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/junit-4.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/testng-6.8.7.jar"/>
 	<classpathentry kind="lib" path="lib/asm-all-4.2.jar"/>
+	<classpathentry kind="lib" path="lib/JNEAT/JNEAT.jar" sourcepath="lib/JNEAT/JNEAT source/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
