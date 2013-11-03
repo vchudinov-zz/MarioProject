@@ -15,7 +15,7 @@ public class TrainingConsole extends Console {
 
 	public static void main(String[] args) {
 		String nameOfExperiment = "Mario 1";
-		int maxNumberOfGenerations = 10;
+		int maxNumberOfGenerations = 100;
 		boolean stopOnFirstGoodOrganism = true;
 		double errorThreshold = 0.1;
 		
@@ -27,7 +27,7 @@ public class TrainingConsole extends Console {
 	
 	
 	public void train(){
-		String levelParameters = "-ls 20 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off -vis off";
+		String levelParameters = "-ls 20 -ld 0 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off -vis off";
 		//Create evaluator		
 		MyMarioEvaluator evaluator = new MyMarioEvaluator(levelParameters);
 				

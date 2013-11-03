@@ -55,6 +55,7 @@ public class MyMarioEvaluator {
 		    }
 		    
 		    int[] ev = environment.getEvaluationInfoAsInts();
+		    //Blocks travelled 
 		    double fitness = ev[0];
 		    
 		    organism.setFitness(fitness);

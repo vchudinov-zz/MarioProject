@@ -12,7 +12,7 @@ public class Simulator {
 	public static void main(String[] args)
 	{
 	    //Write parameters to use in simulation
-		String options = "-ls 10 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off -vis on";
+		String options = "-ls 20 -ld 0 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off -vis on";
 	    System.out.print(options);
 	    
 	    //Create new environment with chosen parameters

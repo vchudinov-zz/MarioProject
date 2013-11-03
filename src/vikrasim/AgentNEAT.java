@@ -2,6 +2,7 @@ package vikrasim;
 
 import jNeatCommon.IOseq;
 
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -81,9 +82,10 @@ public class AgentNEAT extends BasicMarioAIAgent implements Agent {
 	
 	@Override
 	public boolean[] getAction() {
-		double[] inputs = new double[14];
+		
 		byte[] observations = readSurroundings();
 		int numberOfObservations = observations.length;
+		double[] inputs = new double[numberOfObservations + 5];
 		inputs[0] = 1; //Bias
 		for (int i = 1; i <= numberOfObservations; i++){ //We don't want to overwrite bias
 			inputs[i] = observations[i-1];
@@ -134,27 +136,32 @@ public class AgentNEAT extends BasicMarioAIAgent implements Agent {
 		return 0;
 	}
 	private byte[] readSurroundings(){
-		byte[] observations = new byte[9];
+		ArrayList<Byte> observations = new ArrayList<>();
 		int counter = 0;
 		//Mario is always in the middle of the 19 x 19 array in levelz Scene and enemies
 		int marioX = 9;
 		int marioY = 9;
-		for (int x = -1; x < 2; x++){
-			for (int y = -1; y < 2; y++){
+		for (int x = -2; x < 3; x++){
+			for (int y = -2; y < 3; y++){
 				int obsX = marioX+x;
 				int obsY = marioY+y;
 				if (obsX < 0) obsX=0;
 				if (obsX > 18) obsX=18;
 				if (obsY < 0) obsY=0;
 				if (obsY > 18) obsY=18;
-				observations[counter] = levelScene[obsX][obsY];
-				//observations[counter] = enemies[obsX][obsY];
+				observations.add(levelScene[obsX][obsY]);
+				//observations.add(enemies[obsX][obsY]);
 				counter++;
 			}
 		}
 		
+		byte[] result = new byte[observations.size()];
 		
-		return observations;
+		for (int i = 0; i < observations.size(); i++){
+			result[i] = observations.get(i);
+		}		
+		
+		return result;
 	}
 	
 	
