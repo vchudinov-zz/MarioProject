@@ -43,24 +43,23 @@ public class MyMarioEvaluator {
 		    //Create new agent based on organism
 		    Agent agent = new AgentNEAT("This rocks", organism);
 		    
-		    int numberOfTicks = 0;
-		    boolean finishedLevel = false;
-		    while (!finishedLevel && numberOfTicks < 1000)
+		    while (!environment.isLevelFinished())
 		    {
 		        environment.tick(); //Execute one tick in the game (I think) //STC
 		        agent.integrateObservation(environment);
 		        environment.performAction(agent.getAction());
-		        numberOfTicks++;
-		        finishedLevel = environment.isLevelFinished();
 		    }
 		    
 		    int[] ev = environment.getEvaluationInfoAsInts();
 		    //Blocks travelled 
 		    double fitness = ev[0];
 		    
+		    //Time left
+		    int timeLeft = ev[11];
+		    
 		    organism.setFitness(fitness);
 		    boolean isWinner = false;
-		    if (environment.isLevelFinished()){
+		    if (environment.isLevelFinished() && timeLeft > 0){
 		    	isWinner = true;
 		    	organism.setWinner(true);
 		    } else{
