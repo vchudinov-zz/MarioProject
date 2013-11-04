@@ -22,17 +22,15 @@ public class Simulator {
 	    //Create new agent
 //	    Agent agent = new ForwardAgent();
 //	    Agent agent = new OurBasicAgent("This rocks");
-//	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\Testing\\genomeToTest.txt";
-	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
+	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\starterGenome.txt";
+//	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
 	    Agent agent = new AgentNEAT("This rocks", file);
 	    
-	    int numberOfTicks = 0;
-	    while (!environment.isLevelFinished() && numberOfTicks < 1000)
+	    while (!environment.isLevelFinished())
 	    {
 	        environment.tick(); //Execute one tick in the game (I think) //STC
 	        agent.integrateObservation(environment);
 	        environment.performAction(agent.getAction());
-	        numberOfTicks++;
 	    }
 	    
 	    System.out.println("Evaluation Info:");
