@@ -35,8 +35,8 @@ public class AgentNEAT extends BasicMarioAIAgent implements Agent {
 		
 		this.brain=brain;
 		
-		this.zLevelEnemies = 0;
-		this.zLevelScene = 0;
+		this.zLevelEnemies = 2;
+		this.zLevelScene = 2;
 	}
 	
 	private void makeBrain(String genomeFileName){
@@ -149,7 +149,7 @@ public class AgentNEAT extends BasicMarioAIAgent implements Agent {
 				if (obsX > 18) obsX=18;
 				if (obsY < 0) obsY=0;
 				if (obsY > 18) obsY=18;
-				observations.add(mergedObservation[obsX][obsY]);
+				observations.add(levelScene[obsX][obsY]);
 				//observations.add(enemies[obsX][obsY]);
 				counter++;
 			}

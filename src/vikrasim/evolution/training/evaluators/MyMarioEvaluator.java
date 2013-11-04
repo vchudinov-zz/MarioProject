@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import vikrasim.AgentNEAT;
 import ch.idsia.agents.Agent;
+import ch.idsia.benchmark.mario.engine.sprites.Mario;
 import ch.idsia.benchmark.mario.environments.Environment;
 import ch.idsia.benchmark.mario.environments.MarioEnvironment;
 import jneat.evolution.Organism;
@@ -43,11 +44,13 @@ public class MyMarioEvaluator {
 		    //Create new agent based on organism
 		    Agent agent = new AgentNEAT("This rocks", organism);
 		    
-		    while (!environment.isLevelFinished())
+		    int ticks = 0;
+		    while (!environment.isLevelFinished() && ticks < 1000)
 		    {
 		        environment.tick(); //Execute one tick in the game (I think) //STC
 		        agent.integrateObservation(environment);
 		        environment.performAction(agent.getAction());
+		        ticks++;
 		    }
 		    
 		    int[] ev = environment.getEvaluationInfoAsInts();
@@ -58,8 +61,11 @@ public class MyMarioEvaluator {
 		    int timeLeft = ev[11];
 		    
 		    organism.setFitness(fitness);
+		    
+		    int status = environment.getMarioStatus();
+		    
 		    boolean isWinner = false;
-		    if (environment.isLevelFinished() && timeLeft > 0){
+		    if (environment.getMarioStatus()== Mario.STATUS_WIN){
 		    	isWinner = true;
 		    	organism.setWinner(true);
 		    } else{
