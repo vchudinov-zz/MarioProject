@@ -151,6 +151,7 @@ public class AgentNEAT extends BasicMarioAIAgent implements Agent {
 				if (obsY > 18) obsY=18;
 				observations.add(levelScene[obsX][obsY]);
 				//observations.add(enemies[obsX][obsY]);
+				//observations.add(mergedObservation[obsX][obsY]);
 				counter++;
 			}
 		}
