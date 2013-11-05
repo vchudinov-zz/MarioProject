@@ -85,8 +85,8 @@ public class AgentNEAT extends BasicMarioAIAgent implements Agent {
 		
 		byte[] observations = readSurroundings();
 		int numberOfObservations = observations.length;
-		double[] inputs = new double[numberOfObservations + 5];
-		for (int i = 0; i <= numberOfObservations; i++){ 
+		double[] inputs = new double[numberOfObservations + 6];
+		for (int i = 0; i < numberOfObservations; i++){ 
 			inputs[i] = observations[i];
 		}
 		
