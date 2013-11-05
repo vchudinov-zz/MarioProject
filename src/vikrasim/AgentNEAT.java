@@ -86,15 +86,16 @@ public class AgentNEAT extends BasicMarioAIAgent implements Agent {
 		byte[] observations = readSurroundings();
 		int numberOfObservations = observations.length;
 		double[] inputs = new double[numberOfObservations + 5];
-		inputs[0] = 1; //Bias
-		for (int i = 1; i <= numberOfObservations; i++){ //We don't want to overwrite bias
-			inputs[i] = observations[i-1];
+		for (int i = 0; i <= numberOfObservations; i++){ 
+			inputs[i] = observations[i];
 		}
 		
 		inputs[numberOfObservations + 1] = convertBooleanToByte(isMarioAbleToJump);
 		inputs[numberOfObservations + 2] = convertBooleanToByte(isMarioOnGround);
 		inputs[numberOfObservations + 3] = convertBooleanToByte(isMarioAbleToShoot);
 		inputs[numberOfObservations + 4] = marioMode;
+		
+		inputs[numberOfObservations + 5] = 1; //Bias
 		
 		Network network = brain.net;
 		boolean success = propagateSignal(network, network.max_depth(), inputs);
