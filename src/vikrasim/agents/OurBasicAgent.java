@@ -1,4 +1,4 @@
-package vikrasim;
+package vikrasim.agents;
 
 import ch.idsia.agents.Agent;
 import ch.idsia.agents.controllers.BasicMarioAIAgent;

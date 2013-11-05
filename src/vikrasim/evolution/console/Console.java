@@ -44,7 +44,7 @@ public class Console {
 			winnerFolder = dataFolder + "\\Training data\\" + nameOfExperiment + "\\Winners";
 					
 			//Filenames
-			parameterFileName = dataFolder + "\\parameters";
+			parameterFileName = dataFolder + "\\Training data\\" + nameOfExperiment + "\\parameters";
 			debugParameterFileName = dataFolder + "\\parameters.imported";
 					
 			genomeFileName = dataFolder + "\\Training data\\" + nameOfExperiment + "\\starterGenome.txt";

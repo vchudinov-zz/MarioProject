@@ -1,6 +1,10 @@
 package vikrasim.evolution.console;
 
+import vikrasim.agents.AgentScannerNEAT;
+import vikrasim.agents.MasterAgent;
 import vikrasim.evolution.training.Trainer;
+import vikrasim.evolution.training.evaluators.EvalQuickness;
+import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 
 public class TrainingConsole extends Console {
@@ -14,23 +18,44 @@ public class TrainingConsole extends Console {
 
 
 	public static void main(String[] args) {
-		String nameOfExperiment = "Mario 1";
-		int maxNumberOfGenerations = 100;
-		boolean stopOnFirstGoodOrganism = true;
+		
+		//Info about experiment
+		//String nameOfExperiment = "Mario 1";
+		String nameOfExperiment = "Mario Scanners";
+		int maxNumberOfGenerations = 500;
+		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
 		
+		//Info about agent (if used)
+		int zLevelEnemies = 2;
+		int zLevelScene = 1;
+		int scannerLength = 3;
+		int scannerHeight = 3;
+		
+	
 		TrainingConsole tc = new TrainingConsole(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold);
 		
-		tc.train();
+		MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
+		tc.train(agent);
+	}
+	
+	private MasterAgent setupAgent(int zLevelEnemies, int zLevelScene, 
+			int scannerLength, int scannerHeight){		
+		
+		MasterAgent agent = new AgentScannerNEAT(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
+		
+		return agent;
 	}
 	
 	
 	
-	public void train(){
-		String levelParameters = "-ls 20 -ld 0 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off -vis off";
+	public void train(MasterAgent agent){
+		String levelParameters = "-vis off -ls 20 -ld 0 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off";
 		//levelParameters ="-ls 20 -vis off";
-		//Create evaluator		
-		MyMarioEvaluator evaluator = new MyMarioEvaluator(levelParameters);
+		//Create evaluator
+		
+		//MasterEvaluator evaluator = new MyMarioEvaluator(levelParameters, agent);
+		MasterEvaluator evaluator = new EvalQuickness(levelParameters, agent);
 				
 		//Create trainer
 		Trainer t = new Trainer(parameterFileName, debugParameterFileName, genomeFileName, genomeBackupFileName, lastPopulationInfoFileName, generationInfoFolder, winnerFolder, nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism,evaluator );

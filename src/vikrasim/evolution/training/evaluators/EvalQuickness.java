@@ -13,9 +13,9 @@ import jneat.neuralNetwork.NNode;
 import jneat.neuralNetwork.Network;
 
 
-public class MyMarioEvaluator extends MasterEvaluator {
+public class EvalQuickness extends MasterEvaluator{
 	
-	public MyMarioEvaluator(String levelParameters, MasterAgent agent) {
+	public EvalQuickness(String levelParameters, MasterAgent agent) {
 		super(levelParameters, agent);
 		// TODO Auto-generated constructor stub
 	}
@@ -46,11 +46,18 @@ public class MyMarioEvaluator extends MasterEvaluator {
 		    agent.create();
 		    
 		    int ticks = 0;
-		    while (!environment.isLevelFinished() && ticks < 1000)
+		    int maxTicks = 500;
+		    int oldDistance = 0;
+		    while (!environment.isLevelFinished() && ticks < maxTicks)
 		    {
 		        environment.tick(); //Execute one tick in the game (I think) //STC
 		        agent.integrateObservation(environment);
 		        environment.performAction(agent.getAction());
+		        int[] ev = environment.getEvaluationInfoAsInts();
+		        if (ev[0] > oldDistance){
+		        	maxTicks += (ev[0] - oldDistance) * 10;
+		        	oldDistance = ev[0];		        	
+		        }
 		        ticks++;
 		    }
 		    
@@ -66,7 +73,9 @@ public class MyMarioEvaluator extends MasterEvaluator {
 		    int status = environment.getMarioStatus();
 		    
 		    boolean isWinner = false;
-		    if (environment.getMarioStatus()== Mario.STATUS_WIN){
+		    if (status== Mario.STATUS_WIN){
+		    	fitness += timeLeft;
+		    	organism.setFitness(fitness);
 		    	isWinner = true;
 		    	organism.setWinner(true);
 		    } else{

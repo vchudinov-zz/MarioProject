@@ -3,9 +3,11 @@ package vikrasim.evolution.training;
 import jNeatCommon.IOseq;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
+import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 import jneat.Neat;
 import jneat.evolution.Organism;
@@ -24,12 +26,12 @@ public class Trainer {
 	String nameOfExperiment;
 	int numberOfGenerations;
 	boolean stopOnFirstGoodOrganism;
-	MyMarioEvaluator evaluator;
+	MasterEvaluator evaluator;
 	
 	public Trainer(String parameterFileName, String debugParameterFileName, String genomeFileName, 
 			String genomeBackupFileName, String lastPopulationInfoFileName, String generationInfoFolder, 
 			String winnerFolder, String nameOfExperiment, int numberOfGenerations, 
-			boolean stopOnFirstGoodOrganism, MyMarioEvaluator evaluator){
+			boolean stopOnFirstGoodOrganism, MasterEvaluator evaluator){
 		
 		this.parameterFileName=parameterFileName;
 		this.debugParameterFileName=debugParameterFileName;
@@ -223,6 +225,7 @@ public class Trainer {
 	 */
 	private boolean goThroughEpoch(Population pop, int generation, String filenameEpochInfo){
 		boolean status = false;
+		ArrayList<Organism> winners = new ArrayList<>();
 		
 		//Evaluate each organism to see if it is a winner
 		boolean win = false;
@@ -238,6 +241,7 @@ public class Trainer {
 			// if is a winner , store a flag
 			if (status){
 				win = true;
+				winners.add(curOrganism);
 			}
 		 } //Looping through all the organisms in the population
 		
@@ -248,6 +252,13 @@ public class Trainer {
 			Species curSpecie = ((Species) itr_specie.next());
 			curSpecie.compute_average_fitness();
 			curSpecie.compute_max_fitness();
+		}
+		
+		//Print best organism to file
+		if (winners.isEmpty()){
+			printBest(pop.organisms, generation);
+		} else {
+			printBest(winners, generation);
 		}
 		 
 		// Only print to file every print_every generations
@@ -277,6 +288,21 @@ public class Trainer {
 		} else { 
 			return false;
 		}		
+	}
+	
+	private void printBest(Iterable<Organism> list, int generation){
+		double maxFitness = 0.0;
+		Organism best = null;
+		for (Organism o : list){
+			double myFitness = o.getFitness();
+			if (myFitness > maxFitness){
+				best = o;
+				maxFitness = myFitness;
+			}
+		}
+		System.out.println();
+		System.out.println("Generation " + generation + " highest fitness: " + maxFitness);
+		best.getGenome().print_to_filename(winnerFolder +  "\\" + nameOfExperiment + " gen " + generation + " best");
 	}
 	
 	public void setParameterFileName(String parameterFileName) {
