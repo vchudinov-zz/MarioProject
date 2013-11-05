@@ -28,6 +28,7 @@ public class TrainingConsole extends Console {
 	
 	public void train(){
 		String levelParameters = "-ls 20 -ld 0 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off -vis off";
+		//levelParameters ="-ls 20 -vis off";
 		//Create evaluator		
 		MyMarioEvaluator evaluator = new MyMarioEvaluator(levelParameters);
 				

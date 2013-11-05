@@ -28,7 +28,7 @@ p_recur_only_prob  0.0
 p_pop_size  50
 p_dropoff_age  50
 p_newlink_tries  50
-p_print_every  10
+p_print_every  1
 p_babies_stolen  0
 p_num_runs  1
 p_num_trait_params  8

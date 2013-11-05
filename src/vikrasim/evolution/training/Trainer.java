@@ -239,7 +239,7 @@ public class Trainer {
 			if (status){
 				win = true;
 			}
-		 }
+		 } //Looping through all the organisms in the population
 		
 		//compute average and max fitness for each species
 		Iterator itr_specie;

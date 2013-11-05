@@ -12,8 +12,9 @@ public class Simulator {
 	public static void main(String[] args)
 	{
 	    //Write parameters to use in simulation
-		String options = "-ls 20 -ld 0 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off -vis on";
-	    System.out.print(options);
+		String options = "-ls 25 -ld 3 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off -vis on";
+		options = "-ls 20 -vis on";
+		System.out.print(options);
 	    
 	    //Create new environment with chosen parameters
 	    Environment environment = MarioEnvironment.getInstance();
@@ -23,7 +24,8 @@ public class Simulator {
 //	    Agent agent = new ForwardAgent();
 //	    Agent agent = new OurBasicAgent("This rocks");
 //	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\Testing\\genomeToTest.txt";
-	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
+//	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
+	    String file = "C:\\Users\\Simon\\Documents\\Git Repository\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
 	    Agent agent = new AgentNEAT("This rocks", file);
 	    
 	    while (!environment.isLevelFinished())
