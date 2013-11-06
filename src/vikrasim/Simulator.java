@@ -15,7 +15,7 @@ public class Simulator {
 	{
 	    //Write parameters to use in simulation
 		String options = "-ls 30 -ld 10 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off -vis on";
-		options = "-vis on -ls 10";
+		options = "-vis on -ls 666";
 		System.out.print(options);
 	    
 	    //Create new environment with chosen parameters
@@ -29,7 +29,7 @@ public class Simulator {
 //	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
 //	    String file = "C:\\Users\\Simon\\Documents\\Git Repository\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
 //	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario Scanners\\Winners\\Mario Scanners gen 110 best";
-	    String file = "C:\\Users\\Simon\\Documents\\Git Repository\\MarioProject\\NEAT data\\Training data\\Mario Scanners\\Winners\\Mario Scanners gen 15 best";
+	    String file = "C:\\Users\\Simon\\Documents\\Git Repository\\MarioProject\\NEAT data\\Training data\\Mario Scanners\\Winners\\Mario Scanners gen 1 best";
 	    Agent agent = new AgentScannerNEAT("This rocks", file,2,2,3,3);
 	    
 	    while (!environment.isLevelFinished())
