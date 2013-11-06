@@ -41,7 +41,14 @@ public class Scanner {
 			populateArea(cellsToScan, marioX, marioY);
 		}		
 	}
-	
+	/**
+	 * Finds cells to scan in a line of length length from mario
+	 * Example
+	 * 	|M| | | | - line with length 3
+	 * @param cellsToScan
+	 * @param marioX
+	 * @param marioY
+	 */
 	private void populatelLine(int[][] cellsToScan, int marioX, int marioY){
 		int startX = 0;
 		int startY = 0;

@@ -146,7 +146,7 @@ public class AgentNEAT extends MasterAgent implements Agent {
 				if (obsX > 18) obsX=18;
 				if (obsY < 0) obsY=0;
 				if (obsY > 18) obsY=18;
-				observations.add(levelScene[obsX][obsY]);
+				observations.add(levelScene[obsY][obsX]);
 				//observations.add(enemies[obsX][obsY]);
 				//observations.add(mergedObservation[obsX][obsY]);
 				counter++;

@@ -65,6 +65,9 @@ public class EvalQuickness extends MasterEvaluator{
 		    //Blocks travelled 
 		    double fitness = ev[0];
 		    
+		    //Mario mode
+		    int marioMode = ev[7];
+		    
 		    //Time left
 		    int timeLeft = ev[11];
 		    
@@ -75,6 +78,7 @@ public class EvalQuickness extends MasterEvaluator{
 		    boolean isWinner = false;
 		    if (status== Mario.STATUS_WIN){
 		    	fitness += timeLeft;
+		    	fitness = fitness * (marioMode + 1);
 		    	organism.setFitness(fitness);
 		    	isWinner = true;
 		    	organism.setWinner(true);

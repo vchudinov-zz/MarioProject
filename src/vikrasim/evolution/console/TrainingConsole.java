@@ -2,10 +2,10 @@ package vikrasim.evolution.console;
 
 import vikrasim.agents.AgentScannerNEAT;
 import vikrasim.agents.MasterAgent;
-import vikrasim.evolution.training.Trainer;
 import vikrasim.evolution.training.evaluators.EvalQuickness;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
+import vikrasim.evolution.training.trainers.Trainer;
 
 public class TrainingConsole extends Console {
 
@@ -28,7 +28,7 @@ public class TrainingConsole extends Console {
 		
 		//Info about agent (if used)
 		int zLevelEnemies = 2;
-		int zLevelScene = 1;
+		int zLevelScene = 2;
 		int scannerLength = 3;
 		int scannerHeight = 3;
 		
@@ -50,7 +50,7 @@ public class TrainingConsole extends Console {
 	
 	
 	public void train(MasterAgent agent){
-		String levelParameters = "-vis off -ls 20 -ld 0 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off";
+		String levelParameters = "-vis off -ls 10";
 		//levelParameters ="-ls 20 -vis off";
 		//Create evaluator
 		
