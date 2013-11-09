@@ -2,11 +2,13 @@ package vikrasim.evolution.training;
 
 import jNeatCommon.IOseq;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
+import vikrasim.CSVWriter;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 import jneat.Neat;
@@ -27,6 +29,7 @@ public class Trainer {
 	int numberOfGenerations;
 	boolean stopOnFirstGoodOrganism;
 	MasterEvaluator evaluator;
+	CSVWriter writer;
 	
 	public Trainer(String parameterFileName, String debugParameterFileName, String genomeFileName, 
 			String genomeBackupFileName, String lastPopulationInfoFileName, String generationInfoFolder, 
@@ -43,14 +46,15 @@ public class Trainer {
 		this.nameOfExperiment=nameOfExperiment;
 		this.numberOfGenerations=numberOfGenerations;
 		this.stopOnFirstGoodOrganism = stopOnFirstGoodOrganism;
-		this.evaluator = evaluator;				
+		this.evaluator = evaluator;	
+		writer = new CSVWriter();
 	}
 	
 	public Trainer(){
 		
 	}
 	
-	public boolean trainNetwork(){
+	public boolean trainNetwork() throws IOException{
 		boolean status;
 		
 		//Test if all variables have been set
@@ -118,8 +122,9 @@ public class Trainer {
 	 * Starts the experiment
 	 * @param starterGenomeFileName
 	 * @param generations
+	 * @throws IOException 
 	 */
-	private boolean experimentSession (String starterGenomeFileName, int generations, boolean stopOnFirstGoodOrganism){
+	private boolean experimentSession (String starterGenomeFileName, int generations, boolean stopOnFirstGoodOrganism) throws IOException{
 		
 		//Open the file with the starter genome data
 		IOseq starterGenomeFile = new IOseq(starterGenomeFileName);
@@ -179,8 +184,9 @@ public class Trainer {
 	 * Runs an experiment where populations are evolved from a basic genome
 	 * @param starterGenome
 	 * @param generations
+	 * @throws IOException 
 	 */
-	private void runExperiment(Genome starterGenome, int generations, boolean stopOnFirstGoodOrganism){
+	private void runExperiment(Genome starterGenome, int generations, boolean stopOnFirstGoodOrganism) throws IOException{
 		String mask6 = "000000";
 		DecimalFormat fmt6 = new DecimalFormat(mask6);
 		
@@ -211,9 +217,10 @@ public class Trainer {
 		//Prints information about the last generation 
 		System.out.print("\n  Population : innov num   = " + pop.getCur_innov_num()); //Prints the current number of innovations
 		System.out.print("\n             : cur_node_id = " + pop.getCur_node_id());  //Current number of nodes (??)
-		
 		//Writes population info to file for the last population 
 		pop.print_to_filename(lastPopulationInfoFileName);
+		writer.Writer(lastPopulationInfoFileName);
+		
 	}
 	
 	/**
@@ -222,8 +229,9 @@ public class Trainer {
 	 * @param generation
 	 * @param filenameEpochInfo
 	 * @return True if a winner has been found in the population. False otherwise
+	 * @throws IOException 
 	 */
-	private boolean goThroughEpoch(Population pop, int generation, String filenameEpochInfo){
+	private boolean goThroughEpoch(Population pop, int generation, String filenameEpochInfo) throws IOException{
 		boolean status = false;
 		ArrayList<Organism> winners = new ArrayList<>();
 		
@@ -259,6 +267,7 @@ public class Trainer {
 			printBest(pop.organisms, generation);
 		} else {
 			printBest(winners, generation);
+			
 		}
 		 
 		// Only print to file every print_every generations
@@ -290,7 +299,7 @@ public class Trainer {
 		}		
 	}
 	
-	private void printBest(Iterable<Organism> list, int generation){
+	private void printBest(Iterable<Organism> list, int generation) throws IOException{
 		double maxFitness = 0.0;
 		Organism best = null;
 		for (Organism o : list){
@@ -302,8 +311,11 @@ public class Trainer {
 		}
 		System.out.println();
 		System.out.println("Generation " + generation + " highest fitness: " + maxFitness);
-		best.getGenome().print_to_filename(winnerFolder +  "\\" + nameOfExperiment + " gen " + generation + " best");
-	}
+		String filename = winnerFolder +  "\\" + nameOfExperiment + " gen " + generation + " best";
+		best.getGenome().print_to_filename(filename);
+		writer.WriterOfOne(filename);
+		System.out.println("CSV created");
+	    }
 	
 	public void setParameterFileName(String parameterFileName) {
 		this.parameterFileName = parameterFileName;

@@ -1,9 +1,12 @@
 package vikrasim.evolution.console;
 
+import java.io.IOException;
+
 import vikrasim.agents.AgentScannerNEAT;
 import vikrasim.agents.MasterAgent;
 import vikrasim.evolution.training.Trainer;
 import vikrasim.evolution.training.evaluators.EvalQuickness;
+import vikrasim.evolution.training.evaluators.FormulaEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 
@@ -17,7 +20,7 @@ public class TrainingConsole extends Console {
 
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
 		//String nameOfExperiment = "Mario 1";
@@ -49,13 +52,15 @@ public class TrainingConsole extends Console {
 	
 	
 	
-	public void train(MasterAgent agent){
+	public void train(MasterAgent agent) throws IOException{
 		String levelParameters = "-vis off -ls 20 -ld 0 -lco off -lb off -le off -lhb off -lg off -ltb off -lhs off -lde off";
+		//String levelParameters = "-vis off -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off";
 		//levelParameters ="-ls 20 -vis off";
 		//Create evaluator
 		
 		//MasterEvaluator evaluator = new MyMarioEvaluator(levelParameters, agent);
-		MasterEvaluator evaluator = new EvalQuickness(levelParameters, agent);
+		//MasterEvaluator evaluator = new EvalQuickness(levelParameters, agent);
+		MasterEvaluator evaluator = new FormulaEvaluator(levelParameters, agent);
 				
 		//Create trainer
 		Trainer t = new Trainer(parameterFileName, debugParameterFileName, genomeFileName, genomeBackupFileName, lastPopulationInfoFileName, generationInfoFolder, winnerFolder, nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism,evaluator );

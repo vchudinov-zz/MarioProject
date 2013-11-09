@@ -1,3 +1,5 @@
+package vikrasim;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,11 +27,11 @@ public class CSVWriter {
 	
 	HashMap<Integer, HashSet<String>> genome;
 	
-	//HashMap<Integer, HashMap<Integer, HashSet<Integer>>> complete;
+	HashMap<Integer, HashMap<Integer, HashSet<Integer>>> complete;
 	
-	CSVWriter()
+	public CSVWriter()
 	{	genome = new HashMap<Integer, HashSet<String>>();
-		//complete = new HashMap<Integer, HashMap<Integer, HashSet<Integer>>>();
+		complete = new HashMap<Integer, HashMap<Integer, HashSet<Integer>>>();
 	}
 	
 	/** Iterates trough all the individuals in the population or generation and creates 
@@ -41,8 +43,8 @@ public class CSVWriter {
 	public void Writer(String population) throws IOException
 	{	this.filename = population;
 		parseGenome();
-		//writeGenomeToSingleFile();
-		writeGenome();
+		writeGenomeToSingleFile();
+		//writeGenome("fakefilenameaaaaaaa");
 	}
 	
 	/** You can use this method to create the file for a single organism, say a champion.
@@ -54,9 +56,10 @@ public class CSVWriter {
 	 * 					population so you don't accidentaly overwrite a genome 
 	 * @throws IOException
 	 */
-	public void WriterOfOne(String File, int file_ID) throws IOException
+	public void WriterOfOne(String File) throws IOException
 	{	HashMap<Integer,HashSet<Integer>> toWrite = new HashMap<Integer,HashSet<Integer>>();
-		writeGene(file_ID,parseGeneFromSingleFile(toWrite));
+		this.filename = File;
+		writeGene(File, parseGeneFromSingleFile(toWrite));
 	}	
 	
 	
@@ -64,13 +67,13 @@ public class CSVWriter {
 	 * 
 	 * @throws IOException
 	 */
-	private void writeGenome() throws IOException
+	private void writeGenome(String file) throws IOException
 	{	for(int key: genome.keySet() )
 		{	HashMap<Integer,HashSet<Integer>> toWrite = new HashMap<Integer,HashSet<Integer>>();
 			for (String val: genome.get(key))
 				{	parseGene(val, toWrite);
 				}
-			writeGene(key, toWrite);
+			writeGene(file, toWrite);
 		}
 		
 	}
@@ -115,10 +118,11 @@ public class CSVWriter {
 												new FileInputStream(filename), "UTF-8"));
 		while(true)
 		{	String s = r.readLine();
-			if(s == null)
-			{	break;				
-			}
-			String[] array = s.split("\\W");
+		if(s == null)
+		{	break;				
+		}
+		if (s.startsWith("gene"))
+		{	String[] array = s.split("\\W");
 			int key = Integer.parseInt(array[3]);
 			int value = Integer.parseInt(array[4]);
 			if(!toWrite.containsKey(key))
@@ -126,6 +130,8 @@ public class CSVWriter {
 			}
 			toWrite.get(key).add(value);
 		}
+		}
+		
 			
 		return toWrite;
 	}
@@ -159,9 +165,9 @@ public class CSVWriter {
 	 * @param toWrite - the hashMap that supplies the values to be written
 	 * @throws IOException
 	 */
-	private void writeGene(int number, HashMap<Integer, HashSet<Integer>> toWrite) throws IOException
+	private void writeGene(String file, HashMap<Integer, HashSet<Integer>> toWrite) throws IOException
 	{ 	String dir = new File("").getAbsolutePath() + "/Generationdata/";
-		FileWriter fw = new FileWriter( dir + "Gene_" + number + ".csv");
+		FileWriter fw = new FileWriter(file + ".csv");
     	PrintWriter pw = new PrintWriter(fw);
     	
     	for(int key: toWrite.keySet())
@@ -169,7 +175,8 @@ public class CSVWriter {
     		pw.print(";");
     		for(int val: toWrite.get(key))
     		{	pw.print(val);
-    			pw.print(";");
+    		pw.print(";");
+    		//pw.println(";");
     		}
     		pw.println();
     	}
@@ -189,47 +196,47 @@ public class CSVWriter {
 	 * 
 	 * @throws IOException
 	 */
-//	private void writeGenomeToSingleFile() throws IOException
-//	{	for(int key: genome.keySet() )
-//		{	complete.put(key, new HashMap<Integer, HashSet<Integer>>());
-//			for (String val: genome.get(key))
-//			{	parseGene(val, complete.get(key));
-//			}
-//		}
-//		
-//		writeToSingleFile("completeGenome", complete);
-//	}
+	private void writeGenomeToSingleFile() throws IOException
+	{	for(int key: genome.keySet() )
+		{	complete.put(key, new HashMap<Integer, HashSet<Integer>>());
+			for (String val: genome.get(key))
+			{	parseGene(val, complete.get(key));
+			}
+		}
+		
+		writeToSingleFile("completeGenome", complete);
+	}
 	/**See above. 
 	 * 
 	 * @param fileName
 	 * @param toWrite
 	 * @throws IOException
 	 */
-//	private void writeToSingleFile(String fileName, HashMap<Integer, HashMap<Integer, HashSet<Integer>>> toWrite) throws IOException
-//	{	String dir = new File("").getAbsolutePath() + "/";
-//		FileWriter fw = new FileWriter( dir + fileName + ".csv");
-//		PrintWriter pw = new PrintWriter(fw);
-//	
-//		for(int key: toWrite.keySet())
-//		{	for(int gene: toWrite.get(key).keySet())
-//			{	
-//				pw.print(Integer.toString(key) + gene);
-//				pw.print(";");
-//				for(int val: toWrite.get(key).get(gene))
-//				{	pw.print(Integer.toString(key) + Integer.toString(gene) + val);
-//					pw.print(";");
-//				}
-//				pw.println();
-//			}
-//		}
-//	//Flush the output to the file
-//    pw.flush();
-//    
-//    //Close the Print Writer
-//    pw.close();
-//    
-//    //Close the File Writer
-//    fw.close();  
-//		
-//	}
+	private void writeToSingleFile(String fileName, HashMap<Integer, HashMap<Integer, HashSet<Integer>>> toWrite) throws IOException
+	{	String dir = new File("").getAbsolutePath() + "/";
+		FileWriter fw = new FileWriter( dir + fileName + ".csv");
+		PrintWriter pw = new PrintWriter(fw);
+	
+		for(int gene: toWrite.keySet())
+		{	for(int key: toWrite.get(gene).keySet())
+			{	
+				pw.print(Integer.toString(gene) + "G" + key);
+				pw.print(";");
+				for(int val: toWrite.get(gene).get(key))
+				{	pw.print(Integer.toString(gene) + "G" + val);
+					pw.print(";");
+				}
+				pw.println();
+			}
+		}
+	//Flush the output to the file
+    pw.flush();
+    
+    //Close the Print Writer
+    pw.close();
+    
+    //Close the File Writer
+    fw.close();  
+		
+	}
 }

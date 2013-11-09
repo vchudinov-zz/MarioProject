@@ -67,7 +67,6 @@ public class EvalQuickness extends MasterEvaluator{
 		    
 		    //Time left
 		    int timeLeft = ev[11];
-		    
 		    organism.setFitness(fitness);
 		    
 		    int status = environment.getMarioStatus();
