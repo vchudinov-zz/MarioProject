@@ -16,6 +16,8 @@ public class Console {
 		String dataFolder;
 		String generationInfoFolder;
 		String winnerFolder;
+		String trainingDataFolder;
+		String experimentFolder;
 				
 		//Filenames
 		String parameterFileName;
@@ -32,31 +34,50 @@ public class Console {
 		String inputFileNameTesting;
 		String outputFileNameTesting;
 		
-		public Console(String nameOfExperiment, int maxNumberOfGenerations, boolean stopOnFirstGoodOrganism, double errorThreshold){
+		public Console(String nameOfExperiment, int maxNumberOfGenerations, boolean stopOnFirstGoodOrganism, double errorThreshold, String rootDataFolder){
 			this.nameOfExperiment = nameOfExperiment;
 			this.maxNumberOfGenerations = maxNumberOfGenerations;
 			this.stopOnFirstGoodOrganism = stopOnFirstGoodOrganism;
 			this.errorThreshold = errorThreshold;
 			
+			String delimiter = new File("").separator;
+			
 			//Folders
-			dataFolder = new File("").getAbsolutePath() + "\\NEAT data";
-			generationInfoFolder = dataFolder + "\\Training data\\" + nameOfExperiment + "\\Generation Info";
-			winnerFolder = dataFolder + "\\Training data\\" + nameOfExperiment + "\\Winners";
-					
+			//dataFolder = new File("").getAbsolutePath() + "\\NEAT data";
+			dataFolder = rootDataFolder;
+			testAndCreate(dataFolder);
+			
+			trainingDataFolder = dataFolder + delimiter + "Training data";
+			testAndCreate(trainingDataFolder);
+			
+			experimentFolder = trainingDataFolder + delimiter + nameOfExperiment;
+			testAndCreate(experimentFolder);
+			
+			generationInfoFolder = trainingDataFolder +delimiter+ nameOfExperiment + delimiter + "Generation Info";
+			testAndCreate(generationInfoFolder);
+			
+			winnerFolder = trainingDataFolder +delimiter + nameOfExperiment + delimiter + "Winners";
+			testAndCreate(winnerFolder);
+			
 			//Filenames
-			parameterFileName = dataFolder + "\\Training data\\" + nameOfExperiment + "\\parameters";
-			debugParameterFileName = dataFolder + "\\parameters.imported";
+			parameterFileName = experimentFolder + delimiter +"parameters";
+			debugParameterFileName = dataFolder + delimiter + "parameters.imported";
 					
-			genomeFileName = dataFolder + "\\Training data\\" + nameOfExperiment + "\\starterGenome.txt";
-			genomeBackupFileName = dataFolder + "\\starterGenome.read" ;
+			genomeFileName = experimentFolder + delimiter +"starterGenome.txt";
+			genomeBackupFileName = dataFolder + delimiter + "starterGenome.read" ;
 					
-			lastPopulationInfoFileName = dataFolder + "\\population.LastGeneration";
+			lastPopulationInfoFileName = dataFolder + delimiter + "population.LastGeneration";
 			
-			inputFileNameTraining = dataFolder + "\\Training data\\" + nameOfExperiment + "\\Training\\inputvalues.txt";
-			outputFileNameTraining= dataFolder + "\\Training data\\" + nameOfExperiment + "\\Training\\outputvalues.txt";
+			inputFileNameTraining = experimentFolder + delimiter +  "Training" + delimiter + "inputvalues.txt";
+			outputFileNameTraining= experimentFolder + delimiter +  "Training" + delimiter + "outputvalues.txt";
 			
-			inputFileNameTesting = dataFolder + "\\Training data\\" + nameOfExperiment + "\\Testing\\inputvalues.txt";
-			outputFileNameTesting= dataFolder + "\\Training data\\" + nameOfExperiment + "\\Testing\\outputvalues.txt";
+			inputFileNameTesting = experimentFolder + delimiter + "Testing" + delimiter + "inputvalues.txt";
+			outputFileNameTesting= experimentFolder + delimiter + "Testing" + delimiter + "outputvalues.txt";
+		}
+		
+		private void testAndCreate(String folderPath){
+			File f = new File(folderPath);
+			f.mkdirs();
 		}
 		
 		protected static double[][] readValues(String filename){

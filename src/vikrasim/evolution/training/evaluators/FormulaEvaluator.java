@@ -39,12 +39,12 @@ public class FormulaEvaluator extends MasterEvaluator{
 	    int oldDistance = 0;
 	    double kills,coins,time,shrooms,mode,distance;
 	    //shell,stomp,fire;
-	   
-	    while (!environment.isLevelFinished() && ticks < maxTicks)
-	    {	environment.tick(); //Execute one tick in the game (I think) //STC
-	        agent.integrateObservation(environment);
+	    int[] ev = null;
+	    while (!environment.isLevelFinished() && ticks < maxTicks){	
+	    	environment.tick(); //Execute one tick in the game (I think) //STC
+	    	agent.integrateObservation(environment);
 	        environment.performAction(agent.getAction());
-	        int[] ev = environment.getEvaluationInfoAsInts();
+	        ev = environment.getEvaluationInfoAsInts();
 	        if (ev[0] > oldDistance){
 	        	maxTicks += (ev[0] - oldDistance) * 10;
 	        	oldDistance = ev[0];		        	
@@ -52,7 +52,6 @@ public class FormulaEvaluator extends MasterEvaluator{
 	        ticks++;
 	    }
 	    
-	    int[] ev = environment.getEvaluationInfoAsInts();
 	    //Blocks travelled 
 	    double fitness = ev[0];
 	    

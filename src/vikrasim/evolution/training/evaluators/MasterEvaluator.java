@@ -15,4 +15,8 @@ public abstract class MasterEvaluator {
 	}
 	
 	public abstract boolean evaluate(Organism organism);
+	
+	public void setLevelParameters(String levelParameters ){
+		this.levelParameters = levelParameters;
+	}
 }

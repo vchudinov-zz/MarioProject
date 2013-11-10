@@ -1,4 +1,4 @@
-package vikrasim.evolution.training;
+package vikrasim.evolution.training.trainers;
 
 import jNeatCommon.IOseq;
 
