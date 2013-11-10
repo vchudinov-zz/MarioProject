@@ -39,7 +39,12 @@ public class TrainingConsole extends Console {
 		int scannerLength = 3;
 		int scannerHeight = 3;
 		
+		//Simon
 		String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
+		//Victor
+		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
+		//Krasimira
+		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
 		
 	
 		TrainingConsole tc = new TrainingConsole(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold, rootDataFolder);
