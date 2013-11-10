@@ -286,7 +286,7 @@ public class Trainer {
 			while (itr_organism.hasNext()) {
 				Organism _organism = ((Organism) itr_organism.next());
 				if (_organism.winner){
-					System.out.print("\n   -WINNER IS #" + _organism.genome.getGenome_id());
+					//System.out.print("\n   -WINNER IS #" + _organism.genome.getGenome_id());
 					_organism.getGenome().print_to_filename(winnerFolder +  "\\" + nameOfExperiment + "_win " + cnt);
 					cnt++;
 				}
