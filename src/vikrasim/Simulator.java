@@ -13,7 +13,7 @@ public class Simulator {
 	public static void main(String[] args) throws IOException
 	{
 	    //Write parameters to use in simulation
-		String options = "-vis on -ls 20 -ld 5 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off";
+		String options = "-vis on -ls 0 -ld 5 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off";
 		//options = "-ls 20 -vis on";
 		System.out.print(options);
 	    
@@ -28,7 +28,7 @@ public class Simulator {
 //	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
 //	    String file = "C:\\Users\\Simon\\Documents\\Git Repository\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
 //	    String file = "D:\\eclipse\\Workspace\\MarioProject\\NEAT data\\Training data\\Mario Scanners\\Winners\\Mario Scanners gen 15 best";
-	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario FormulaEval\\starterGenome.txt";
+	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario FormulaEval\\testGenome.txt";
 	    Agent agent = new AgentScannerNEAT("This rocks", file,2,2,3,3);
 	    
 	    while (!environment.isLevelFinished())

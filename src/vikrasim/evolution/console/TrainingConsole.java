@@ -62,17 +62,18 @@ public class TrainingConsole extends Console {
 	}
 	
 	private String[] createScenarios(){
-		String[] s = {"-vis off -ls 20 -ld 0 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off", 
-					  "-vis off -ls 20 -ld 1 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off",
-					  "-vis off -ls 20 -ld 2 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off",
-					  "-vis off -ls 20 -ld 3 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off",
-					  "-vis off -ls 20 -ld 4 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off",
-					  "-vis off -ls 20 -ld 5 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off",
-					  "-vis off -ls 20 -ld 6 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off",
-					  "-vis off -ls 20 -ld 7 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off",
-					  "-vis off -ls 20 -ld 8 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off",
-					  "-vis off -ls 20 -ld 9 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off",
-					  "-vis off -ls 20 -ld 10 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off",
+		int startDifficulty = 5;
+		String[] s = {"-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++, 
+					  "-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++,
+					  "-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++,
+					  "-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++,
+					  "-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++,
+					  "-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++,
+					  "-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++,
+					  "-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++,
+					  "-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++,
+					  "-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++,
+					  "-vis off -ls 20 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off -ld " + startDifficulty++,
 					 };
 		return s;
 	}	
