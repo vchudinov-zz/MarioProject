@@ -2,7 +2,11 @@ package vikrasim.evolution.training;
 
 import jNeatCommon.IOseq;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -314,8 +318,39 @@ public class Trainer {
 		String filename = winnerFolder +  "\\" + nameOfExperiment + " gen " + generation + " best";
 		best.getGenome().print_to_filename(filename);
 		writer.WriterOfOne(filename);
-		System.out.println("CSV created");
+		saveFitness(generation, maxFitness);
+		//System.out.println("CSV created");
 	    }
+	
+	private void saveFitness(int generation, double fitness){
+		String xNameFile = generationInfoFolder + "\\popFitness.csv";
+		
+		//Test if file exists
+		File file = new File(xNameFile); 
+
+		// Does the file already exist 
+		if(!file.exists()) 
+		{ 
+		  try 
+		  { 
+		    // Try creating the file 
+		    file.createNewFile(); 
+		  } 
+		  catch(IOException ioe) 
+		  { 
+		    ioe.printStackTrace(); 
+		  } 
+		}
+		
+		//Write to file
+		try {
+		    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(xNameFile, true)));
+		    out.println(generation + ";" + fitness);
+		    out.close();
+		} catch (IOException e) {
+		    //oh noes!
+		}
+	}
 	
 	public void setParameterFileName(String parameterFileName) {
 		this.parameterFileName = parameterFileName;
