@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 
 import sun.reflect.generics.tree.ReturnType;
-import vikrasim.CSVWriter;
+
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 import jneat.Neat;
@@ -39,7 +39,7 @@ public class AutomatedTrainer {
 	int numberOfGenerations;
 	boolean stopOnFirstGoodOrganism;
 	MasterEvaluator evaluator;
-	CSVWriter writer;
+
 	double maxFitnessThisGeneration;
 	
 	public AutomatedTrainer(String parameterFileName, String debugParameterFileName, String genomeFileName, 
@@ -59,7 +59,6 @@ public class AutomatedTrainer {
 		this.stopOnFirstGoodOrganism = stopOnFirstGoodOrganism;
 		this.evaluator = evaluator;	
 		this.delimiter=delimiter;
-		writer = new CSVWriter();
 	}
 	
 	public AutomatedTrainer(){
@@ -286,7 +285,6 @@ public class AutomatedTrainer {
 		System.out.print("\n             : cur_node_id = " + pop.getCur_node_id());  //Current number of nodes (??)
 		//Writes population info to file for the last population 
 		pop.print_to_filename(lastPopulationInfoFileName);
-		writer.Writer(lastPopulationInfoFileName);
 		
 		return lastGeneration;
 	}
@@ -388,7 +386,6 @@ public class AutomatedTrainer {
 		System.out.println("Generation " + generation + " highest fitness: " + maxFitnessThisGeneration);
 		String filename = winnerFolder +  delimiter + nameOfExperiment + " gen " + generation + " best";
 		best.getGenome().print_to_filename(filename);
-		writer.WriterOfOne(filename);
 		saveFitness(generation, maxFitnessThisGeneration);
 		//System.out.println("CSV created");
 	    }

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
 import ch.idsia.agents.Agent;
+import ch.idsia.agents.controllers.human.HumanKeyboardAgent;
 import ch.idsia.benchmark.mario.environments.Environment;
 import ch.idsia.benchmark.mario.environments.MarioEnvironment;
 
@@ -12,8 +13,14 @@ public class Simulator {
 
 	public static void main(String[] args) throws IOException
 	{
-	    //Write parameters to use in simulation
-		String options = "-vis on -ls 0 -ld 5 -lco on -lb on -le on -lhb on -lg off -ltb off -lhs off -lde off";
+		String flatNoEnemies = "-vis on -ls 20 -lb off -lca off -lco off -lde off -le off -lf on -lg off -lhs off -ltb off";
+		String flatWithGaps = "-vis on -ls 20 -lb off -lca off -lco off -lde off -le off -lf on -lg on -lhs off -ltb off";
+		String deadEnds ="-vis on -ls 20 -lb off -lca off -lco off -lde on -le off -lf off -lg off -lhs off -ltb off";
+		String flatWithEnemies = "-vis on -ls 20 -lb off -lca off -lco off -lde off -le on -lf on -lg off -lhs off -ltb off";
+		//String everything ="-vis on -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
+		
+		//Write parameters to use in simulation
+		String options = deadEnds + " -ld 0";
 		//options = "-ls 20 -vis on";
 		System.out.print(options);
 	    
@@ -22,14 +29,9 @@ public class Simulator {
 	    environment.reset(options);
 	    
 	    //Create new agent
-//	    Agent agent = new ForwardAgent();
-//	    Agent agent = new OurBasicAgent("This rocks");
-//	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\Testing\\genomeToTest.txt";
-//	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
-//	    String file = "C:\\Users\\Simon\\Documents\\Git Repository\\MarioProject\\NEAT data\\Training data\\Mario 1\\Winners\\Mario 1_win 0";
-//	    String file = "D:\\eclipse\\Workspace\\MarioProject\\NEAT data\\Training data\\Mario Scanners\\Winners\\Mario Scanners gen 15 best";
-	    String file = "D:\\Users\\Simon\\Documents\\GitHub\\MarioProject\\NEAT data\\Training data\\Mario FormulaEval\\testGenome.txt";
-	    Agent agent = new AgentScannerNEAT("This rocks", file,2,2,3,3);
+	    String file = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\AverageTrainingSessions\\testGenome.txt";
+	    //Agent agent = new AgentScannerNEAT("This rocks", file,2,2,3,3);
+	    Agent agent = new HumanKeyboardAgent();
 	    
 	    while (!environment.isLevelFinished())
 	    {

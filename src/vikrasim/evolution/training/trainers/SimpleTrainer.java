@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
-import vikrasim.CSVWriter;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 import jneat.Neat;
@@ -33,7 +32,7 @@ public class SimpleTrainer {
 	int numberOfGenerations;
 	boolean stopOnFirstGoodOrganism;
 	MasterEvaluator evaluator;
-	CSVWriter writer;
+
 	
 	public SimpleTrainer(String parameterFileName, String debugParameterFileName, String genomeFileName, 
 			String genomeBackupFileName, String lastPopulationInfoFileName, String generationInfoFolder, 
@@ -51,7 +50,6 @@ public class SimpleTrainer {
 		this.numberOfGenerations=numberOfGenerations;
 		this.stopOnFirstGoodOrganism = stopOnFirstGoodOrganism;
 		this.evaluator = evaluator;	
-		writer = new CSVWriter();
 	}
 	
 	public SimpleTrainer(){
@@ -223,7 +221,6 @@ public class SimpleTrainer {
 		System.out.print("\n             : cur_node_id = " + pop.getCur_node_id());  //Current number of nodes (??)
 		//Writes population info to file for the last population 
 		pop.print_to_filename(lastPopulationInfoFileName);
-		writer.Writer(lastPopulationInfoFileName);
 		
 	}
 	
@@ -317,7 +314,6 @@ public class SimpleTrainer {
 		System.out.println("Generation " + generation + " highest fitness: " + maxFitness);
 		String filename = winnerFolder +  "\\" + nameOfExperiment + " gen " + generation + " best";
 		best.getGenome().print_to_filename(filename);
-		writer.WriterOfOne(filename);
 		saveFitness(generation, maxFitness);
 		//System.out.println("CSV created");
 	    }

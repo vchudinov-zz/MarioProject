@@ -12,16 +12,14 @@ import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 import vikrasim.evolution.training.trainers.AutomatedTrainer;
 import vikrasim.evolution.training.trainers.SimpleTrainer;
 
-public class TrainingConsole extends Console {
+public class SimpleTC extends Console {
 
-	public TrainingConsole(String nameOfExperiment, int maxNumberOfGenerations,
+	public SimpleTC(String nameOfExperiment, int maxNumberOfGenerations,
 			boolean stopOnFirstGoodOrganism, double errorThreshold, String rootDataFolder) {
 		super(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism,
 				errorThreshold, rootDataFolder );
 	}
-
-
-
+	
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
@@ -49,7 +47,7 @@ public class TrainingConsole extends Console {
 		//String rootDataFolder = new File("").getAbsolutePath() + "/NEAT data";
 		
 	
-		TrainingConsole tc = new TrainingConsole(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold, rootDataFolder);
+		SimpleTC tc = new SimpleTC(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold, rootDataFolder);
 		
 		MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		tc.train(agent, maxNumberOfNoImprovement);
@@ -80,7 +78,7 @@ public class TrainingConsole extends Console {
 		return s;
 	}	
 	
-	public void train(MasterAgent agent, int maxNumberOfNoImprovement) throws IOException{
+	private void train(MasterAgent agent, int maxNumberOfNoImprovement) throws IOException{
 		//String levelParameters = "-vis off -ls 20";
 		String levelParameters = "";
 		//levelParameters ="-ls 20 -vis off";

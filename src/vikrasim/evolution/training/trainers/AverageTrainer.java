@@ -17,7 +17,6 @@ import jneat.evolution.Organism;
 import jneat.evolution.Population;
 import jneat.evolution.Species;
 import jneat.neuralNetwork.Genome;
-import vikrasim.CSVWriter;
 import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
@@ -38,7 +37,6 @@ public class AverageTrainer {
 	String rootWinnerFileName;
 	int numberOfGenerations;
 	MasterEvaluator evaluator;
-	CSVWriter writer;
 	double maxFitnessThisGeneration;
 	
 	public AverageTrainer(String parameterFileName, String debugParameterFileName, String genomeFileName, 
@@ -57,14 +55,13 @@ public class AverageTrainer {
 		this.numberOfGenerations=numberOfGenerations;
 		this.evaluator = evaluator;	
 		this.delimiter=delimiter;
-		writer = new CSVWriter();
 	}
 	
 	public AverageTrainer(){
 		
 	}
 	
-	public boolean trainNetwork(String[][] scenarios) throws IOException{
+	public boolean trainNetwork(String[][] trainingSets, double winnerPercentageThreshold) throws IOException{
 		boolean status;
 		
 		//Test if all variables have been set
@@ -88,34 +85,7 @@ public class AverageTrainer {
 		
 		//Run experiments
 		System.out.println("Start experiment " + nameOfExperiment);
-		int lastGeneration = -1;
-		
-		for (int difficultyLevel = 0; difficultyLevel < scenarios.length;difficultyLevel++){
-			System.out.println();
-			System.out.println("*****  Start difficulty level " + (difficultyLevel) + "  *****");
-			System.out.println();
-			
-			for (int levelNumber = 0; levelNumber < scenarios[difficultyLevel].length; levelNumber++){
-				
-				//Find starter genome
-				if (levelNumber == 0 && difficultyLevel == 0){
-					currentGenomeFileName = this.starterGenomeFileName;
-				}else {
-					currentGenomeFileName = winnerFolder +  delimiter + nameOfExperiment + " gen " + lastGeneration + " best";
-				}			
-				
-				//Create folder to save winners and generation info
-				winnerFolder = rootWinnerFolder + delimiter + "Difficulty level " + difficultyLevel;
-				testAndCreate(winnerFolder);
-				
-				generationInfoFolder = rootGenerationInfoFolder + delimiter + "Difficulty level " + difficultyLevel;
-				testAndCreate(generationInfoFolder);
-				
-				//Run experiment session			
-				lastGeneration = experimentSession(currentGenomeFileName, numberOfGenerations);
-			}
-		}
-		
+		experimentSession(starterGenomeFileName, numberOfGenerations, trainingSets, winnerPercentageThreshold);
 		
 		return status;
 	}
@@ -166,7 +136,7 @@ public class AverageTrainer {
 	 * @param generations
 	 * @throws IOException 
 	 */
-	private int experimentSession (String starterGenomeFileName, int generations, String[] trainingSet) throws IOException{
+	private void experimentSession (String starterGenomeFileName, int generations, String[][] trainingSets, double winnerPercentageThreshold) throws IOException{
 		
 		//Open the file with the starter genome data
 		IOseq starterGenomeFile = new IOseq(starterGenomeFileName);
@@ -178,17 +148,15 @@ public class AverageTrainer {
 			
 			//Start experiments			
 			for (int expCount = 0; expCount < Neat.p_num_runs; expCount++){
-				lastGeneration = runExperiment(starterGenome, generations, trainingSet);
+				runExperiment(starterGenome, generations, trainingSets, winnerPercentageThreshold);
 			}
 			
 		} else{
 			System.out.println("Error during opening of " + starterGenomeFileName);
 			starterGenomeFile.IOseqCloseR();
-			return -1;
 		}
 		
 		starterGenomeFile.IOseqCloseR();
-		return lastGeneration;
 	}
 	/**
 	 * Reads a file and creates a genome based on the data in that file
@@ -232,7 +200,7 @@ public class AverageTrainer {
 	 * @return returns the last generation number
 	 * @throws IOException
 	 */
-	private int runExperiment(Genome starterGenome, int maxGenerations, String[] trainingSet) throws IOException{
+	private void runExperiment(Genome starterGenome, int maxGenerations, String[][] trainingSets, double winnerPercentageThreshold) throws IOException{
 		String mask6 = "000000";
 		DecimalFormat fmt6 = new DecimalFormat(mask6);
 		
@@ -246,24 +214,60 @@ public class AverageTrainer {
 		
 		//Run experiment
 		System.out.println("Starting evolution");
-		double highestFitness = 0.0;
-		int lastGenWithImprovement = -1;
-		int lastGeneration = 0;
-		for (int gen = 1; gen <= maxGenerations; gen++){
-			System.out.print("\n---------------- E P O C H  < " + gen+" >--------------");
+		int difficultyLevel = 0;
+		int gen = 1;
+		
+		do {
+			//Create folder to save winners and generation info
+			winnerFolder = rootWinnerFolder + delimiter + "Difficulty level " + difficultyLevel;
+			testAndCreate(winnerFolder);
 			
+			generationInfoFolder = rootGenerationInfoFolder + delimiter + "Difficulty level " + difficultyLevel;
+			testAndCreate(generationInfoFolder);
+			
+			System.out.print("\n---------------- E P O C H  < " + gen +" >--------------");
 			String filenameEpochInfo = "g_" + fmt6.format(gen);
-			boolean status = goThroughEpoch(pop, gen, filenameEpochInfo, trainingSet);			
-		}
+			boolean status = goThroughEpoch(pop, gen, filenameEpochInfo, trainingSets[difficultyLevel]);
+			if (enoughWinnersInPopulation(pop, winnerPercentageThreshold)){
+				difficultyLevel++;
+				System.out.println();
+				System.out.println("Changing difficulty level to " + difficultyLevel);
+				System.out.println();
+			}
+			gen++;
+		} while (gen <= maxGenerations && difficultyLevel < trainingSets.length);
+		
 		
 		//Prints information about the last generation 
 		System.out.print("\n  Population : innov num   = " + pop.getCur_innov_num()); //Prints the current number of innovations
 		System.out.print("\n             : cur_node_id = " + pop.getCur_node_id());  //Current number of nodes (??)
 		//Writes population info to file for the last population 
 		pop.print_to_filename(lastPopulationInfoFileName);
-		writer.Writer(lastPopulationInfoFileName);
+	}
+	
+	private boolean enoughWinnersInPopulation(Population pop, double percentageThreshold){
+		int numberOfWinners = 0;
 		
-		return lastGeneration;
+		Iterator itr_organism;
+		itr_organism = pop.organisms.iterator();
+		
+		while (itr_organism.hasNext()){
+			Organism curOrganism = ((Organism) itr_organism.next());
+			
+			if (curOrganism.winner){
+				numberOfWinners++;
+			}
+		}
+		
+		int totalNumberOfOrganism = pop.organisms.size();
+		
+		double winnerPercentage = (double) numberOfWinners / totalNumberOfOrganism;
+		
+		if (winnerPercentage > percentageThreshold){
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -363,7 +367,6 @@ public class AverageTrainer {
 		System.out.println("Generation " + generation + " highest fitness: " + maxFitnessThisGeneration);
 		String filename = winnerFolder +  delimiter + nameOfExperiment + " gen " + generation + " best";
 		best.getGenome().print_to_filename(filename);
-		writer.WriterOfOne(filename);
 		saveFitness(generation, maxFitnessThisGeneration);
 		//System.out.println("CSV created");
 	    }
