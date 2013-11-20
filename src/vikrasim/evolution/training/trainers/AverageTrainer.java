@@ -12,17 +12,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
-import sun.reflect.generics.tree.ReturnType;
-import vikrasim.CSVWriter;
-import vikrasim.evolution.training.evaluators.MasterEvaluator;
-import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 import jneat.Neat;
 import jneat.evolution.Organism;
 import jneat.evolution.Population;
 import jneat.evolution.Species;
 import jneat.neuralNetwork.Genome;
+import vikrasim.CSVWriter;
+import vikrasim.evolution.training.evaluators.AverageEvaluator;
+import vikrasim.evolution.training.evaluators.MasterEvaluator;
+import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 
-public class AutomatedTrainer {
+public class AverageTrainer {
 	String parameterFileName;
 	String debugParameterFileName;
 	String starterGenomeFileName;
@@ -37,15 +37,14 @@ public class AutomatedTrainer {
 	String delimiter;
 	String rootWinnerFileName;
 	int numberOfGenerations;
-	boolean stopOnFirstGoodOrganism;
 	MasterEvaluator evaluator;
 	CSVWriter writer;
 	double maxFitnessThisGeneration;
 	
-	public AutomatedTrainer(String parameterFileName, String debugParameterFileName, String genomeFileName, 
+	public AverageTrainer(String parameterFileName, String debugParameterFileName, String genomeFileName, 
 			String genomeBackupFileName, String lastPopulationInfoFileName, String generationInfoFolder, 
 			String winnerFolder, String nameOfExperiment, int numberOfGenerations, 
-			boolean stopOnFirstGoodOrganism, MasterEvaluator evaluator, String delimiter){
+			AverageEvaluator evaluator, String delimiter){
 		
 		this.parameterFileName=parameterFileName;
 		this.debugParameterFileName=debugParameterFileName;
@@ -56,17 +55,16 @@ public class AutomatedTrainer {
 		this.rootWinnerFolder = winnerFolder;
 		this.nameOfExperiment=nameOfExperiment;
 		this.numberOfGenerations=numberOfGenerations;
-		this.stopOnFirstGoodOrganism = stopOnFirstGoodOrganism;
 		this.evaluator = evaluator;	
 		this.delimiter=delimiter;
 		writer = new CSVWriter();
 	}
 	
-	public AutomatedTrainer(){
+	public AverageTrainer(){
 		
 	}
 	
-	public boolean trainNetwork(String[] scenarios, int maxNumberOfNoImprovement) throws IOException{
+	public boolean trainNetwork(String[][] scenarios) throws IOException{
 		boolean status;
 		
 		//Test if all variables have been set
@@ -91,30 +89,31 @@ public class AutomatedTrainer {
 		//Run experiments
 		System.out.println("Start experiment " + nameOfExperiment);
 		int lastGeneration = -1;
-		for (int i = 0; i < scenarios.length; i++){
-			
-			//Set up scenario
-			evaluator.setLevelParameters(scenarios[i]);
+		
+		for (int difficultyLevel = 0; difficultyLevel < scenarios.length;difficultyLevel++){
 			System.out.println();
-			System.out.println("*****  Start scenario " + (i) + "  *****");
+			System.out.println("*****  Start difficulty level " + (difficultyLevel) + "  *****");
 			System.out.println();
 			
-			//Find starter genome
-			if (i == 0){
-				currentGenomeFileName = this.starterGenomeFileName;
-			}else {
-				currentGenomeFileName = winnerFolder +  delimiter + nameOfExperiment + " gen " + lastGeneration + " best";
-			}			
-			
-			//Create folder to save winners and generation info
-			winnerFolder = rootWinnerFolder + delimiter + "Scenario " + i;
-			testAndCreate(winnerFolder);
-			
-			generationInfoFolder = rootGenerationInfoFolder + delimiter + "Scenario " + i;
-			testAndCreate(generationInfoFolder);
-			
-			//Run experiment session			
-			lastGeneration = experimentSession(currentGenomeFileName, numberOfGenerations, stopOnFirstGoodOrganism, maxNumberOfNoImprovement);
+			for (int levelNumber = 0; levelNumber < scenarios[difficultyLevel].length; levelNumber++){
+				
+				//Find starter genome
+				if (levelNumber == 0 && difficultyLevel == 0){
+					currentGenomeFileName = this.starterGenomeFileName;
+				}else {
+					currentGenomeFileName = winnerFolder +  delimiter + nameOfExperiment + " gen " + lastGeneration + " best";
+				}			
+				
+				//Create folder to save winners and generation info
+				winnerFolder = rootWinnerFolder + delimiter + "Difficulty level " + difficultyLevel;
+				testAndCreate(winnerFolder);
+				
+				generationInfoFolder = rootGenerationInfoFolder + delimiter + "Difficulty level " + difficultyLevel;
+				testAndCreate(generationInfoFolder);
+				
+				//Run experiment session			
+				lastGeneration = experimentSession(currentGenomeFileName, numberOfGenerations);
+			}
 		}
 		
 		
@@ -167,7 +166,7 @@ public class AutomatedTrainer {
 	 * @param generations
 	 * @throws IOException 
 	 */
-	private int experimentSession (String starterGenomeFileName, int generations, boolean stopOnFirstGoodOrganism, int maxNumberOfNoImprovement) throws IOException{
+	private int experimentSession (String starterGenomeFileName, int generations, String[] trainingSet) throws IOException{
 		
 		//Open the file with the starter genome data
 		IOseq starterGenomeFile = new IOseq(starterGenomeFileName);
@@ -179,7 +178,7 @@ public class AutomatedTrainer {
 			
 			//Start experiments			
 			for (int expCount = 0; expCount < Neat.p_num_runs; expCount++){
-				lastGeneration = runExperiment(starterGenome, generations, stopOnFirstGoodOrganism, maxNumberOfNoImprovement);
+				lastGeneration = runExperiment(starterGenome, generations, trainingSet);
 			}
 			
 		} else{
@@ -227,13 +226,13 @@ public class AutomatedTrainer {
 	/**
 	 * Runs an experiment where populations are evolved from a basic genome
 	 * @param starterGenome
-	 * @param generations
+	 * @param maxGenerations - Maximum number of generations
 	 * @param stopOnFirstGoodOrganism
 	 * @param maxNumberOfNoImprovement
 	 * @return returns the last generation number
 	 * @throws IOException
 	 */
-	private int runExperiment(Genome starterGenome, int generations, boolean stopOnFirstGoodOrganism, int maxNumberOfNoImprovement) throws IOException{
+	private int runExperiment(Genome starterGenome, int maxGenerations, String[] trainingSet) throws IOException{
 		String mask6 = "000000";
 		DecimalFormat fmt6 = new DecimalFormat(mask6);
 		
@@ -250,35 +249,11 @@ public class AutomatedTrainer {
 		double highestFitness = 0.0;
 		int lastGenWithImprovement = -1;
 		int lastGeneration = 0;
-		for (int gen = 1; gen <= generations; gen++){
+		for (int gen = 1; gen <= maxGenerations; gen++){
 			System.out.print("\n---------------- E P O C H  < " + gen+" >--------------");
 			
 			String filenameEpochInfo = "g_" + fmt6.format(gen);
-			boolean status = goThroughEpoch(pop, gen, filenameEpochInfo);
-			
-			lastGeneration = gen;
-			
-			if (stopOnFirstGoodOrganism){
-				//Break out if a good enough organism has been found
-				if (status){
-					break;
-				}
-			}
-			
-			//Look at how much fitness has improved.
-			//If no improvement have been made for a number of generations, the scenario will stop
-			Organism best = findBestOrganism(pop.organisms);
-			if (status){
-				if (maxFitnessThisGeneration >= highestFitness + 1){
-					lastGenWithImprovement = gen;
-					highestFitness = maxFitnessThisGeneration;
-				}
-				if(gen - lastGenWithImprovement >= maxNumberOfNoImprovement){
-					System.out.println("Stopping sceario due to lack of improvement");
-					break;
-				}
-			}
-			
+			boolean status = goThroughEpoch(pop, gen, filenameEpochInfo, trainingSet);			
 		}
 		
 		//Prints information about the last generation 
@@ -299,7 +274,7 @@ public class AutomatedTrainer {
 	 * @return True if a winner has been found in the population. False otherwise
 	 * @throws IOException 
 	 */
-	private boolean goThroughEpoch(Population pop, int generation, String filenameEpochInfo) throws IOException{
+	private boolean goThroughEpoch(Population pop, int generation, String filenameEpochInfo, String[] trainingSet) throws IOException{
 		boolean status = false;
 		ArrayList<Organism> winners = new ArrayList<>();
 		
@@ -313,7 +288,7 @@ public class AutomatedTrainer {
 			//point to organism
 			Organism curOrganism = ((Organism) itr_organism.next());
 			//evaluate 
-			status = evaluator.evaluate(curOrganism);
+			status = evaluator.evaluate(curOrganism, trainingSet);
 			// if is a winner , store a flag
 			if (status){
 				win = true;
@@ -392,7 +367,7 @@ public class AutomatedTrainer {
 		saveFitness(generation, maxFitnessThisGeneration);
 		//System.out.println("CSV created");
 	    }
-
+	
 	private void saveFitness(int generation, double fitness){
 		String xNameFile = generationInfoFolder + delimiter + "popFitness.csv";
 		
@@ -468,10 +443,6 @@ public class AutomatedTrainer {
 	}
 
 
-	public void setStopOnFirstGoodOrganism(boolean stopOnFirstGoodOrganism) {
-		this.stopOnFirstGoodOrganism = stopOnFirstGoodOrganism;
-	}
-	
 	public void setEvaluator(MyMarioEvaluator evaluator) {
 		this.evaluator = evaluator;
 	}

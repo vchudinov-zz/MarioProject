@@ -79,6 +79,11 @@ public class MyMarioEvaluator extends MasterEvaluator {
 
 		    return isWinner;
 		}
+
+	@Override
+	public boolean evaluate(Organism organism, String[] trainingSet) throws UnsupportedOperationException {
+		throw new UnsupportedOperationException();
+	}
 		 
 	 
 

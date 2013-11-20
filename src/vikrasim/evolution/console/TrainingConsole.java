@@ -10,7 +10,7 @@ import vikrasim.evolution.training.evaluators.FormulaEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 import vikrasim.evolution.training.trainers.AutomatedTrainer;
-import vikrasim.evolution.training.trainers.Trainer;
+import vikrasim.evolution.training.trainers.SimpleTrainer;
 
 public class TrainingConsole extends Console {
 
@@ -39,12 +39,14 @@ public class TrainingConsole extends Console {
 		int scannerLength = 3;
 		int scannerHeight = 3;
 		
-		//Simon
+		//Simon Laptop
 		String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
+		//Simon Desktop
+		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
 		//Victor
 		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
 		//Krasimira
-		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
+		//String rootDataFolder = new File("").getAbsolutePath() + "/NEAT data";
 		
 	
 		TrainingConsole tc = new TrainingConsole(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold, rootDataFolder);
