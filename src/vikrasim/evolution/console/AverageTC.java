@@ -29,7 +29,7 @@ public class AverageTC extends Console {
 		int maxNumberOfGenerations = 500;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
-		int maxNumberOfNoImprovement = 10;
+		double winnerPercentageThreshold = 0.20;
 		
 		//Info about agent (if used)
 		int zLevelEnemies = 2;
@@ -50,7 +50,7 @@ public class AverageTC extends Console {
 		AverageTC tc = new AverageTC(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold, rootDataFolder);
 		
 		MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
-		tc.train(agent, maxNumberOfNoImprovement);
+		tc.train(agent, winnerPercentageThreshold);
 	}
 	
 	private MasterAgent setupAgent(int zLevelEnemies, int zLevelScene, 
@@ -62,13 +62,13 @@ public class AverageTC extends Console {
 	}
 	
 	private String[][] createTrainingSets(){
-		String flatNoEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf on -lg off -lhs off -ltb off";
-		String flatWithGaps = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf on -lg on -lhs off -ltb off";
+		String noEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
+		String withGaps = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg on -lhs off -ltb off";
 		String deadEnds ="-vis off -ls 20 -lb off -lca off -lco off -lde on -le off -lf off -lg off -lhs off -ltb off";
-		String flatWithEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le on -lf on -lg off -lhs off -ltb off";
-		//String everything ="-vis off -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
+		String withEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -lf off -lg off -lhs off -ltb off";
+		String everything ="-vis off -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
-		String[] levels = {deadEnds};
+		String[] levels = {noEnemies, withGaps, withEnemies};
 		
 		int maxDifficulty = 10;
 		
@@ -83,7 +83,7 @@ public class AverageTC extends Console {
 		return s;
 	}	
 	
-	private void train(MasterAgent agent, int maxNumberOfNoImprovement) throws IOException{
+	private void train(MasterAgent agent, double winnerPercentageThreshold) throws IOException{
 		String levelParameters = "";
 		
 		//Create evaluator		
@@ -95,7 +95,7 @@ public class AverageTC extends Console {
 				
 		//Train network
 		String[][] trainingSets = createTrainingSets();
-		t.trainNetwork(trainingSets, maxNumberOfNoImprovement);
+		t.trainNetwork(trainingSets, winnerPercentageThreshold);
 	}
 	
 	

@@ -227,12 +227,14 @@ public class AverageTrainer {
 			
 			System.out.print("\n---------------- E P O C H  < " + gen +" >--------------");
 			String filenameEpochInfo = "g_" + fmt6.format(gen);
-			boolean status = goThroughEpoch(pop, gen, filenameEpochInfo, trainingSets[difficultyLevel]);
-			if (enoughWinnersInPopulation(pop, winnerPercentageThreshold)){
-				difficultyLevel++;
-				System.out.println();
-				System.out.println("Changing difficulty level to " + difficultyLevel);
-				System.out.println();
+			int numberOfWinners = goThroughEpoch(pop, gen, filenameEpochInfo, trainingSets[difficultyLevel]);
+			if (numberOfWinners > 0) {
+				if (enoughWinnersInPopulation(pop, winnerPercentageThreshold, numberOfWinners)){
+					difficultyLevel++;
+					System.out.println();
+					System.out.println("Changing difficulty level to " + difficultyLevel);
+					System.out.println();
+				}
 			}
 			gen++;
 		} while (gen <= maxGenerations && difficultyLevel < trainingSets.length);
@@ -245,23 +247,12 @@ public class AverageTrainer {
 		pop.print_to_filename(lastPopulationInfoFileName);
 	}
 	
-	private boolean enoughWinnersInPopulation(Population pop, double percentageThreshold){
-		int numberOfWinners = 0;
-		
-		Iterator itr_organism;
-		itr_organism = pop.organisms.iterator();
-		
-		while (itr_organism.hasNext()){
-			Organism curOrganism = ((Organism) itr_organism.next());
-			
-			if (curOrganism.winner){
-				numberOfWinners++;
-			}
-		}
-		
+	private boolean enoughWinnersInPopulation(Population pop, double percentageThreshold, int numberOfWinners){
 		int totalNumberOfOrganism = pop.organisms.size();
 		
 		double winnerPercentage = (double) numberOfWinners / totalNumberOfOrganism;
+		System.out.println();
+		System.out.println("Winner percentage: " + winnerPercentage);
 		
 		if (winnerPercentage > percentageThreshold){
 			return true;
@@ -278,7 +269,7 @@ public class AverageTrainer {
 	 * @return True if a winner has been found in the population. False otherwise
 	 * @throws IOException 
 	 */
-	private boolean goThroughEpoch(Population pop, int generation, String filenameEpochInfo, String[] trainingSet) throws IOException{
+	private int goThroughEpoch(Population pop, int generation, String filenameEpochInfo, String[] trainingSet) throws IOException{
 		boolean status = false;
 		ArrayList<Organism> winners = new ArrayList<>();
 		
@@ -340,10 +331,9 @@ public class AverageTrainer {
 		
 		if (win){
 			System.out.print("\t\t** I HAVE FOUND A CHAMPION **");
-			return true;
-		} else { 
-			return false;
-		}		
+		}
+		
+		return winners.size();
 	}
 	
 	private Organism findBestOrganism(Iterable<Organism> list){
