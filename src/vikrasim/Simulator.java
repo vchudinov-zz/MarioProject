@@ -15,14 +15,13 @@ public class Simulator {
 	public static void main(String[] args) throws IOException
 	{
 		String noEnemies = "-vis on -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
-		String withGaps = "-vis on -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg on -lhs off -ltb off";
+		String withGaps = "-vis on -lb off -lca off -lco off -lde off -le off -lf off -lg on -lhs off -ltb off";
 		String deadEnds ="-vis on -ls 20 -lb off -lca off -lco off -lde on -le off -lf off -lg off -lhs off -ltb off";
-		String withEnemies = "-vis on -ls 20 -lb off -lca off -lco off -lde off -lf off -lg off -lhs off -ltb off";
+		String withEnemies = "-vis on -lco on -lb on -lhb off -lg off -ltb off -lhs off -lde off";
 		String everything ="-vis on -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
 		//Write parameters to use in simulation
-		String options = withEnemies + " -ld 0";
-		//options = "-ls 20 -vis on";
+		String options = withGaps + " -ld 5 -ls 12";
 		System.out.print(options);
 	    
 	    //Create new environment with chosen parameters
@@ -31,7 +30,7 @@ public class Simulator {
 	    
 	    //Create new agent
 	    String file = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\AverageTrainingSessions\\testGenome.txt";
-	    Agent agent = new AgentScannerNEAT("This rocks", file,2,2,3,3);
+	    Agent agent = new AgentScannerNEAT("This rocks", file,2,1,5,5);
 	    //Agent agent = new HumanKeyboardAgent();
 
 	    

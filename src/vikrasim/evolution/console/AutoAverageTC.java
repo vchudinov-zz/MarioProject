@@ -15,48 +15,51 @@ import vikrasim.evolution.training.trainers.AverageTrainer;
 import vikrasim.evolution.training.trainers.SimpleTrainer;
 import vikrasim.genomeFileCreation.FileCreater;
 
-public class AverageTC extends Console {
+public class AutoAverageTC extends Console {
 
-	public AverageTC(String nameOfExperiment, int maxNumberOfGenerations,
+	public AutoAverageTC(String nameOfExperiment, int maxNumberOfGenerations,
 			boolean stopOnFirstGoodOrganism, double errorThreshold, String rootDataFolder) {
 		super(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism,
 				errorThreshold, rootDataFolder );
 	}
 	
 	public static void main(String[] args) throws IOException {
+		for (int size = 1; size <= 9; size ++){
+			//Info about experiment
+			String nameOfExperiment = "Training sensor size " + size;
+			int maxNumberOfGenerations = 300;
+			boolean stopOnFirstGoodOrganism = false;
+			double errorThreshold = 0.1;
+			double winnerPercentageThreshold = 0.20;
+			
+			//Info about agent (if used)
+			int zLevelEnemies = 2;
+			int zLevelScene = 1;
+			int scannerLength = size;
+			int scannerHeight = size;
+			
+			//Simon Laptop
+			//String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
+			
+			//Simon Desktop
+			String rootDataFolder = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
+			
+			//Victor
+			//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
+			
+			//Krasimira
+			//String rootDataFolder = new File("").getAbsolutePath() + "/NEAT data";
+			
 		
-		//Info about experiment
-		String nameOfExperiment = "AverageTrainingSessions";
-		int maxNumberOfGenerations = 300;
-		boolean stopOnFirstGoodOrganism = false;
-		double errorThreshold = 0.1;
-		double winnerPercentageThreshold = 0.20;
-		
-		//Info about agent (if used)
-		int zLevelEnemies = 2;
-		int zLevelScene = 1;
-		int scannerLength = 1;
-		int scannerHeight = 1;
-		
-		//Simon Laptop
-		//String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
-		
-		//Simon Desktop
-		String rootDataFolder = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
-		
-		//Victor
-		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
-		
-		//Krasimira
-		//String rootDataFolder = new File("").getAbsolutePath() + "/NEAT data";
-		
-	
-		AverageTC tc = new AverageTC(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold, rootDataFolder);
-		
-		tc.createMissingParameterFile();
-		
-		MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
-		tc.train(agent, winnerPercentageThreshold);
+			AutoAverageTC tc = new AutoAverageTC(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold, rootDataFolder);
+			
+			tc.createMissingParameterFile();
+			
+			MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
+			tc.train(agent, winnerPercentageThreshold);
+			
+			tc = null;
+		}
 	}	
 	
 	

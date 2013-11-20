@@ -40,7 +40,7 @@ public class FormulaEvaluator extends MasterEvaluator{
 	    double kills,coins,time,shrooms,mode,distance;
 	    //shell,stomp,fire;
 	    int[] ev = null;
-	    while (!environment.isLevelFinished() && ticks < maxTicks){	
+	    while (!environment.isLevelFinished() && ticks <= maxTicks ){	
 	    	environment.tick(); //Execute one tick in the game (I think) //STC
 	    	agent.integrateObservation(environment);
 	        environment.performAction(agent.getAction());
@@ -74,7 +74,7 @@ public class FormulaEvaluator extends MasterEvaluator{
 	    	//double stomp = ev[5];
 	    	//double fire = ev[3];
 	    	//can be easily changed by uncomenting the above three
-	    	fitness += (kills + coins + shrooms + mode+time)/5;
+	    	fitness += (kills + coins + shrooms + mode)/4;
 	    	organism.setFitness(fitness);
 	    	isWinner = true;
 	    	organism.setWinner(true);
