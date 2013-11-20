@@ -2,6 +2,7 @@ package vikrasim.agents;
 
 import jNeatCommon.IOseq;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -9,6 +10,7 @@ import java.util.Vector;
 import vikrasim.agents.scanners.Scanner;
 import vikrasim.agents.scanners.Scanner.Dir;
 import vikrasim.agents.scanners.Scanner.ScannerType;
+import vikrasim.genomeFileCreation.FileCreater;
 import jneat.evolution.Organism;
 import jneat.neuralNetwork.Genome;
 import jneat.neuralNetwork.NNode;
@@ -46,10 +48,18 @@ public class AgentScannerNEAT extends MasterAgent implements Agent {
 	
 	@Override
 	public void create() {
-		if (brain == null){
-			makeBrain(genomeFileName);
-		}
 		addScanners(scannerLength, scannerHeight);
+		
+		if (brain == null){
+			File f = new File(genomeFileName);
+			if(!f.exists()) {
+				FileCreater fc = new FileCreater();
+				fc.createGenomeFile(genomeFileName, scanners.size() + 4, 6);
+				fc = null;
+			}
+			f = null;
+			makeBrain(genomeFileName);
+		}					
 	}
 	
 	private void addScanners(int length, int height){
@@ -70,6 +80,10 @@ public class AgentScannerNEAT extends MasterAgent implements Agent {
 		scanners.add(new Scanner(length, 1, Dir.NW, ScannerType.ENVIRONMENT));
 		scanners.add(new Scanner(length, 1, Dir.SE, ScannerType.ENVIRONMENT));
 		scanners.add(new Scanner(length, 1, Dir.SW, ScannerType.ENVIRONMENT));
+		
+	}
+	
+	public void createGenomeFile(String genomeFileName){
 		
 	}
 	

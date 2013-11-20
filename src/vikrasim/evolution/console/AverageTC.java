@@ -13,6 +13,7 @@ import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 import vikrasim.evolution.training.trainers.AutomatedTrainer;
 import vikrasim.evolution.training.trainers.AverageTrainer;
 import vikrasim.evolution.training.trainers.SimpleTrainer;
+import vikrasim.genomeFileCreation.FileCreater;
 
 public class AverageTC extends Console {
 
@@ -38,16 +39,21 @@ public class AverageTC extends Console {
 		int scannerHeight = 3;
 		
 		//Simon Laptop
-		String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
+		//String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
+		
 		//Simon Desktop
-		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
+		String rootDataFolder = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
+		
 		//Victor
 		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
+		
 		//Krasimira
 		//String rootDataFolder = new File("").getAbsolutePath() + "/NEAT data";
 		
 	
 		AverageTC tc = new AverageTC(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold, rootDataFolder);
+		
+		tc.createMissingParameterFile();
 		
 		MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		tc.train(agent, winnerPercentageThreshold);
@@ -59,6 +65,21 @@ public class AverageTC extends Console {
 		MasterAgent agent = new AgentScannerNEAT(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		
 		return agent;
+	}
+	
+	private void createMissingParameterFile(){
+		//Create filecreater
+		FileCreater fc = new FileCreater();
+		
+		//Test to see if genome exists
+		String path = parameterFileName;
+		
+		File f = new File(path);
+		if(!f.exists()) {
+			fc.createParametersFile(path);
+		}
+		f = null;
+		fc = null;		
 	}
 	
 	private String[][] createTrainingSets(){

@@ -34,9 +34,6 @@ public abstract class MasterAgent extends BasicMarioAIAgent implements Agent {
 		this.genomeFileName = genomeFileName;
 	}
 	
-	public abstract void create();
-	
-	
-	
+	public abstract void create();	
 
 }
