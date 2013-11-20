@@ -57,6 +57,44 @@ public class AverageTC extends Console {
 		
 		MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		tc.train(agent, winnerPercentageThreshold);
+	}	
+	
+	
+	private String[][] createTrainingSets(){
+		String noEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
+		String withGaps = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg on -lhs off -ltb off";
+		String deadEnds ="-vis off -ls 20 -lb off -lca off -lco off -lde on -le off -lf off -lg off -lhs off -ltb off";
+		String withEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -lf off -lg off -lhs off -ltb off";
+		String everything ="-vis off -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
+		
+		String[] levels = {noEnemies, withGaps, withEnemies};
+		
+		int maxDifficulty = 10;
+		
+		String[][] s = new String[maxDifficulty][levels.length];
+		
+		for (int i = 0; i < maxDifficulty; i++){
+			for (int j = 0; j < levels.length; j++){
+				s[i][j] = levels[j] + " -ld " + i;
+			}
+		}
+		
+		return s;
+	}		
+	
+	private void train(MasterAgent agent, double winnerPercentageThreshold) throws IOException{
+		String levelParameters = "";
+		
+		//Create evaluator		
+		AverageEvaluator evaluator = new AverageEvaluator(levelParameters, agent);
+				
+		//Create trainer
+		String delimiter = new File("").separator;
+		AverageTrainer t = new AverageTrainer(parameterFileName, debugParameterFileName, genomeFileName, genomeBackupFileName, lastPopulationInfoFileName, generationInfoFolder, winnerFolder, nameOfExperiment, maxNumberOfGenerations, evaluator, delimiter);
+				
+		//Train network
+		String[][] trainingSets = createTrainingSets();
+		t.trainNetwork(trainingSets, winnerPercentageThreshold);
 	}
 	
 	private MasterAgent setupAgent(int zLevelEnemies, int zLevelScene, 
@@ -81,44 +119,6 @@ public class AverageTC extends Console {
 		f = null;
 		fc = null;		
 	}
-	
-	private String[][] createTrainingSets(){
-		String noEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
-		String withGaps = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg on -lhs off -ltb off";
-		String deadEnds ="-vis off -ls 20 -lb off -lca off -lco off -lde on -le off -lf off -lg off -lhs off -ltb off";
-		String withEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -lf off -lg off -lhs off -ltb off";
-		String everything ="-vis off -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
-		
-		String[] levels = {noEnemies, withGaps, withEnemies};
-		
-		int maxDifficulty = 10;
-		
-		String[][] s = new String[maxDifficulty][levels.length];
-		
-		for (int i = 0; i < maxDifficulty; i++){
-			for (int j = 0; j < levels.length; j++){
-				s[i][j] = levels[j] + " -ld " + i;
-			}
-		}
-		
-		return s;
-	}	
-	
-	private void train(MasterAgent agent, double winnerPercentageThreshold) throws IOException{
-		String levelParameters = "";
-		
-		//Create evaluator		
-		AverageEvaluator evaluator = new AverageEvaluator(levelParameters, agent);
-				
-		//Create trainer
-		String delimiter = new File("").separator;
-		AverageTrainer t = new AverageTrainer(parameterFileName, debugParameterFileName, genomeFileName, genomeBackupFileName, lastPopulationInfoFileName, generationInfoFolder, winnerFolder, nameOfExperiment, maxNumberOfGenerations, evaluator, delimiter);
-				
-		//Train network
-		String[][] trainingSets = createTrainingSets();
-		t.trainNetwork(trainingSets, winnerPercentageThreshold);
-	}
-	
 	
 	
 	        
