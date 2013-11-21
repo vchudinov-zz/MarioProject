@@ -26,17 +26,17 @@ public class AverageTC extends Console {
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
-		String nameOfExperiment = "AverageTrainingSessions";
-		int maxNumberOfGenerations = 300;
+		String nameOfExperiment = "Training sensor size 4 v2";
+		int maxNumberOfGenerations = 1000;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
-		double winnerPercentageThreshold = 0.20;
+		double winnerPercentageThreshold = 0.10;
 		
 		//Info about agent (if used)
 		int zLevelEnemies = 2;
 		int zLevelScene = 1;
-		int scannerLength = 1;
-		int scannerHeight = 1;
+		int scannerLength = 5;
+		int scannerHeight = 5;
 		
 		//Simon Laptop
 		//String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
@@ -77,7 +77,7 @@ public class AverageTC extends Console {
 		for (int i = 0; i < maxDifficulty; i++){
 			for (int j = 0; j < levels.length; j++){
 				for (int k = 0; k < numberOfDifferentLevels; k++){
-					s[i][j*numberOfDifferentLevels+k] = levels[j] + " -ld " + (i+startDifficulty) + " -ls " + ((k+1) * 12);
+					s[i][j*numberOfDifferentLevels+k] = levels[j] + " -ld " + (i+startDifficulty) + " -ls " + ((k+1) * 15);
 				}				
 			}
 		}

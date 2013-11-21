@@ -24,13 +24,13 @@ public class AutoAverageTC extends Console {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		for (int size = 1; size <= 9; size ++){
+		for (int size = 4; size <= 9; size ++){
 			//Info about experiment
 			String nameOfExperiment = "Training sensor size " + size;
-			int maxNumberOfGenerations = 300;
+			int maxNumberOfGenerations = 1000;
 			boolean stopOnFirstGoodOrganism = false;
 			double errorThreshold = 0.1;
-			double winnerPercentageThreshold = 0.20;
+			double winnerPercentageThreshold = 0.10;
 			
 			//Info about agent (if used)
 			int zLevelEnemies = 2;
@@ -73,14 +73,14 @@ public class AutoAverageTC extends Console {
 		String[] levels = {withGaps};
 		int startDifficulty = 0;
 		int maxDifficulty = 10;
-		int numberOfDifferentLevels = 1;
+		int numberOfDifferentLevels = 2;
 		
 		String[][] s = new String[maxDifficulty][levels.length * numberOfDifferentLevels];
 		
 		for (int i = 0; i < maxDifficulty; i++){
 			for (int j = 0; j < levels.length; j++){
 				for (int k = 0; k < numberOfDifferentLevels; k++){
-					s[i][j*numberOfDifferentLevels+k] = levels[j] + " -ld " + (i+startDifficulty) + " -ls " + ((k+1) * 12);
+					s[i][j*numberOfDifferentLevels+k] = levels[j] + " -ld " + (i+startDifficulty) + " -ls " + ((k+1) * 15);
 				}				
 			}
 		}

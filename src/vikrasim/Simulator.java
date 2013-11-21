@@ -21,7 +21,7 @@ public class Simulator {
 		String everything ="-vis on -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
 		//Write parameters to use in simulation
-		String options = withGaps + " -ld 5 -ls 12";
+		String options = withGaps + " -ld 2 -ls 80";
 		System.out.print(options);
 	    
 	    //Create new environment with chosen parameters
@@ -29,7 +29,7 @@ public class Simulator {
 	    environment.reset(options);
 	    
 	    //Create new agent
-	    String file = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\AverageTrainingSessions\\testGenome.txt";
+	    String file = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\Training sensor size 4 v2\\testGenome.txt";
 	    Agent agent = new AgentScannerNEAT("This rocks", file,2,1,5,5);
 	    //Agent agent = new HumanKeyboardAgent();
 
