@@ -26,7 +26,7 @@ public class AverageTC extends Console {
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
-		String nameOfExperiment = "AverageTrainingSessions";
+		String nameOfExperiment = "AverageTrainingSessions 6";
 		int maxNumberOfGenerations = 500;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;

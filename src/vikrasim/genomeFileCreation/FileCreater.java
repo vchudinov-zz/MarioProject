@@ -99,7 +99,7 @@ public class FileCreater {
 		s+= "p_babies_stolen  0" + delimiter;
 		s+= "p_num_runs  1" + delimiter;
 		s+= "p_num_trait_params  8" + delimiter;
-		
+		s+= "p_min_num_offspring_before_save 5" + delimiter;
 		
 		IOseq writer = new IOseq(fileName);
 		writer.IOseqOpenW(false);
