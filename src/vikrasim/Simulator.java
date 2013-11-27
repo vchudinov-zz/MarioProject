@@ -21,7 +21,8 @@ public class Simulator {
 		String everything ="-vis on -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
 		//Write parameters to use in simulation
-		String options = withEnemies + " -ld 0";
+		String options = "-vis on -ls 0 -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off -ld 2";
+		
 		//options = "-ls 20 -vis on";
 		System.out.print(options);
 	    
@@ -30,7 +31,7 @@ public class Simulator {
 	    environment.reset(options);
 	    
 	    //Create new agent
-	    String file = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\AverageTrainingSessions\\testGenome.txt";
+	    String file = "D:/eclipse/Workspace/MarioProject/NEAT data/Training Data/ImprovedTrainingSessions 6/Winners/ Level 3/ImprovedTrainingSessions 6 gen 72 best";
 	    Agent agent = new AgentScannerNEAT("This rocks", file,2,2,3,3);
 	    //Agent agent = new HumanKeyboardAgent();
 

@@ -21,4 +21,5 @@ public abstract class MasterEvaluator {
 	}
 
 	public abstract boolean evaluate(Organism organism, String[] trainingSet);
+	public abstract boolean evaluate(Organism organism, String options, int runs); 
 }

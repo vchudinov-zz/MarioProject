@@ -6,9 +6,9 @@ import ch.idsia.benchmark.mario.environments.MarioEnvironment;
 import jneat.evolution.Organism;
 import vikrasim.agents.MasterAgent;
 
-public class AverageEvaluator extends MasterEvaluator {
+public class AboveAverageEvaluator extends MasterEvaluator {
 
-	public AverageEvaluator(String levelParameters, MasterAgent agent) {
+	public AboveAverageEvaluator(String levelParameters, MasterAgent agent) {
 		super(levelParameters, agent);
 		// TODO Auto-generated constructor stub
 	}
@@ -17,18 +17,26 @@ public class AverageEvaluator extends MasterEvaluator {
 	public boolean evaluate(Organism organism, String[] trainingSet) {
 		boolean success = false;
 		 
-		 success = runSimulation(organism, trainingSet);
+		// success = runSimulation(organism, trainingSet);
 	  
 		 return success; 
 	}
 	
-	private boolean runSimulation(Organism organism, int setLength){
+	@Override
+	public boolean evaluate(Organism organism, String options, int runs) {
+		boolean success = false;
+		 
+		success = runSimulation(organism, options, runs);
+	  
+		return success;
+	}
+
+	private boolean runSimulation(Organism organism, String levelOptions, int runs){
 	    double totalFitness = 0;
 		boolean finishedAllLevels = true;
-		
-	    for (int i = 0; i < trainingSet.length; i++){
-			//Write parameters to use in simulation
-			String options = trainingSet[i];
+		int seed = 10;
+	    for (int i = 0; i < runs; i++){
+	    	String options = levelOptions + " -ls " + seed*i;
 		    
 		    //Create new environment with chosen parameters
 		    Environment environment = MarioEnvironment.getInstance();
@@ -82,7 +90,7 @@ public class AverageEvaluator extends MasterEvaluator {
 		    
 	    }
 		
-		double fitness = totalFitness / (double) trainingSet.length;
+		double fitness = totalFitness / (double) runs;
 		
 		organism.setFitness(fitness);
 
@@ -90,8 +98,12 @@ public class AverageEvaluator extends MasterEvaluator {
 	}
 
 	@Override
-	public boolean evaluate(Organism organism) throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
+	public boolean evaluate(Organism organism) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
+	
+
+	
 }
