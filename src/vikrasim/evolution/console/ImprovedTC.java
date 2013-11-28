@@ -22,17 +22,17 @@ public class ImprovedTC extends Console{
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
-		String nameOfExperiment = "ImprovedTrainingSessions 6";
-		int maxNumberOfGenerations = 500;
+		String nameOfExperiment = "ImprovedTrainingSessions 7";
+		int maxNumberOfGenerations = 1000;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
-		double winnerPercentageThreshold = 0.20;
+		double winnerPercentageThreshold = 0.15;
 		
 		//Info about agent (if used)
 		int zLevelEnemies = 2;
 		int zLevelScene = 1;
-		int scannerLength = 3;
-		int scannerHeight = 3;
+		int scannerLength = 6;
+		int scannerHeight = 4;
 		
 		//Simon Laptop
 		//String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
@@ -67,7 +67,7 @@ public class ImprovedTC extends Console{
 		String everything ="-vis off -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
 		//String[] levels = {flatNoBlock, flatBlocks, withGaps, deadEnds, withCoinsAndTubes, withFrozenEnemies, everything};
-		String[] levels = {flatNoBlock, flatBlocks,withCoins, withGaps};
+		String[] levels = {flatNoBlock, flatBlocks,withCoins, withGaps, deadEnds, withTubes, withFrozenEnemies, everything};
 		
 //		int maxDifficulty = 1;
 //		
