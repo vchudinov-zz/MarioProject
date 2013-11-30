@@ -3,11 +3,70 @@ package vikrasim.evolution.training.trainers;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+import vikrasim.agents.MasterAgent;
+import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import jneat.Neat;
 import jneat.evolution.Population;
 import jneat.neuralNetwork.Genome;
 
 public class IncrementalTrainer extends AverageTrainer {
+	
+	public IncrementalTrainer(String parameterFileName, String debugParameterFileName, String genomeFileName, 
+			String genomeBackupFileName, String lastPopulationInfoFileName, String generationInfoFolder, 
+			String winnerFolder, String nameOfExperiment, int numberOfGenerations, 
+			AverageEvaluator evaluator, String delimiter){
+		super(parameterFileName, debugParameterFileName, genomeFileName, genomeBackupFileName, lastPopulationInfoFileName, generationInfoFolder, winnerFolder, nameOfExperiment, numberOfGenerations, evaluator, delimiter);
+	}
+	
+	public boolean trainNetwork(String[][] trainingSets, double winnerPercentageThreshold, MasterAgent agent) throws IOException{
+		boolean status;
+		
+		//Test if all variables have been set
+		if (!testVariables()){
+			System.out.println("Not all string variables set. Training will not commence");
+			return false;
+		}
+		
+		//Initialise the neat class
+		Neat.initbase();
+		
+		//Import the parameters to be used by NEAT
+		status = importParameters(parameterFileName);
+		if (!status){
+			return false;
+		}
+		
+		//Save imported parameters to new file
+		//Can be used when debugging		
+		writeParametersToFile(debugParameterFileName);
+		
+		//Run experiments
+		System.out.println("Start experiment " + nameOfExperiment);
+		experimentSession(agent, numberOfGenerations, trainingSets, winnerPercentageThreshold);
+		
+		return status;
+	}
+	
+	/**
+	 * Starts the experiment
+	 * @param starterGenomeFileName
+	 * @param generations
+	 * @throws IOException 
+	 */
+	
+	private void experimentSession (MasterAgent agent, int generations, String[][] trainingSets, double winnerPercentageThreshold) throws IOException{
+		
+		//Open the file with the starter genome data
+		//Create starter genome
+		agent.createBrain();
+		Genome starterGenome = agent.getBrain().getGenome();
+			
+		//Start experiments			
+		for (int expCount = 0; expCount < Neat.p_num_runs; expCount++){
+			runExperiment(starterGenome, generations, trainingSets, winnerPercentageThreshold);
+		}
+		
+	}
 	private void runExperiment(Genome starterGenome, int maxGenerations, String[][] trainingSets, double winnerPercentageThreshold) throws IOException{
 		String mask6 = "000000";
 		DecimalFormat fmt6 = new DecimalFormat(mask6);

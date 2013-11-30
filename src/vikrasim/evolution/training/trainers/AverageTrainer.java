@@ -91,7 +91,7 @@ public class AverageTrainer {
 		f.mkdirs();
 	}
 		
-	private boolean testVariables(){
+	protected boolean testVariables(){
 		 if (!testSingleVariable(parameterFileName)) return false;
 		 if (!testSingleVariable(debugParameterFileName)) return false;
 		 if (!testSingleVariable(starterGenomeFileName)) return false;
@@ -111,7 +111,7 @@ public class AverageTrainer {
 		return status;
 	}
 	
-	private boolean importParameters (String parameterFileName){
+	protected boolean importParameters (String parameterFileName){
 		boolean status = Neat.readParam(parameterFileName);
 		if (status){
 			System.out.println("Parameter read okay");
@@ -122,7 +122,7 @@ public class AverageTrainer {
 		return status;
 	}
 	
-	private void writeParametersToFile(String parameterFileName){
+	protected void writeParametersToFile(String parameterFileName){
 		Neat.writeParam(parameterFileName);
 	}
 	

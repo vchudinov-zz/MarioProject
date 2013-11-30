@@ -6,8 +6,10 @@ import java.io.IOException;
 import vikrasim.agents.AgentScannerNEAT;
 import vikrasim.agents.MasterAgent;
 import vikrasim.evolution.training.evaluators.AverageEvaluator;
+import vikrasim.evolution.training.evaluators.IncrementalEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.trainers.AverageTrainer;
+import vikrasim.evolution.training.trainers.IncrementalTrainer;
 import vikrasim.genomeFileCreation.FileCreater;
 
 public class IncrementalTC extends Console {
@@ -21,7 +23,7 @@ public class IncrementalTC extends Console {
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
-		String nameOfExperiment = "Testing new NEAT";
+		String nameOfExperiment = "Dette er en test";
 		int maxNumberOfGenerations = 500;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
@@ -100,11 +102,11 @@ public class IncrementalTC extends Console {
 		String levelParameters = "";
 		
 		//Create evaluator		
-		AverageEvaluator evaluator = new AverageEvaluator(levelParameters, agent);
+		IncrementalEvaluator evaluator = new IncrementalEvaluator(levelParameters, agent);
 				
 		//Create trainer
 		String delimiter = new File("").separator;
-		AverageTrainer t = new AverageTrainer(parameterFileName, debugParameterFileName, genomeFileName, genomeBackupFileName, lastPopulationInfoFileName, generationInfoFolder, winnerFolder, nameOfExperiment, maxNumberOfGenerations, evaluator, delimiter);
+		IncrementalTrainer t = new IncrementalTrainer(parameterFileName, debugParameterFileName, genomeFileName, genomeBackupFileName, lastPopulationInfoFileName, generationInfoFolder, winnerFolder, nameOfExperiment, maxNumberOfGenerations, evaluator, delimiter);
 				
 		//Train network
 		String[][] trainingSets = createTrainingSets();
