@@ -6,13 +6,8 @@ import java.io.IOException;
 import vikrasim.agents.AgentScannerNEAT;
 import vikrasim.agents.MasterAgent;
 import vikrasim.evolution.training.evaluators.AverageEvaluator;
-import vikrasim.evolution.training.evaluators.EvalQuickness;
-import vikrasim.evolution.training.evaluators.FormulaEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
-import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
-import vikrasim.evolution.training.trainers.AutomatedTrainer;
 import vikrasim.evolution.training.trainers.AverageTrainer;
-import vikrasim.evolution.training.trainers.SimpleTrainer;
 import vikrasim.genomeFileCreation.FileCreater;
 
 public class AverageTC extends Console {
@@ -26,17 +21,17 @@ public class AverageTC extends Console {
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
-		String nameOfExperiment = "AverageTrainingSessions 6";
+		String nameOfExperiment = "Testing new NEAT";
 		int maxNumberOfGenerations = 500;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
 		double winnerPercentageThreshold = 0.20;
 		
 		//Info about agent (if used)
-		int zLevelEnemies = 2;
+		int zLevelEnemies = 1;
 		int zLevelScene = 1;
-		int scannerLength = 3;
-		int scannerHeight = 3;
+		int scannerLength = 7;
+		int scannerHeight = 7;
 		
 		//Simon Laptop
 		//String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
@@ -67,7 +62,7 @@ public class AverageTC extends Console {
 		String withEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -lf off -lg off -lhs off -ltb off";
 		String everything ="-vis off -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
-		String[] levels = {noEnemies, withGaps, withEnemies};
+		String[] levels = {withGaps};
 		
 		int maxDifficulty = 10;
 		
@@ -94,7 +89,7 @@ public class AverageTC extends Console {
 				
 		//Train network
 		String[][] trainingSets = createTrainingSets();
-		t.trainNetwork(trainingSets, winnerPercentageThreshold);
+		t.trainNetwork(trainingSets, winnerPercentageThreshold, agent);
 	}
 	
 	private MasterAgent setupAgent(int zLevelEnemies, int zLevelScene, 

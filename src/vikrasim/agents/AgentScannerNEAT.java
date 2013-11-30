@@ -33,7 +33,7 @@ public class AgentScannerNEAT extends MasterAgent implements Agent {
 		this.scannerHeight = scannerHeight;
 		this.scannerLength=scannerLength;
 		
-		create();
+		this.create();
 		
 	}
 	
@@ -46,20 +46,21 @@ public class AgentScannerNEAT extends MasterAgent implements Agent {
 	
 	}
 	
+	public void createBrain(){
+		String genomeFileName = this.genomeFileName;
+		File f = new File(genomeFileName);
+		if(!f.exists()) {
+			FileCreater fc = new FileCreater();
+			fc.createGenomeFile(genomeFileName, scanners.size() + 4, 6);
+			fc = null;
+		}
+		f = null;
+		makeBrain(genomeFileName);
+	}
+	
 	@Override
 	public void create() {
-		addScanners(scannerLength, scannerHeight);
-		
-		if (brain == null){
-			File f = new File(genomeFileName);
-			if(!f.exists()) {
-				FileCreater fc = new FileCreater();
-				fc.createGenomeFile(genomeFileName, scanners.size() + 4, 6);
-				fc = null;
-			}
-			f = null;
-			makeBrain(genomeFileName);
-		}					
+		addScanners(scannerLength, scannerHeight);		
 	}
 	
 	private void addScanners(int length, int height){
@@ -159,12 +160,12 @@ public class AgentScannerNEAT extends MasterAgent implements Agent {
 		return action;
 	}
 	
-	private boolean convertToBoolean(double value){
+	protected boolean convertToBoolean(double value){
 		if(value < 0.5) return false;
 		return true;
 	}
 	
-	private boolean propagateSignal(Network net, int net_depth, double[] inputValues){
+	protected boolean propagateSignal(Network net, int net_depth, double[] inputValues){
 		boolean success = false;
 		 // first activation from sensor to first level of neurons
 		 net.load_sensors(inputValues);
@@ -180,11 +181,11 @@ public class AgentScannerNEAT extends MasterAgent implements Agent {
 		return success;
 	 }
 	
-	private byte convertBooleanToByte(Boolean b){
+	protected byte convertBooleanToByte(Boolean b){
 		if (b) return 1;
 		return 0;
 	}
-	private double[] readSurroundings(){
+	protected double[] readSurroundings(){
 		
 		double[] result = new double[scanners.size()];
 		

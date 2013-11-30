@@ -1,7 +1,5 @@
 package vikrasim.evolution.training.trainers;
 
-import jNeatCommon.IOseq;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -10,16 +8,14 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.StringTokenizer;
-
 import jneat.Neat;
 import jneat.evolution.Organism;
 import jneat.evolution.Population;
 import jneat.evolution.Species;
 import jneat.neuralNetwork.Genome;
+import vikrasim.agents.MasterAgent;
 import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
-import vikrasim.evolution.training.evaluators.MyMarioEvaluator;
 
 public class AverageTrainer {
 	String parameterFileName;
@@ -61,7 +57,7 @@ public class AverageTrainer {
 		
 	}
 	
-	public boolean trainNetwork(String[][] trainingSets, double winnerPercentageThreshold) throws IOException{
+	public boolean trainNetwork(String[][] trainingSets, double winnerPercentageThreshold, MasterAgent agent) throws IOException{
 		boolean status;
 		
 		//Test if all variables have been set
@@ -85,7 +81,7 @@ public class AverageTrainer {
 		
 		//Run experiments
 		System.out.println("Start experiment " + nameOfExperiment);
-		experimentSession(starterGenomeFileName, numberOfGenerations, trainingSets, winnerPercentageThreshold);
+		experimentSession(agent, numberOfGenerations, trainingSets, winnerPercentageThreshold);
 		
 		return status;
 	}
@@ -136,61 +132,20 @@ public class AverageTrainer {
 	 * @param generations
 	 * @throws IOException 
 	 */
-	private void experimentSession (String starterGenomeFileName, int generations, String[][] trainingSets, double winnerPercentageThreshold) throws IOException{
+	private void experimentSession (MasterAgent agent, int generations, String[][] trainingSets, double winnerPercentageThreshold) throws IOException{
 		
 		//Open the file with the starter genome data
-		IOseq starterGenomeFile = new IOseq(starterGenomeFileName);
-		boolean ret = starterGenomeFile.IOseqOpenR();
-		int lastGeneration = -1;
-		if (ret){
-			//Create starter genome
-			Genome starterGenome = createGenome(starterGenomeFile);
+		//Create starter genome
+		agent.createBrain();
+		Genome starterGenome = agent.getBrain().getGenome();
 			
-			//Start experiments			
-			for (int expCount = 0; expCount < Neat.p_num_runs; expCount++){
-				runExperiment(starterGenome, generations, trainingSets, winnerPercentageThreshold);
-			}
-			
-		} else{
-			System.out.println("Error during opening of " + starterGenomeFileName);
-			starterGenomeFile.IOseqCloseR();
+		//Start experiments			
+		for (int expCount = 0; expCount < Neat.p_num_runs; expCount++){
+			runExperiment(starterGenome, generations, trainingSets, winnerPercentageThreshold);
 		}
 		
-		starterGenomeFile.IOseqCloseR();
 	}
-	/**
-	 * Reads a file and creates a genome based on the data in that file
-	 * @param starterGenomeFile
-	 * @return
-	 */
-	private Genome createGenome (IOseq starterGenomeFile){
-		String curWord;
-		
-		System.out.println("Read starter genome");
-		
-		//Read file
-		String line = starterGenomeFile.IOseqRead();
-		StringTokenizer st = new StringTokenizer(line);
-		
-		//Skip first word in file
-		curWord = st.nextToken();
-		
-		//Read ID of the genome
-		curWord = st.nextToken();
-		int id = Integer.parseInt(curWord);
-		
-		//Create the genome
-		System.out.println("Create genome id " + id);
-		Genome startGenome = new Genome (id,starterGenomeFile);
-		
-		//Backup initial genome
-		//Probably used for debugging
-		startGenome.print_to_filename(genomeBackupFileName);
-				
-		return startGenome;
-		
-	}
-
+	
 	/**
 	 * Runs an experiment where populations are evolved from a basic genome
 	 * @param starterGenome
@@ -435,8 +390,4 @@ public class AverageTrainer {
 		this.nameOfExperiment = nameOfExperiment;
 	}
 
-
-	public void setEvaluator(MyMarioEvaluator evaluator) {
-		this.evaluator = evaluator;
-	}
 }

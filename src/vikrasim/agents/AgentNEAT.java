@@ -162,6 +162,13 @@ public class AgentNEAT extends MasterAgent implements Agent {
 		return result;
 	}
 
+	@Override
+	public void createBrain() {
+		System.out.println("Not supported");
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 	
