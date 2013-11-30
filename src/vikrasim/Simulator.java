@@ -35,6 +35,11 @@ public class Simulator {
 	    MasterAgent agent = new AgentScannerNEAT("This rocks", file,1,1,7,7);
 	    agent.createBrain();
 	    
+	    //Visualize the agent
+	    //GraphVizWriter writer = new GraphVizWriter();
+	    //String targetFile = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\Testing new NEAT\\Vizualized.txt";
+	    //writer.writer(file, targetFile);
+	    
 	    //Agent agent = new HumanKeyboardAgent();
 
 	    
