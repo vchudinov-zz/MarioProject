@@ -86,7 +86,7 @@ public class AverageTrainer {
 		return status;
 	}
 	
-	private void testAndCreate(String folderPath){
+	protected void testAndCreate(String folderPath){
 		File f = new File(folderPath);
 		f.mkdirs();
 	}
@@ -202,7 +202,7 @@ public class AverageTrainer {
 		pop.print_to_filename(lastPopulationInfoFileName);
 	}
 	
-	private boolean enoughWinnersInPopulation(Population pop, double percentageThreshold, int numberOfWinners){
+	protected boolean enoughWinnersInPopulation(Population pop, double percentageThreshold, int numberOfWinners){
 		int totalNumberOfOrganism = pop.organisms.size();
 		
 		double winnerPercentage = (double) numberOfWinners / totalNumberOfOrganism;
@@ -224,7 +224,7 @@ public class AverageTrainer {
 	 * @return True if a winner has been found in the population. False otherwise
 	 * @throws IOException 
 	 */
-	private int goThroughEpoch(Population pop, int generation, String filenameEpochInfo, String[] trainingSet) throws IOException{
+	protected int goThroughEpoch(Population pop, int generation, String filenameEpochInfo, String[] trainingSet) throws IOException{
 		boolean status = false;
 		ArrayList<Organism> winners = new ArrayList<>();
 		
