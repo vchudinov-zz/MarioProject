@@ -56,11 +56,24 @@ public class AverageTC extends Console {
 	
 	
 	private String[][] createTrainingSets(){
+		//Old levels
+		/*
 		String noEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
 		String withGaps = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg on -lhs off -ltb off";
 		String deadEnds ="-vis off -ls 20 -lb off -lca off -lco off -lde on -le off -lf off -lg off -lhs off -ltb off";
 		String withEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -lf off -lg off -lhs off -ltb off";
 		String everything ="-vis off -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
+		*/
+		
+		//Viktors levels
+		String flatNoBlock = "-vis off -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
+		String flatBlocks = "-vis off -lb on -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
+		String withCoins = "-vis off -lb on -lca off -lco on -lde off -le off -lf off -lg off -lhs off -ltb off";
+		String withGaps = "-vis off -lb on -lca off -lco on -lde off -le off -lf off -lg on -lhs off -ltb off";
+		String deadEnds ="-vis off -lb on -lca off -lco on -lde on -le off -lf off -lg on -lhs off -ltb off";
+		String withTubes = "-vis off -lb on -lca off -lco on -lde on -le off -lf off -lg on -lhs off -ltb on";
+		String withFrozenEnemies = "-vis off -lb on -lca off -lco on -lde on -le on -lf off -lg on -lhs off -ltb on -fc on";
+		String everything ="-vis off -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
 		String[] levels = {withGaps};
 		
