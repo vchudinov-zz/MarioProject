@@ -4,6 +4,7 @@ package vikrasim;
 import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
+import vikrasim.agents.MasterAgent;
 import ch.idsia.agents.Agent;
 import ch.idsia.agents.controllers.human.HumanKeyboardAgent;
 import ch.idsia.agents.controllers.ScaredShooty;
@@ -21,7 +22,7 @@ public class Simulator {
 		String everything ="-vis on -ls 20 -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
 		//Write parameters to use in simulation
-		String options = withEnemies + " -ld 0";
+		String options = withGaps + " -ld 2";
 		//options = "-ls 20 -vis on";
 		System.out.print(options);
 	    
@@ -30,8 +31,10 @@ public class Simulator {
 	    environment.reset(options);
 	    
 	    //Create new agent
-	    String file = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\AverageTrainingSessions\\testGenome.txt";
-	    Agent agent = new AgentScannerNEAT("This rocks", file,2,2,3,3);
+	    String file = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\Testing new NEAT\\testGenome.txt";
+	    MasterAgent agent = new AgentScannerNEAT("This rocks", file,1,1,7,7);
+	    agent.createBrain();
+	    
 	    //Agent agent = new HumanKeyboardAgent();
 
 	    

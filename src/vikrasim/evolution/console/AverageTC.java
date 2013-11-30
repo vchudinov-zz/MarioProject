@@ -25,7 +25,7 @@ public class AverageTC extends Console {
 		int maxNumberOfGenerations = 500;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
-		double winnerPercentageThreshold = 0.20;
+		double winnerPercentageThreshold = 0.01;
 		
 		//Info about agent (if used)
 		int zLevelEnemies = 1;
