@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 
 import vikrasim.agents.MasterAgent;
 import vikrasim.evolution.training.evaluators.AverageEvaluator;
+import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import jneat.Neat;
 import jneat.evolution.Population;
 import jneat.neuralNetwork.Genome;
@@ -14,7 +15,7 @@ public class IncrementalTrainer extends AverageTrainer {
 	public IncrementalTrainer(String parameterFileName, String debugParameterFileName, String genomeFileName, 
 			String genomeBackupFileName, String lastPopulationInfoFileName, String generationInfoFolder, 
 			String winnerFolder, String nameOfExperiment, int numberOfGenerations, 
-			AverageEvaluator evaluator, String delimiter){
+			MasterEvaluator evaluator, String delimiter){
 		super(parameterFileName, debugParameterFileName, genomeFileName, genomeBackupFileName, lastPopulationInfoFileName, generationInfoFolder, winnerFolder, nameOfExperiment, numberOfGenerations, evaluator, delimiter);
 	}
 	

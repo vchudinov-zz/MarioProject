@@ -6,10 +6,24 @@ import ch.idsia.benchmark.mario.environments.MarioEnvironment;
 import jneat.evolution.Organism;
 import vikrasim.agents.MasterAgent;
 
-public class IncrementalEvaluator extends AverageEvaluator {
+public class IncrementalEvaluator extends MasterEvaluator {
 
 	public IncrementalEvaluator(String levelParameters, MasterAgent agent) {
 		super(levelParameters, agent);
+	}
+	
+	@Override
+	public boolean evaluate(Organism organism, String[] trainingSet) {
+		boolean success = false;
+		 
+		 success = runSimulation(organism, trainingSet);
+	  
+		 return success; 
+	}
+	
+	@Override
+	public boolean evaluate(Organism organism) throws UnsupportedOperationException {
+		throw new UnsupportedOperationException();
 	}
 	
 	private boolean runSimulation(Organism organism, String[] trainingSet){
