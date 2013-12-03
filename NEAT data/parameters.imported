@@ -33,3 +33,5 @@ p_print_every  10
 p_babies_stolen  0
 p_num_runs  1
 p_num_trait_params  8
+p_min_num_offspring_before_save  5
+p_num_species_target  10

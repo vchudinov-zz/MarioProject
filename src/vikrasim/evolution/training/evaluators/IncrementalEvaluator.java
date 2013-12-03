@@ -62,22 +62,23 @@ public class IncrementalEvaluator extends MasterEvaluator {
 		    
 		    //Blocks travelled 
 		    double localFitness = ev[0];
-		    
+		    kills = ev[6]*0.75;
+		    coins = ev[10]*0.75;
+		    time = ev[11];
+		    shrooms = ev[9]*10;
+		    mode = ev[7]+1;
+		    distance = ev[0];
+		    localFitness += (kills + coins + shrooms + mode)/4;
 		    int status = environment.getMarioStatus();
 		    
 		    if (status== Mario.STATUS_WIN){
-		    	//kills = ev[6]*0.75;
-		    	//coins = ev[10]*0.75;
-		    	//time = ev[11];
-		    	//shrooms = ev[9]*10;
-		    	//mode = ev[7]+1;
-		    	//distance = ev[0];
+		    	
 		    	//double shell = ev[4];
 		    	//double stomp = ev[5];
 		    	//double fire = ev[3];
 		    	//can be easily changed by uncomenting the above three
-		    	//localFitness += (kills + coins + shrooms + mode+time)/5;
-		    	localFitness = localFitness ;//+ time + mode * 100;
+		    	
+		    	//localFitness = localFitness ;//+ time + mode * 100;
 		    	organism.setWinner(true);
 		    } else{
 		    	finishedAllLevels = false;
