@@ -6,9 +6,9 @@ import ch.idsia.benchmark.mario.environments.MarioEnvironment;
 import jneat.evolution.Organism;
 import vikrasim.agents.MasterAgent;
 
-public class IncrementalEvaluator extends MasterEvaluator {
+public class NoJumpEvaluator extends MasterEvaluator {
 
-	public IncrementalEvaluator(String levelParameters, MasterAgent agent) {
+	public NoJumpEvaluator(String levelParameters, MasterAgent agent) {
 		super(levelParameters, agent);
 	}
 	
@@ -48,10 +48,17 @@ public class IncrementalEvaluator extends MasterEvaluator {
 		    double kills,coins,time,shrooms,mode,distance;
 		    //shell,stomp,fire;
 		    int[] ev = null;
+		    boolean[] actions;
+		    int numberOfJumps = 0;
+		    
 		    while (!environment.isLevelFinished() && ticks < maxTicks){	
 		    	environment.tick(); //Execute one tick in the game //STC
 		    	agent.integrateObservation(environment);
-		        environment.performAction(agent.getAction());
+		    	actions = agent.getAction();
+		        environment.performAction(actions);
+		        if(actions[1]){
+		        	numberOfJumps++;
+		        }
 		        ev = environment.getEvaluationInfoAsInts();
 		        if (ev[0] > oldDistance){
 		        	maxTicks += (ev[0] - oldDistance) * 10;
@@ -61,13 +68,13 @@ public class IncrementalEvaluator extends MasterEvaluator {
 		    }
 		    
 		    //Blocks travelled 
-		    double localFitness = ev[0];
 		    //kills = ev[6]*0.75;
 		    //coins = ev[10]*0.75;
 		    //time = ev[11];
 		    //shrooms = ev[9]*10;
 		    mode = ev[7]+1;
 		    distance = ev[0];
+		    double localFitness = distance - numberOfJumps;
 		    //localFitness += (kills + coins + shrooms + mode)/4;
 		    int status = environment.getMarioStatus();
 		    
