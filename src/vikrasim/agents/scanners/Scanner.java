@@ -70,6 +70,7 @@ public class Scanner {
 			y += incrementY;
 		}
 	}
+	
 	/**
 	 * Finds all the cells in the lenght x height area with mario in the corner
 	 * |M| | |
@@ -119,13 +120,13 @@ public class Scanner {
 		return result;				
 	}
 	
-	private double scanNumberOfObjects(byte[][] obervations){
+	private double scanNumberOfObjects(byte[][] observations){
 		int numberOfObjects = 0;
 		
 		for (int i = 0; i < cellsToScan.length; i++){
 			int x = cellsToScan[i][0];
 			int y = cellsToScan[i][1];
-			if (obervations[y][x] != 0){ //The data is saved as y,x
+			if (observations[y][x] != 0){ //The data is saved as y,x
 				numberOfObjects++;
 			}
 		}
@@ -169,6 +170,7 @@ public class Scanner {
 		
 		return (double) (maxDistance + 1 - distance) / maxDistance;
 	}
+	
 	private double cartesianDistance(int x1, int y1, int x2, int y2){
 		double result = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2 - y1, 2));
 		return result;

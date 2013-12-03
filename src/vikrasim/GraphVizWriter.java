@@ -11,7 +11,6 @@ import java.util.HashSet;
 
 /** The method that you need to invoke is Writer. It takes as an argument the address to the genome file 
  * 
- * 
  * @author Viktor
  *
  */
@@ -35,15 +34,17 @@ public class GraphVizWriter {
 	}
 	
 
-	public void writer(String population,String targetfile) throws IOException
-	{	this.filename = population;
+	public void writer(String genome,String targetfile, String graphName) throws IOException
+	{	this.filename = genome;
+		
 		parseGene();
-		writeGene(targetfile,4);
+		writeGene(targetfile,4, graphName);
 	}
 	/**Parses a genome file
 	 * 
 	 * @throws IOException
 	 */
+	
 	private void parseGene() throws IOException
 	{		BufferedReader r = new BufferedReader(new InputStreamReader(
 			  						new FileInputStream(filename), "UTF-8"));
@@ -57,17 +58,20 @@ public class GraphVizWriter {
 				String identif = s[0];
 				String node = s[1];
 				
-				int last = Integer.parseInt(s[s.length-1]);  
 							
 				if(identif.equals("node"))
-				{	if(last == 0) hidden.add(node);
+				{	int last = Integer.parseInt(s[s.length-1]);  
+				
+					if(last == 0) hidden.add(node);
 				  	else if(last == 1 || last == 3) input.add(node);
 					if (last == 3) bias = node;
 				  	else if(last == 2) output.add(node);
 				}
 				
 				if(identif.equals("gene"))
-				{	if (last != 0) graph.add(s[3] + " -> " + s[4]);
+				{	int last = Integer.parseInt(s[s.length-1]);  
+				
+					if (last != 0) graph.add(s[3] + " -> " + s[4]);
 					sanitizedInputs.add(s[3]);
 				}
 			}
@@ -79,11 +83,11 @@ public class GraphVizWriter {
 	 * @param ranksep - how wide the layers will appear from each other in inches. 3-4 is good for now
 	 * @throws IOException
 	 */
-	private void writeGene(String file, int ranksep) throws IOException
+	private void writeGene(String file, int ranksep, String graphName) throws IOException
 	{ 	String dir = new File("").getAbsolutePath() + "/Generationdata/";
 		FileWriter fw = new FileWriter(file + ".txt");
     	PrintWriter pw = new PrintWriter(fw);
-    	pw.println("digraph " + file + " {");
+    	pw.println("digraph " + graphName + " {");
     	pw.println("splines = line\n ");
     	pw.println("ranksep = " + ranksep);
     	
