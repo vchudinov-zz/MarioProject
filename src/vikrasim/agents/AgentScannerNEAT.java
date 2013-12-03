@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import vikrasim.agents.scanners.MasterScanner;
+import vikrasim.agents.scanners.MasterScanner.Dir;
+import vikrasim.agents.scanners.MasterScanner.ScannerType;
 import vikrasim.agents.scanners.Scanner;
-import vikrasim.agents.scanners.Scanner.Dir;
-import vikrasim.agents.scanners.Scanner.ScannerType;
 import vikrasim.genomeFileCreation.FileCreater;
 import jneat.evolution.Organism;
 import jneat.neuralNetwork.Genome;
@@ -21,7 +22,7 @@ import ch.idsia.benchmark.mario.engine.sprites.Mario;
 import ch.idsia.benchmark.mario.environments.Environment;
 
 public class AgentScannerNEAT extends MasterAgent implements Agent {
-	ArrayList<Scanner> scanners;
+	ArrayList<MasterScanner> scanners;
 	int scannerLength;
 	int scannerHeight;
 	
@@ -191,7 +192,7 @@ public class AgentScannerNEAT extends MasterAgent implements Agent {
 		
 		
 		for (int i = 0; i < scanners.size(); i++ ){
-			Scanner s = scanners.get(i);
+			MasterScanner s = scanners.get(i);
 			result[i] = s.scan(enemies, levelScene);			
 		}		
 		
