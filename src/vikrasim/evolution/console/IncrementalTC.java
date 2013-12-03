@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
 import vikrasim.agents.AgentScannerNEATGapScanner;
+import vikrasim.agents.AgentScannerNEATSlow;
 import vikrasim.agents.MasterAgent;
 import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.IncrementalEvaluator;
@@ -24,7 +25,7 @@ public class IncrementalTC extends Console {
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
-		String nameOfExperiment = "Another test";
+		String nameOfExperiment = "Another test 2";
 		int maxNumberOfGenerations = 1000;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
@@ -37,13 +38,13 @@ public class IncrementalTC extends Console {
 		int scannerHeight = 7;
 		
 		//Simon Laptop
-		//String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
+		String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
 		
 		//Simon Desktop
 		//String rootDataFolder = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
 		
 		//Victor
-		String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
+		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
 		
 		//Krasimira
 		//String rootDataFolder = new File("").getAbsolutePath() + "/NEAT data";
@@ -117,7 +118,7 @@ public class IncrementalTC extends Console {
 	private MasterAgent setupAgent(int zLevelEnemies, int zLevelScene, 
 			int scannerLength, int scannerHeight){		
 		
-		MasterAgent agent = new AgentScannerNEATGapScanner(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
+		MasterAgent agent = new AgentScannerNEATSlow(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		
 		return agent;
 	}
