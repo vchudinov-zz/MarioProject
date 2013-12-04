@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
-import vikrasim.agents.AgentScannerNEATGapScanner;
+import vikrasim.agents.AgentScannerNEATGap;
 import vikrasim.agents.AgentScannerNEATSlow;
 import vikrasim.agents.MasterAgent;
 import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.IncrementalEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
+import vikrasim.evolution.training.evaluators.NoJumpEvaluator;
 import vikrasim.evolution.training.trainers.AverageTrainer;
 import vikrasim.evolution.training.trainers.IncrementalTrainer;
 import vikrasim.genomeFileCreation.FileCreater;
@@ -25,11 +26,11 @@ public class IncrementalTC extends Console {
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
-		String nameOfExperiment = "Another test 2";
-		int maxNumberOfGenerations = 1000;
+		String nameOfExperiment = "No jumps 3";
+		int maxNumberOfGenerations = 400;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
-		double winnerPercentageThreshold = 0.1;
+		double winnerPercentageThreshold = 0.01;
 		
 		//Info about agent (if used)
 		int zLevelEnemies = 1;
@@ -38,10 +39,10 @@ public class IncrementalTC extends Console {
 		int scannerHeight = 7;
 		
 		//Simon Laptop
-		String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
+		//String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
 		
 		//Simon Desktop
-		//String rootDataFolder = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
+		String rootDataFolder = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
 		
 		//Victor
 		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
@@ -79,10 +80,10 @@ public class IncrementalTC extends Console {
 		String withFrozenEnemies = "-vis off -lb on -lca off -lco on -lde on -le on -lf off -lg on -lhs off -ltb on -fc on";
 		String everything ="-vis off -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
-		String[] levels = {flatBlocks,withCoins,withGaps,withTubes, withFrozenEnemies,everything};
+		String[] levels = {withGaps};
 		
 		int startDifficulty = 0;
-		int maxDifficulty = 3;
+		int maxDifficulty = 10;
 		int numberOfDifferentLevels = 1;
 
 		String[][] s = new String[maxDifficulty][levels.length
@@ -104,7 +105,7 @@ public class IncrementalTC extends Console {
 		String levelParameters = "";
 		
 		//Create evaluator		
-		IncrementalEvaluator evaluator = new IncrementalEvaluator(levelParameters, agent);
+		MasterEvaluator evaluator = new IncrementalEvaluator(levelParameters, agent);
 				
 		//Create trainer
 		String delimiter = new File("").separator;
@@ -118,7 +119,7 @@ public class IncrementalTC extends Console {
 	private MasterAgent setupAgent(int zLevelEnemies, int zLevelScene, 
 			int scannerLength, int scannerHeight){		
 		
-		MasterAgent agent = new AgentScannerNEATSlow(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
+		MasterAgent agent = new AgentScannerNEATGap(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		
 		return agent;
 	}

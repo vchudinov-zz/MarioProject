@@ -95,7 +95,7 @@ public class FileCreater {
 		s+= "p_pop_size  200" + delimiter;
 		s+= "p_dropoff_age  50" + delimiter;
 		s+= "p_newlink_tries  50" + delimiter;
-		s+= "p_print_every  10" + delimiter;
+		s+= "p_print_every  1" + delimiter;
 		s+= "p_babies_stolen  0" + delimiter;
 		s+= "p_num_runs  1" + delimiter;
 		s+= "p_num_trait_params  8" + delimiter;

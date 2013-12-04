@@ -7,10 +7,12 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
+import vikrasim.agents.AgentScannerNEATSlow;
 import vikrasim.agents.MasterAgent;
 import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.IncrementalEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
+import vikrasim.evolution.training.evaluators.NoJumpEvaluator;
 import vikrasim.evolution.training.trainers.AverageTrainer;
 import vikrasim.evolution.training.trainers.IncrementalTrainer;
 import vikrasim.genomeFileCreation.FileCreater;
@@ -45,14 +47,21 @@ public class ExternalTC extends Console {
 		int maxDifficulty = Integer.parseInt(args[10]);
 		int numberOfDifferentLevels = Integer.parseInt(args[11]);
 		
+		//Type of evaluator
+		String typeOfEvaluator = args[12];
+		
+		//Agent
+		String agentType = args[13];
+		
 		ExternalTC tc = new ExternalTC(nameOfExperiment, maxNumberOfGenerations, false, 0.01, rootDataFolder);
 		
 		tc.createMissingParameterFile();
 		
 		String[][] trainingSets = tc.createTrainingSets(trainingSetFile, startDifficulty, maxDifficulty, numberOfDifferentLevels);
 		
-		MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
-		tc.train(agent, winnerPercentageThreshold, trainingSets);
+		//Setup agent
+		MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight,agentType);
+		tc.train(agent, winnerPercentageThreshold, trainingSets, typeOfEvaluator);
 	}	
 	
 	
@@ -103,11 +112,21 @@ public class ExternalTC extends Console {
 		return levels;		
 	}
 	
-	private void train(MasterAgent agent, double winnerPercentageThreshold, String[][] trainingSets) throws IOException{
+	private void train(MasterAgent agent, double winnerPercentageThreshold, String[][] trainingSets, String typeOfEvaluator) throws IOException{
 		String levelParameters = "";
 		
-		//Create evaluator		
-		IncrementalEvaluator evaluator = new IncrementalEvaluator(levelParameters, agent);
+		//Create evaluator
+		MasterEvaluator evaluator =null;
+		if (typeOfEvaluator.equalsIgnoreCase("AverageEvaluator")){
+			evaluator = new AverageEvaluator(levelParameters, agent);
+			
+		} else if (typeOfEvaluator.equalsIgnoreCase("IncrementalEvaluator")){
+			evaluator = new IncrementalEvaluator(levelParameters, agent);
+			
+		} else if (typeOfEvaluator.equalsIgnoreCase("NoJumpEvaluator")){
+			evaluator = new NoJumpEvaluator(levelParameters, agent);
+		} 
+		
 				
 		//Create trainer
 		String delimiter = new File("").separator;
@@ -118,10 +137,18 @@ public class ExternalTC extends Console {
 	}
 	
 	private MasterAgent setupAgent(int zLevelEnemies, int zLevelScene, 
-			int scannerLength, int scannerHeight){		
+			int scannerLength, int scannerHeight, String agentType){		
+		MasterAgent agent = null;
+		if (agentType.equalsIgnoreCase("AgentScannerNEAT")){
+			agent = new AgentScannerNEAT(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		
-		MasterAgent agent = new AgentScannerNEAT(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
+		} else if (agentType.equalsIgnoreCase("AgentScannerNEATGapScanner")){
+			agent = new AgentScannerNEAT(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		
+		} else if (agentType.equalsIgnoreCase("AgentScannerNEATSlow")){
+			agent = new AgentScannerNEATSlow(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
+		}
+			
 		return agent;
 	}
 	

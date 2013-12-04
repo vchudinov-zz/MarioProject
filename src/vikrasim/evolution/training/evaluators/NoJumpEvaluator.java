@@ -49,20 +49,21 @@ public class NoJumpEvaluator extends MasterEvaluator {
 		    //shell,stomp,fire;
 		    int[] ev = null;
 		    boolean[] actions;
-		    int numberOfJumps = 0;
+		    int numberOfNoJumps = 0;
 		    
 		    while (!environment.isLevelFinished() && ticks < maxTicks){	
 		    	environment.tick(); //Execute one tick in the game //STC
 		    	agent.integrateObservation(environment);
 		    	actions = agent.getAction();
 		        environment.performAction(actions);
-		        if(actions[1]){
-		        	numberOfJumps++;
-		        }
+		        
 		        ev = environment.getEvaluationInfoAsInts();
 		        if (ev[0] > oldDistance){
 		        	maxTicks += (ev[0] - oldDistance) * 10;
-		        	oldDistance = ev[0];		        	
+		        	oldDistance = ev[0];
+		        	if(!actions[1]){
+			        	numberOfNoJumps++;
+			        }
 		        }
 		        ticks++;
 		    }
@@ -74,7 +75,9 @@ public class NoJumpEvaluator extends MasterEvaluator {
 		    //shrooms = ev[9]*10;
 		    mode = ev[7]+1;
 		    distance = ev[0];
-		    double localFitness = distance - numberOfJumps;
+		    double localFitness = distance + numberOfNoJumps;
+		    
+		    
 		    //localFitness += (kills + coins + shrooms + mode)/4;
 		    int status = environment.getMarioStatus();
 		    

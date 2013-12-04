@@ -4,6 +4,8 @@ package vikrasim;
 import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
+import vikrasim.agents.AgentScannerNEATGap;
+import vikrasim.agents.AgentScannerNEATSlow;
 import vikrasim.agents.MasterAgent;
 import ch.idsia.agents.Agent;
 import ch.idsia.agents.controllers.human.HumanKeyboardAgent;
@@ -23,6 +25,7 @@ public class ExternalSimulator {
 		int scannerLength = Integer.parseInt(args[5]);
 		int scannerHeight = Integer.parseInt(args[6]);
 		String genomeFile = args[7];
+		String agentType = args[8];
 
 	    
 	    //Create new environment with chosen parameters
@@ -31,8 +34,7 @@ public class ExternalSimulator {
 	    environment.reset(options);
 	    
 	    //Create new agent
-	    String file = genomeFile;
-	    MasterAgent agent = new AgentScannerNEAT("This rocks", file,zLevelEnemies,zLevelScene,scannerLength,scannerHeight);
+	    MasterAgent agent = setupAgent("This rocks", genomeFile, zLevelEnemies, zLevelScene, scannerLength, scannerHeight, agentType);
 	    agent.createBrain();
 	    
 	   
@@ -50,6 +52,22 @@ public class ExternalSimulator {
 	    	System.out.print(i + "  ");
 	    }
 	    System.exit(0);
+	}
+	
+	private static MasterAgent setupAgent(String agentName, String genomeFile, int zLevelEnemies, int zLevelScene, 
+			int scannerLength, int scannerHeight, String agentType){		
+		MasterAgent agent = null;
+		if (agentType.equalsIgnoreCase("AgentScannerNEAT")){
+			agent = new AgentScannerNEAT(agentName, genomeFile,zLevelEnemies,zLevelScene,scannerLength,scannerHeight);
+		
+		} else if (agentType.equalsIgnoreCase("AgentScannerNEATGap")){
+			agent = new AgentScannerNEATGap(agentName, genomeFile,zLevelEnemies,zLevelScene,scannerLength,scannerHeight);
+		
+		} else if (agentType.equalsIgnoreCase("AgentScannerNEATSlow")){
+			agent = new AgentScannerNEATSlow(agentName, genomeFile,zLevelEnemies,zLevelScene,scannerLength,scannerHeight);
+		}
+			
+		return agent;
 	}
 
 }

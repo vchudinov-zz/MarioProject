@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import vikrasim.agents.scanners.MasterScanner;
+import vikrasim.agents.scanners.gapScanner;
 import vikrasim.agents.scanners.MasterScanner.Dir;
 import vikrasim.agents.scanners.MasterScanner.ScannerType;
 import vikrasim.agents.scanners.Scanner;
@@ -21,14 +22,13 @@ import ch.idsia.agents.controllers.BasicMarioAIAgent;
 import ch.idsia.benchmark.mario.engine.sprites.Mario;
 import ch.idsia.benchmark.mario.environments.Environment;
 
-public class AgentScannerNEATSlow extends MasterAgent implements Agent {
+public class AgentScannerNEATGap extends MasterAgent implements Agent {
 	ArrayList<MasterScanner> scanners;
-	ArrayList<double[]> inputList;
 	int scannerLength;
 	int scannerHeight;
 	
 		
-	public AgentScannerNEATSlow(String agentName, String genomeFileName, int zLevelEnemies, int zLevelScene, 
+	public AgentScannerNEATGap(String agentName, String genomeFileName, int zLevelEnemies, int zLevelScene, 
 			int scannerLength, int scannerHeight) {
 		super(agentName, genomeFileName, zLevelEnemies, zLevelScene);
 		
@@ -37,10 +37,9 @@ public class AgentScannerNEATSlow extends MasterAgent implements Agent {
 		
 		this.create();
 		
-		inputList = new ArrayList<>();
 	}
 	
-	public AgentScannerNEATSlow(String agentName, Organism brain, int zLevelEnemies, int zLevelScene, 
+	public AgentScannerNEATGap(String agentName, Organism brain, int zLevelEnemies, int zLevelScene, 
 			int scannerLength, int scannerHeight) {
 		super(agentName, brain, zLevelEnemies, zLevelScene);
 		
@@ -84,6 +83,9 @@ public class AgentScannerNEATSlow extends MasterAgent implements Agent {
 		scanners.add(new Scanner(length, 1, Dir.NW, ScannerType.ENVIRONMENT));
 		scanners.add(new Scanner(length, 1, Dir.SE, ScannerType.ENVIRONMENT));
 		scanners.add(new Scanner(length, 1, Dir.SW, ScannerType.ENVIRONMENT));
+		
+		//Add gap scanner
+		scanners.add(new gapScanner(length, 1, null, ScannerType.ENVIRONMENT));
 		
 	}
 	
@@ -149,22 +151,15 @@ public class AgentScannerNEATSlow extends MasterAgent implements Agent {
 		
 		inputs[numberOfObservations + 4] = 1; //Bias
 		
-		inputList.add(inputs);
-		
-		if (inputList.size()>=3) {
-			inputs = inputList.get(0);
-			inputList.remove(0);
-				
-			Network network = brain.net;
-			boolean success = propagateSignal(network, network.max_depth(), inputs);
-			if (success) {
-				//Read the output value	
-				Vector<NNode> outputNodes = network.getOutputs();
-				for (int i = 0; i < outputNodes.size(); i++){
-					action[i] = convertToBoolean(outputNodes.get(i).getActivation());
-				}
-				network.flush();
+		Network network = brain.net;
+		boolean success = propagateSignal(network, network.max_depth(), inputs);
+		if (success) {
+			//Read the output value	
+			Vector<NNode> outputNodes = network.getOutputs();
+			for (int i = 0; i < outputNodes.size(); i++){
+				action[i] = convertToBoolean(outputNodes.get(i).getActivation());
 			}
+			network.flush();
 		}
 		
 		return action;
