@@ -2,10 +2,12 @@ package vikrasim.agents.scanners;
 
 public class gapScanner extends MasterScanner {
 	
+	int offset = 0;
 	
 	public gapScanner(int length, int height, Dir scanDirection,
-			ScannerType type) {
+			ScannerType type, int offset) {
 		super(length, height, scanDirection, type);
+		this.offset = offset;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -16,7 +18,7 @@ public class gapScanner extends MasterScanner {
 		int incrementY = 0;
 		
 		//Scanning south
-		startX = marioX + 1; 
+		startX = marioX + offset; 
 		startY = marioY + 1; 
 		incrementX = 0; 
 		incrementY = 1; 		
