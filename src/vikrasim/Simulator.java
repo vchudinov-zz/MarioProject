@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
 import vikrasim.agents.AgentScannerNEATGap;
+import vikrasim.agents.GapAgent;
 import vikrasim.agents.MasterAgent;
 import ch.idsia.agents.Agent;
 import ch.idsia.agents.controllers.human.HumanKeyboardAgent;
@@ -27,7 +28,7 @@ public class Simulator {
 				String everything ="-vis off -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
 		//Write parameters to use in simulation
-		String options = withGaps + " -ld 4 -ls 15";
+		String options = withGaps + " -ld 5 -ls 15";
 		//options = "-ls 20 -vis on";
 		System.out.print(options);
 	    
@@ -36,13 +37,13 @@ public class Simulator {
 	    environment.reset(options);
 	    
 	    //Create new agent
-	    String file = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\No jumps 3\\testGenome.txt";
-	    MasterAgent agent = new AgentScannerNEATGap("This rocks", file,1,1,7,7);
+	    String file = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\No jumps 4\\testGenome.txt";
+	    MasterAgent agent = new GapAgent("This rocks", file,1,1,7,7);
 	    agent.createBrain();
 	    
 	    //Visualize the agent
 	    GraphVizWriter writer = new GraphVizWriter();
-	    String targetFile = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\No jumps 3\\Vizualized.txt";
+	    String targetFile = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\No jumps 4\\Vizualized.txt";
 	    writer.writer(file, targetFile, "WinnerDif4");
 	    
 	    //Agent agent = new HumanKeyboardAgent();

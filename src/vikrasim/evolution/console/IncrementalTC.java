@@ -6,6 +6,7 @@ import java.io.IOException;
 import vikrasim.agents.AgentScannerNEAT;
 import vikrasim.agents.AgentScannerNEATGap;
 import vikrasim.agents.AgentScannerNEATSlow;
+import vikrasim.agents.GapAgent;
 import vikrasim.agents.MasterAgent;
 import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.IncrementalEvaluator;
@@ -26,7 +27,7 @@ public class IncrementalTC extends Console {
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
-		String nameOfExperiment = "No jumps 3";
+		String nameOfExperiment = "No jumps 5";
 		int maxNumberOfGenerations = 400;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
@@ -119,7 +120,7 @@ public class IncrementalTC extends Console {
 	private MasterAgent setupAgent(int zLevelEnemies, int zLevelScene, 
 			int scannerLength, int scannerHeight){		
 		
-		MasterAgent agent = new AgentScannerNEATGap(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
+		MasterAgent agent = new GapAgent(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		
 		return agent;
 	}

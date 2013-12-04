@@ -85,7 +85,7 @@ public class AgentScannerNEATGap extends MasterAgent implements Agent {
 		scanners.add(new Scanner(length, 1, Dir.SW, ScannerType.ENVIRONMENT));
 		
 		//Add gap scanner
-		scanners.add(new gapScanner(length, 1, null, ScannerType.ENVIRONMENT));
+		scanners.add(new gapScanner(length, 1, null, ScannerType.ENVIRONMENT, 1));
 		
 	}
 	
