@@ -80,7 +80,7 @@ public class IncrementalTCMaxLevels extends Console {
 		String withCoins = "-vis off -lb on -lca off -lco on -lde off -le off -lf off -lg off -lhs off -ltb off";
 		String withGaps = "-vis off -lb on -lca off -lco on -lde off -le off -lf off -lg on -lhs off -ltb off";
 		String deadEnds ="-vis off -lb on -lca off -lco on -lde on -le off -lf off -lg on -lhs off -ltb off";
-		String withTubes = "-vis off -lb on -lca off -lco on -lde on -le off -lf off -lg on -lhs off -ltb on";
+		String withTubes = "-vis off -lb on -lca off -lco on -lde off -le off -lf off -lg on -lhs off -ltb on";
 		String withFrozenEnemies = "-vis off -lb on -lca off -lco on -lde on -le on -lf off -lg on -lhs off -ltb on -fc on";
 		String everything ="-vis off -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
