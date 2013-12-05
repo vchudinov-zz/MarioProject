@@ -14,11 +14,12 @@ import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.NoJumpEvaluator;
 import vikrasim.evolution.training.trainers.AverageTrainer;
 import vikrasim.evolution.training.trainers.IncrementalTrainer;
+import vikrasim.evolution.training.trainers.IncrementalTrainerMaxLevels;
 import vikrasim.genomeFileCreation.FileCreater;
 
-public class IncrementalTC extends Console {
+public class IncrementalTCMaxLevels extends Console {
 
-	public IncrementalTC(String nameOfExperiment, int maxNumberOfGenerations,
+	public IncrementalTCMaxLevels(String nameOfExperiment, int maxNumberOfGenerations,
 			boolean stopOnFirstGoodOrganism, double errorThreshold, String rootDataFolder) {
 		super(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism,
 				errorThreshold, rootDataFolder );
@@ -27,17 +28,19 @@ public class IncrementalTC extends Console {
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
-		String nameOfExperiment = "Full training";
+		String nameOfExperiment = "Training environment";
 		int maxNumberOfGenerations = 5000;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
 		double winnerPercentageThreshold = 0.01;
+		int maxDifficulty = 5;
 		
 		//Info about agent (if used)
 		int zLevelEnemies = 1;
 		int zLevelScene = 1;
 		int scannerLength = 7;
 		int scannerHeight = 7;
+
 		
 		//Simon Laptop
 		//String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
@@ -52,16 +55,16 @@ public class IncrementalTC extends Console {
 		//String rootDataFolder = new File("").getAbsolutePath() + "/NEAT data";
 		
 	
-		IncrementalTC tc = new IncrementalTC(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold, rootDataFolder);
+		IncrementalTCMaxLevels tc = new IncrementalTCMaxLevels(nameOfExperiment, maxNumberOfGenerations, stopOnFirstGoodOrganism, errorThreshold, rootDataFolder);
 		
 		tc.createMissingParameterFile();
 		
 		MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
-		tc.train(agent, winnerPercentageThreshold);
+		tc.train(agent, winnerPercentageThreshold, maxDifficulty);
 	}	
 	
 	
-	private String[][] createTrainingSets(){
+	private String[] createTrainingSets(){
 		//Old levels
 		/*
 		String noEnemies = "-vis off -ls 20 -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
@@ -81,28 +84,21 @@ public class IncrementalTC extends Console {
 		String withFrozenEnemies = "-vis off -lb on -lca off -lco on -lde on -le on -lf off -lg on -lhs off -ltb on -fc on";
 		String everything ="-vis off -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
-		String[] levels = {flatNoBlock, flatBlocks, withCoins, withGaps, withTubes };
+		String[] levels = {flatNoBlock, flatBlocks, withCoins, withGaps, withTubes};
 		
-		int startDifficulty = 0;
-		int maxDifficulty = 5;
-		int numberOfDifferentLevels = 5;
+		int numberOfDifferentLevels = 3;
 
-		String[][] s = new String[maxDifficulty][levels.length
-				* numberOfDifferentLevels];
-
-		for (int i = 0; i < maxDifficulty; i++) {
-			for (int j = 0; j < levels.length; j++) {
-				for (int k = 0; k < numberOfDifferentLevels; k++) {
-					s[i][j * numberOfDifferentLevels + k] = levels[j] + " -ld "
-							+ (i + startDifficulty) + " -ls " + ((k + 1) * 15);
-				}
+		String[] s = new String[levels.length* numberOfDifferentLevels];
+		for (int i = 0; i < levels.length; i++){
+			for (int j = 0; j < numberOfDifferentLevels; j++){
+				s[i * numberOfDifferentLevels + j] = levels[i] + " -ls " + (j *10);
 			}
-		}
+		}		
 		
 		return s;
 	}		
 	
-	private void train(MasterAgent agent, double winnerPercentageThreshold) throws IOException{
+	private void train(MasterAgent agent, double winnerPercentageThreshold, int maxDifficulty) throws IOException{
 		String levelParameters = "";
 		
 		//Create evaluator		
@@ -110,11 +106,11 @@ public class IncrementalTC extends Console {
 				
 		//Create trainer
 		String delimiter = new File("").separator;
-		IncrementalTrainer t = new IncrementalTrainer(parameterFileName, debugParameterFileName, genomeFileName, genomeBackupFileName, lastPopulationInfoFileName, generationInfoFolder, winnerFolder, nameOfExperiment, maxNumberOfGenerations, evaluator, delimiter);
+		IncrementalTrainerMaxLevels t = new IncrementalTrainerMaxLevels(parameterFileName, debugParameterFileName, genomeFileName, genomeBackupFileName, lastPopulationInfoFileName, generationInfoFolder, winnerFolder, nameOfExperiment, maxNumberOfGenerations, evaluator, delimiter);
 				
 		//Train network
-		String[][] trainingSets = createTrainingSets();
-		t.trainNetwork(trainingSets, winnerPercentageThreshold, agent);
+		String[] trainingSets = createTrainingSets();
+		t.trainNetwork(trainingSets, winnerPercentageThreshold, agent, maxDifficulty);
 	}
 	
 	private MasterAgent setupAgent(int zLevelEnemies, int zLevelScene, 

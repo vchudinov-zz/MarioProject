@@ -36,10 +36,10 @@ public class RewardTC extends Console {
 		//String rootDataFolder = "C:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
 		
 		//Simon Desktop
-		//String rootDataFolder = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
+		String rootDataFolder = "D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data";
 		
 		//Victor
-		String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
+		//String rootDataFolder = new File("").getAbsolutePath() + "\\NEAT data";
 		
 		//Krasimira
 		//String rootDataFolder = new File("").getAbsolutePath() + "/NEAT data";
