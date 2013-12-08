@@ -209,7 +209,7 @@ public class AverageTrainer {
 		System.out.println();
 		System.out.println("Winner percentage: " + winnerPercentage);
 		
-		if (winnerPercentage > percentageThreshold){
+		if (winnerPercentage >= percentageThreshold){
 			return true;
 		}
 		

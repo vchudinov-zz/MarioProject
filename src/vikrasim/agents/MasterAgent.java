@@ -7,6 +7,7 @@ import ch.idsia.agents.controllers.BasicMarioAIAgent;
 public abstract class MasterAgent extends BasicMarioAIAgent implements Agent {
 	Organism brain;
 	String genomeFileName;
+	boolean isOnGround;
 
 	public MasterAgent(String agentName, String genomeFileName, int zLevelEnemies, int zLevelScene) {
 		super(agentName);
@@ -41,5 +42,8 @@ public abstract class MasterAgent extends BasicMarioAIAgent implements Agent {
 	public abstract void create();	
 	
 	public abstract void createBrain();
-
+	
+	public boolean isOnGround() {
+		return isOnGround;
+	}
 }

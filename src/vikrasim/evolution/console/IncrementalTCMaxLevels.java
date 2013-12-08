@@ -28,12 +28,16 @@ public class IncrementalTCMaxLevels extends Console {
 	public static void main(String[] args) throws IOException {
 		
 		//Info about experiment
-		String nameOfExperiment = "Training environment";
+		String nameOfExperiment = "Training environment No Jump 3 cont";
 		int maxNumberOfGenerations = 5000;
 		boolean stopOnFirstGoodOrganism = false;
 		double errorThreshold = 0.1;
-		double winnerPercentageThreshold = 0.01;
+		double winnerPercentageThreshold = 0.02;
 		int maxDifficulty = 5;
+		
+		//Used when starting from earlier generation
+		int startingNumberOfLevels = 13;
+		int minDifficulty = 2;
 		
 		//Info about agent (if used)
 		int zLevelEnemies = 1;
@@ -60,7 +64,7 @@ public class IncrementalTCMaxLevels extends Console {
 		tc.createMissingParameterFile();
 		
 		MasterAgent agent = tc.setupAgent(zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
-		tc.train(agent, winnerPercentageThreshold, maxDifficulty);
+		tc.train(agent, winnerPercentageThreshold, maxDifficulty, minDifficulty, startingNumberOfLevels);
 	}	
 	
 	
@@ -98,11 +102,11 @@ public class IncrementalTCMaxLevels extends Console {
 		return s;
 	}		
 	
-	private void train(MasterAgent agent, double winnerPercentageThreshold, int maxDifficulty) throws IOException{
+	private void train(MasterAgent agent, double winnerPercentageThreshold, int maxDifficulty, int minDifficulty, int startingNumberOfLevels) throws IOException{
 		String levelParameters = "";
 		
 		//Create evaluator		
-		MasterEvaluator evaluator = new IncrementalEvaluator(levelParameters, agent);
+		MasterEvaluator evaluator = new NoJumpEvaluator(levelParameters, agent);
 				
 		//Create trainer
 		String delimiter = new File("").separator;
@@ -110,7 +114,13 @@ public class IncrementalTCMaxLevels extends Console {
 				
 		//Train network
 		String[] trainingSets = createTrainingSets();
-		t.trainNetwork(trainingSets, winnerPercentageThreshold, agent, maxDifficulty);
+		
+		//Train from earlier population
+		String populationFile ="D:\\Users\\Simon\\Documents\\MarioFun\\NEAT data\\Training data\\Training environment No Jump 3\\Generation Info\\Dif 2 levels 13\\g_000310";
+		t.trainNetwork(trainingSets, winnerPercentageThreshold, agent, maxDifficulty, populationFile, minDifficulty, startingNumberOfLevels);
+	
+		//Train from starter genome
+		//t.trainNetwork(trainingSets, winnerPercentageThreshold, agent, maxDifficulty);
 	}
 	
 	private MasterAgent setupAgent(int zLevelEnemies, int zLevelScene, 

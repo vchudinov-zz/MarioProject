@@ -6,9 +6,9 @@ import ch.idsia.benchmark.mario.environments.MarioEnvironment;
 import jneat.evolution.Organism;
 import vikrasim.agents.MasterAgent;
 
-public class NoJumpEvaluator extends MasterEvaluator {
+public class RewardEvaluator extends MasterEvaluator {
 
-	public NoJumpEvaluator(String levelParameters, MasterAgent agent) {
+	public RewardEvaluator(String levelParameters, MasterAgent agent) {
 		super(levelParameters, agent);
 	}
 	
@@ -48,48 +48,36 @@ public class NoJumpEvaluator extends MasterEvaluator {
 		    double kills,coins,time,shrooms,mode,distance;
 		    //shell,stomp,fire;
 		    int[] ev = null;
-		    boolean[] actions;
-		    int numberOfNoJumps = 0;
-		    
 		    while (!environment.isLevelFinished() && ticks < maxTicks){	
 		    	environment.tick(); //Execute one tick in the game //STC
 		    	agent.integrateObservation(environment);
-		    	actions = agent.getAction();
-		        environment.performAction(actions);
-		        
+		        environment.performAction(agent.getAction());
 		        ev = environment.getEvaluationInfoAsInts();
 		        if (ev[0] > oldDistance){
 		        	maxTicks += (ev[0] - oldDistance) * 10;
-		        	oldDistance = ev[0];
-		        	
-		        	if(agent.isOnGround()){
-			        	numberOfNoJumps++;
-			        }
+		        	oldDistance = ev[0];		        	
 		        }
 		        ticks++;
 		    }
 		    
 		    //Blocks travelled 
-		    //kills = ev[6]*0.75;
-		    //coins = ev[10]*0.75;
-		    time = ev[11];
-		    //shrooms = ev[9]*10;
-		    mode = ev[7]+1;
-		    distance = ev[0];
-		    double localFitness = distance + numberOfNoJumps;
-		    
-		    
-		    //localFitness += (kills + coins + shrooms + mode)/4;
+		    double localFitness = ev[0];
+		    kills = ev[6]*0.8;
+		    coins = ev[10]*0.75;
+		    shrooms = ev[9]*10;
+		    //mode = ev[7]+1;
+		    localFitness += kills + coins + shrooms;
 		    int status = environment.getMarioStatus();
 		    
 		    if (status== Mario.STATUS_WIN){
-		    	localFitness = localFitness + time + mode * 100;
 		    	organism.setWinner(true);
-		    } else{
+		    } 
+		    else{
 		    	finishedAllLevels = false;
 		    	organism.setWinner(false);
 		    }
-		    totalFitness += localFitness;		    
+		    totalFitness += localFitness;
+		    
 	    }
 		
 		double fitness = totalFitness; // (double) trainingSet.length;

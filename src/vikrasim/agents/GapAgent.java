@@ -27,7 +27,6 @@ public class GapAgent extends MasterAgent implements Agent {
 	ArrayList<MasterScanner> scanners;
 	int scannerLength;
 	int scannerHeight;
-	
 		
 	public GapAgent(String agentName, String genomeFileName, int zLevelEnemies, int zLevelScene, 
 			int scannerLength, int scannerHeight) {
@@ -172,6 +171,8 @@ public class GapAgent extends MasterAgent implements Agent {
 			}
 			network.flush();
 		}
+		
+		isOnGround = isMarioOnGround;
 		
 		return action;
 	}
