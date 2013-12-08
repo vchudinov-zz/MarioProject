@@ -36,10 +36,15 @@ public class Judge {
 	}
 
 	private void startCompetition() {
-
+		int numberOfLevels = 1000; //Number of different levels to test on
+		int minDifficulty = 0; //Min possible difficulty
+		int maxDifficulty = 2; //Max possible difficulty
+		Evaluator eval = new FormularSimon(); //Evaluator used to score agents
+		
+		
 		// Create levels
 		String[] possibleLevels = getPossibleLevels();
-		String[] levels = createLevelsToTestOn(1000, possibleLevels, 0, 2);
+		String[] levels = createLevelsToTestOn(numberOfLevels, possibleLevels, minDifficulty, maxDifficulty);
 
 		// Get list of participants
 		Vector<Agent> agentList = readyAgents();
@@ -54,7 +59,7 @@ public class Judge {
 			String testLevel = levels[i];
 			for (int j = 0; j < agentList.size(); j++) {
 				Agent a = agentList.get(j);
-				results[i][j] = runSimulation(a, testLevel);
+				results[i][j] = runSimulation(a, testLevel, eval);
 			}
 		}
 		
@@ -64,7 +69,7 @@ public class Judge {
 
 	}
 
-	private double runSimulation(Agent a, String levelOptions) {
+	private double runSimulation(Agent a, String levelOptions, Evaluator eval) {
 		// Create new environment with chosen parameters
 		Environment environment = MarioEnvironment.getInstance();
 		environment.reset(levelOptions);
@@ -75,8 +80,6 @@ public class Judge {
 		}
 		
 		//Test if agent completed the level
-		Evaluator eval = new FormularSimon();
-		
 		return eval.evaluate(environment);
 	}
 
