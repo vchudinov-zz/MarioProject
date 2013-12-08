@@ -107,11 +107,13 @@ public class Judge {
 		int numberOfDifferentLevels = levelsToChooseFrom.length;
 		int difficulty;
 		int levelIndex;
+		int levelSeed;
 
 		for (int i = 0; i < totalNumberOfLevels; i++) {
 			difficulty = rand.nextInt(maxDifficulty + 1) + minDifficulty;
 			levelIndex = rand.nextInt(numberOfDifferentLevels);
-			levels[i] = levelsToChooseFrom[levelIndex] + " -ld " + difficulty;
+			levelSeed = rand.nextInt();
+			levels[i] = levelsToChooseFrom[levelIndex] + " -ld " + difficulty + " -ls " + levelSeed;
 		}
 
 		return levels;
