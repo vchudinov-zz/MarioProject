@@ -54,13 +54,13 @@ public class Judge {
 		// Run competition, testing survival
 		eval = new EvalSurvival(); //Evaluator used to score agents
 		double[][] resultsSurvival = runCompetitionRound(agentList, levels, eval);
-		fileName = "C:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\ResultsCompetition results Survival ld2 everything.csv";
+		fileName = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\ResultsCompetition results Survival ld2 everything.csv";
 		writeResultsToFile(fileName, agentList, resultsSurvival);
 		
 		//Run competition, testing score (length of levels)
 		eval = new EvalLength(); //Evaluator used to score agents
 		double[][] resultsScore = runCompetitionRound(agentList, levels, eval);
-		fileName = "C:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\ResultsCompetition results Length ld2 everything.csv";
+		fileName = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\ResultsCompetition results Length ld2 everything.csv";
 		writeResultsToFile(fileName, agentList, resultsScore);
 	}
 	
@@ -144,55 +144,56 @@ public class Judge {
 		int height;
 	
 		//Create our agents
-		/*	
+		
 		//Krasimira
-			file = "C:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Krasimira\\Gap Experiment gen 48 best";
+		//Gap 1
+			file = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Krasimira\\Gap Experiment gen 48 best";
 			name ="Gap1";
 			lenght = 7;
 			height = 7;
 			addOurAgent(file, name, lenght, height, agentList);
-		*/
+		
 			//Simon
-				//Agent 1
-			/*
-				file = "C:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Simon\\1 Special design RewardNoJump 2 gen 163 best";
+				//Gap 2
+			
+				file = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Simon\\1 Special design RewardNoJump 2 gen 163 best";
 				name ="Gap2";
 				lenght = 7;
 				height = 7;
 				addOurAgent(file, name, lenght, height, agentList);
 				
-				//Agent 2
-				file = "C:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Simon\\2 Special design NoJump gen 566 best";
+				//Gap 3
+				file = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Simon\\2 Special design NoJump gen 566 best";
 				name ="Gap3";
 				lenght = 7;
 				height = 7;
 				addOurAgent(file, name, lenght, height, agentList);
-				*/
-				//Agent 3
-				file = "C:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Simon\\3 Training environment cont gen 172 best";
+				
+				//Gap 4
+				file = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Simon\\3 Training environment cont gen 172 best";
 				name ="Gap4";
 				lenght = 7;
 				height = 7;
 				addOurAgent(file, name, lenght, height, agentList);
-			/*
-				//Agent 4
-				file = "C:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Simon\\4 Training environment No Jump 3 gen 310 best";
+			
+				//Gap 5
+				file = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Simon\\4 Training environment No Jump 3 gen 310 best";
 				name ="Gap5";
 				lenght = 7;
 				height = 7;
 				addOurAgent(file, name, lenght, height, agentList);
 		
-		/*
+		
 			//Viktor
-				//Agent 5
-				file = "C:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Viktor\\Gap Experiment gen 77 best";
+				//Gap 6
+				file = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Viktor\\Gap Experiment gen 77 best";
 				name ="Gap6";
 				lenght = 8;
 				height = 7;
 				addOurAgent(file, name, lenght, height, agentList);
 				
-				//Agent 6
-				file = "C:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Viktor\\Mario_NEAT_Agent_Final gen 234 best";
+				//Gap 7
+				file = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Viktor\\Mario_NEAT_Agent_Final gen 234 best";
 				name ="Gap7";
 				lenght = 8;
 				height = 7;
@@ -207,17 +208,17 @@ public class Judge {
 		Agent agentForward = new ForwardAgent();
 		agentForward.setName("AgentForward");
 		agentList.add(agentForward);
-*/
+
 		// Create ForwardJumpingAgent
 		Agent agentForwardJumping = new ForwardJumpingAgent();
 		agentForwardJumping.setName("AgentForwardJumping");
 		agentList.add(agentForwardJumping);
-/*
+
 		// Create RandomAgent
 		Agent agentRandom = new RandomAgent();
 		agentRandom.setName("AgentRandom");
 		agentList.add(agentRandom);
-		*/
+		
 		return agentList;
 	}
 

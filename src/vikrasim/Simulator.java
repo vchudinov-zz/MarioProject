@@ -4,7 +4,6 @@ package vikrasim;
 import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
-import vikrasim.agents.AgentScannerNEATGap;
 import vikrasim.agents.GapAgent;
 import vikrasim.agents.MasterAgent;
 import ch.idsia.agents.Agent;
@@ -29,7 +28,7 @@ public class Simulator {
 				String everything ="-vis off -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 		
 		//Write parameters to use in simulation
-		String options = "-vis off -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
+		String options = "-vis on -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
 		options = options;
 		//options = "-ls 20 -vis on";
 		System.out.print(options);
@@ -39,8 +38,8 @@ public class Simulator {
 	    environment.reset(options);
 	    
 	    //Create new agent
-	    String file = "D:\\Users\\Simon\\Dropbox\\MarioFun\\NEAT data\\Training data\\Special design RewardNoJump\\Winners\\Dif 0 levels 1\\Special design RewardNoJump gen 1 best";
-	    MasterAgent agent = new GapAgent("ThisRocks", file,1,1,7,7);
+	    String file = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Simon\\5 Triathlon 3 gen 732 best";
+	    MasterAgent agent = new AgentScannerNEAT("ThisRocks", file,1,1,7,7);
 	    agent.createBrain();
 	    
 	    //Visualize the agent

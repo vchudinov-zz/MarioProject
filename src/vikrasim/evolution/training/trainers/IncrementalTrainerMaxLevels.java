@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 import vikrasim.agents.MasterAgent;
-import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import jneat.Neat;
 import jneat.evolution.Population;

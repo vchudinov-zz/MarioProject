@@ -14,7 +14,6 @@ import jneat.evolution.Population;
 import jneat.evolution.Species;
 import jneat.neuralNetwork.Genome;
 import vikrasim.agents.MasterAgent;
-import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 
 public class AverageTrainer {

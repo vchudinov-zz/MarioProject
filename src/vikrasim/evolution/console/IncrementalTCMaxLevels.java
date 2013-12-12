@@ -4,11 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
-import vikrasim.agents.AgentScannerNEATGap;
-import vikrasim.agents.AgentScannerNEATSlow;
 import vikrasim.agents.GapAgent;
 import vikrasim.agents.MasterAgent;
-import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.IncrementalEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.NoJumpEvaluator;

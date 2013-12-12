@@ -4,8 +4,6 @@ package vikrasim;
 import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
-import vikrasim.agents.AgentScannerNEATGap;
-import vikrasim.agents.AgentScannerNEATSlow;
 import vikrasim.agents.GapAgent;
 import vikrasim.agents.MasterAgent;
 import ch.idsia.agents.Agent;
@@ -64,9 +62,7 @@ public class ExternalSimulator {
 		} else if (agentType.equalsIgnoreCase("GapAgent")){
 			agent = new GapAgent(agentName, genomeFile,zLevelEnemies,zLevelScene,scannerLength,scannerHeight);
 		
-		} else if (agentType.equalsIgnoreCase("AgentScannerNEATSlow")){
-			agent = new AgentScannerNEATSlow(agentName, genomeFile,zLevelEnemies,zLevelScene,scannerLength,scannerHeight);
-		}
+		} 
 			
 		return agent;
 	}

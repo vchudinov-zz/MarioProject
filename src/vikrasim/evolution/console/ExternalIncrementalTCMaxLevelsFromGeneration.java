@@ -7,11 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
-import vikrasim.agents.AgentScannerNEATGap;
-import vikrasim.agents.AgentScannerNEATSlow;
 import vikrasim.agents.GapAgent;
 import vikrasim.agents.MasterAgent;
-import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.IncrementalEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.NoJumpEvaluator;
@@ -82,9 +79,7 @@ public class ExternalIncrementalTCMaxLevelsFromGeneration extends Console {
 		} else if (agentType.equalsIgnoreCase("GapAgent")){
 			agent = new GapAgent(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		
-		} else if (agentType.equalsIgnoreCase("AgentScannerNEATSlow")){
-			agent = new AgentScannerNEATSlow(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
-		}
+		} 
 			
 		return agent;
 	}
@@ -133,10 +128,7 @@ public class ExternalIncrementalTCMaxLevelsFromGeneration extends Console {
 		
 		//Create evaluator
 				MasterEvaluator evaluator =null;
-				if (typeOfEvaluator.equalsIgnoreCase("AverageEvaluator")){
-					evaluator = new AverageEvaluator(levelParameters, agent);
-					
-				} else if (typeOfEvaluator.equalsIgnoreCase("IncrementalEvaluator")){
+				if (typeOfEvaluator.equalsIgnoreCase("IncrementalEvaluator")){
 					evaluator = new IncrementalEvaluator(levelParameters, agent);
 					
 				} else if (typeOfEvaluator.equalsIgnoreCase("NoJumpEvaluator")){

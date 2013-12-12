@@ -55,7 +55,7 @@ protected int[] marioState = null;
 
 protected int marioStatus;
 protected int marioMode;
-protected boolean isMarioOnGround;
+public boolean isMarioOnGround;
 protected boolean isMarioAbleToJump;
 protected boolean isMarioAbleToShoot;
 protected boolean isMarioCarrying;

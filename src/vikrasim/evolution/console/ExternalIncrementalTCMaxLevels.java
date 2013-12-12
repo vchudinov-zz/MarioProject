@@ -7,15 +7,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import vikrasim.agents.AgentScannerNEAT;
-import vikrasim.agents.AgentScannerNEATGap;
-import vikrasim.agents.AgentScannerNEATSlow;
 import vikrasim.agents.GapAgent;
 import vikrasim.agents.MasterAgent;
-import vikrasim.evolution.training.evaluators.AverageEvaluator;
 import vikrasim.evolution.training.evaluators.IncrementalEvaluator;
 import vikrasim.evolution.training.evaluators.MasterEvaluator;
 import vikrasim.evolution.training.evaluators.NoJumpEvaluator;
-import vikrasim.evolution.training.evaluators.RewardNoJumpEvaluator;
 import vikrasim.evolution.training.evaluators.RewardEvaluator;
 import vikrasim.evolution.training.trainers.AverageTrainer;
 import vikrasim.evolution.training.trainers.IncrementalTrainer;
@@ -79,9 +75,7 @@ public class ExternalIncrementalTCMaxLevels extends Console {
 		} else if (agentType.equalsIgnoreCase("GapAgent")){
 			agent = new GapAgent(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
 		
-		} else if (agentType.equalsIgnoreCase("AgentScannerNEATSlow")){
-			agent = new AgentScannerNEATSlow(nameOfExperiment, genomeFileName, zLevelEnemies, zLevelScene, scannerLength, scannerHeight);
-		}
+		} 
 			
 		return agent;
 	}
@@ -130,10 +124,7 @@ public class ExternalIncrementalTCMaxLevels extends Console {
 		
 		//Create evaluator
 				MasterEvaluator evaluator =null;
-				if (typeOfEvaluator.equalsIgnoreCase("AverageEvaluator")){
-					evaluator = new AverageEvaluator(levelParameters, agent);
-					
-				} else if (typeOfEvaluator.equalsIgnoreCase("IncrementalEvaluator")){
+				if (typeOfEvaluator.equalsIgnoreCase("IncrementalEvaluator")){
 					evaluator = new IncrementalEvaluator(levelParameters, agent);
 					
 				} else if (typeOfEvaluator.equalsIgnoreCase("NoJumpEvaluator")){
@@ -142,8 +133,6 @@ public class ExternalIncrementalTCMaxLevels extends Console {
 				} else if (typeOfEvaluator.equalsIgnoreCase("RewardEvaluator")){
 					evaluator = new RewardEvaluator(levelParameters, agent);
 					
-				} else if (typeOfEvaluator.equalsIgnoreCase("RewardNoJumpEvaluator")){
-					evaluator = new RewardNoJumpEvaluator(levelParameters, agent);
 				} 
 				
 		//Create trainer
