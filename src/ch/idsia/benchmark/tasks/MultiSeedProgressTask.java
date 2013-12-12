@@ -31,75 +31,63 @@ import ch.idsia.agents.Agent;
 import ch.idsia.tools.MarioAIOptions;
 
 /**
- * Created by IntelliJ IDEA.
- * User: julian
- * Date: May 23, 2009
- * Time: 11:37:47 PM
+ * Created by IntelliJ IDEA. User: julian Date: May 23, 2009 Time: 11:37:47 PM
  */
 
-public class MultiSeedProgressTask extends BasicTask implements Task
-{
-private MarioAIOptions options;
-private int startingSeed = 0;
-private int numberOfSeeds = 3;
+public class MultiSeedProgressTask extends BasicTask implements Task {
+	private MarioAIOptions options;
+	private int startingSeed = 0;
+	private int numberOfSeeds = 3;
 
-public MultiSeedProgressTask(MarioAIOptions evaluationOptions)
-{
-    super(evaluationOptions);
-    setOptionsAndReset(evaluationOptions);
-}
+	public MultiSeedProgressTask(MarioAIOptions evaluationOptions) {
+		super(evaluationOptions);
+		setOptionsAndReset(evaluationOptions);
+	}
 
-public int evaluate(Agent controller)
-{
-    float distanceTravelled = 0;
+	public int evaluate(Agent controller) {
+		float distanceTravelled = 0;
 
-    options.setAgent(controller);
-//        this.setAgent(controller);
+		options.setAgent(controller);
+		// this.setAgent(controller);
 
-    for (int i = 0; i < numberOfSeeds; i++)
-    {
-        controller.reset();
-        options.setLevelRandSeed(startingSeed + i);
-//        this.reset(options);
-        this.runSingleEpisode(1);
-        distanceTravelled += this.getEnvironment().getEvaluationInfo().computeDistancePassed();
-    }
-    distanceTravelled = distanceTravelled / numberOfSeeds;
-    return (int) distanceTravelled;
-}
+		for (int i = 0; i < numberOfSeeds; i++) {
+			controller.reset();
+			options.setLevelRandSeed(startingSeed + i);
+			// this.reset(options);
+			this.runSingleEpisode(1);
+			distanceTravelled += this.getEnvironment().getEvaluationInfo()
+					.computeDistancePassed();
+		}
+		distanceTravelled = distanceTravelled / numberOfSeeds;
+		return (int) distanceTravelled;
+	}
 
-public void setStartingSeed(int seed)
-{
-    startingSeed = seed;
-}
+	public void setStartingSeed(int seed) {
+		startingSeed = seed;
+	}
 
-public void setNumberOfSeeds(int number)
-{
-    numberOfSeeds = number;
-}
+	public void setNumberOfSeeds(int number) {
+		numberOfSeeds = number;
+	}
 
-public void setOptionsAndReset(MarioAIOptions options)
-{
-    this.options = options;
-}
+	public void setOptionsAndReset(MarioAIOptions options) {
+		this.options = options;
+	}
 
-public MarioAIOptions getOptions()
-{
-    return options;
-}
+	public MarioAIOptions getOptions() {
+		return options;
+	}
 
-public void doEpisodes(int amount, boolean verbose, final int repetitionsOfSingleEpisode)
-{
+	public void doEpisodes(int amount, boolean verbose,
+			final int repetitionsOfSingleEpisode) {
 
-}
+	}
 
-public boolean isFinished()
-{
-    return true;
-}
+	public boolean isFinished() {
+		return true;
+	}
 
-public void reset()
-{
+	public void reset() {
 
-}
+	}
 }

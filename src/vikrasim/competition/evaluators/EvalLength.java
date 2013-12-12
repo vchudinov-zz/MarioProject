@@ -7,12 +7,12 @@ public class EvalLength implements Evaluator {
 	@Override
 	public double evaluate(Environment environment) {
 		int ev[] = environment.getEvaluationInfoAsInts();
-		
-	    double distance = ev[0];
-	    double localFitness = distance;
-	    
-	    return localFitness;
-	    
+
+		double distance = ev[0];
+		double localFitness = distance;
+
+		return localFitness;
+
 	}
 
 }

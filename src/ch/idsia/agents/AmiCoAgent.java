@@ -31,123 +31,112 @@ import ch.idsia.benchmark.mario.environments.Environment;
 import ch.idsia.tools.amico.AmiCoJavaPy;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey at idsia dot ch
- * Date: Dec 11, 2009
- * Time: 8:29:15 PM
- * Package: ch.idsia.controllers.agents
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy, sergey at idsia dot ch
+ * Date: Dec 11, 2009 Time: 8:29:15 PM Package: ch.idsia.controllers.agents
  */
-public class AmiCoAgent implements Agent
-{
-static AmiCoJavaPy amicoJavaPy = null;
-private final String moduleName;
-private final String className;
-private Environment env;
+public class AmiCoAgent implements Agent {
+	static AmiCoJavaPy amicoJavaPy = null;
+	private final String moduleName;
+	private final String className;
+	private Environment env;
 
-public AmiCoAgent(String amicoModuleName)
-{
-    //xxxxx.xxxx.xxx.className.py
-    //tmp contains all the string except .py
-    String tmp = amicoModuleName.substring(0, amicoModuleName.lastIndexOf(".py"));
-    int lastPoint = tmp.lastIndexOf(".");
-    //className
-    this.className = tmp.substring(lastPoint + 1);
-    //xxxxx.xxxx.xxx
-    this.moduleName = tmp.substring(0, lastPoint);
-    this.reset();
-}
+	public AmiCoAgent(String amicoModuleName) {
+		// xxxxx.xxxx.xxx.className.py
+		// tmp contains all the string except .py
+		String tmp = amicoModuleName.substring(0,
+				amicoModuleName.lastIndexOf(".py"));
+		int lastPoint = tmp.lastIndexOf(".");
+		// className
+		this.className = tmp.substring(lastPoint + 1);
+		// xxxxx.xxxx.xxx
+		this.moduleName = tmp.substring(0, lastPoint);
+		this.reset();
+	}
 
-@Deprecated
-public void integrateObservation(int[] serializedLevelSceneObservationZ, int[] serializedEnemiesObservationZ, float[] marioFloatPos, float[] enemiesFloatPos, int[] marioState)
-{
-    amicoJavaPy.integrateObservation(serializedLevelSceneObservationZ, serializedEnemiesObservationZ, marioFloatPos, enemiesFloatPos, marioState);
-}
+	@Deprecated
+	public void integrateObservation(int[] serializedLevelSceneObservationZ,
+			int[] serializedEnemiesObservationZ, float[] marioFloatPos,
+			float[] enemiesFloatPos, int[] marioState) {
+		amicoJavaPy.integrateObservation(serializedLevelSceneObservationZ,
+				serializedEnemiesObservationZ, marioFloatPos, enemiesFloatPos,
+				marioState);
+	}
 
-public boolean[] getAction()
-{
-    int ZLevelScene = 1;
-    int ZLevelEnemies = 0;
-    // Default hardcoded values for ZLevels used by now
-    // Will use extra values from int[] action in future to tailor the representation of levels
-    byte[][] levelScene = env.getLevelSceneObservationZ(ZLevelScene);
-    byte[][] enemies = env.getEnemiesObservationZ(ZLevelEnemies);
-    int rows = env.getReceptiveFieldHeight();
-    int cols = env.getReceptiveFieldWidth();
-    int[] squashedLevelScene = new int[rows * cols];
-    int[] squashedEnemies = new int[enemies.length * enemies[0].length];
+	public boolean[] getAction() {
+		int ZLevelScene = 1;
+		int ZLevelEnemies = 0;
+		// Default hardcoded values for ZLevels used by now
+		// Will use extra values from int[] action in future to tailor the
+		// representation of levels
+		byte[][] levelScene = env.getLevelSceneObservationZ(ZLevelScene);
+		byte[][] enemies = env.getEnemiesObservationZ(ZLevelEnemies);
+		int rows = env.getReceptiveFieldHeight();
+		int cols = env.getReceptiveFieldWidth();
+		int[] squashedLevelScene = new int[rows * cols];
+		int[] squashedEnemies = new int[enemies.length * enemies[0].length];
 
-    // serialization into arrays of primitive types to speed up the data transfer.
-    for (int i = 0; i < squashedLevelScene.length; ++i)
-    {
-        squashedLevelScene[i] = levelScene[i / cols][i % rows];
-        squashedEnemies[i] = enemies[i / cols][i % rows];
-    }
-    float[] marioPos = env.getMarioFloatPos();
-    float[] enemiesPos = env.getEnemiesFloatPos();
-    int[] marioState = env.getMarioState();
+		// serialization into arrays of primitive types to speed up the data
+		// transfer.
+		for (int i = 0; i < squashedLevelScene.length; ++i) {
+			squashedLevelScene[i] = levelScene[i / cols][i % rows];
+			squashedEnemies[i] = enemies[i / cols][i % rows];
+		}
+		float[] marioPos = env.getMarioFloatPos();
+		float[] enemiesPos = env.getEnemiesFloatPos();
+		int[] marioState = env.getMarioState();
 
-    amicoJavaPy.integrateObservation(squashedLevelScene, squashedEnemies, marioPos, enemiesPos, marioState);
+		amicoJavaPy.integrateObservation(squashedLevelScene, squashedEnemies,
+				marioPos, enemiesPos, marioState);
 
-    int[] action = amicoJavaPy.getAction();
+		int[] action = amicoJavaPy.getAction();
 
-    boolean[] ret = new boolean[action.length];
-    for (int i = 0; i < action.length; ++i)
-        ret[i] = (action[i] != 0);
-    return ret;
-}
+		boolean[] ret = new boolean[action.length];
+		for (int i = 0; i < action.length; ++i)
+			ret[i] = (action[i] != 0);
+		return ret;
+	}
 
-public void integrateObservation(Environment environment)
-{
-    this.env = environment;
-}
+	public void integrateObservation(Environment environment) {
+		this.env = environment;
+	}
 
-public void giveIntermediateReward(float intermediateReward)
-{
-    amicoJavaPy.giveIntermediateReward(intermediateReward);
-}
+	public void giveIntermediateReward(float intermediateReward) {
+		amicoJavaPy.giveIntermediateReward(intermediateReward);
+	}
 
-public void reset()
-{
-    if (amicoJavaPy == null)
-    {
-        System.out.println("Java: Initialize AmiCo");
-        amicoJavaPy = new AmiCoJavaPy(moduleName, className);
-        if (amicoJavaPy != null)
-            System.out.println("Java: Initialize AmiCo");
-        else
-            throw new Error("AmiCoJavaPy not initialized");
-    } else
-    {
-        amicoJavaPy.reset();
-//            System.out.println("Java: AmiCo is already initialized");
-    }
-}
+	public void reset() {
+		if (amicoJavaPy == null) {
+			System.out.println("Java: Initialize AmiCo");
+			amicoJavaPy = new AmiCoJavaPy(moduleName, className);
+			if (amicoJavaPy != null)
+				System.out.println("Java: Initialize AmiCo");
+			else
+				throw new Error("AmiCoJavaPy not initialized");
+		} else {
+			amicoJavaPy.reset();
+			// System.out.println("Java: AmiCo is already initialized");
+		}
+	}
 
-public void setObservationDetails(final int rfWidth, final int rfHeight, final int egoRow, final int egoCol)
-{
-    amicoJavaPy.setObservationDetails(rfWidth, rfHeight, egoRow, egoCol);
-}
+	public void setObservationDetails(final int rfWidth, final int rfHeight,
+			final int egoRow, final int egoCol) {
+		amicoJavaPy.setObservationDetails(rfWidth, rfHeight, egoRow, egoCol);
+	}
 
-public String getName()
-{
-    return amicoJavaPy.getName();
-}
+	public String getName() {
+		return amicoJavaPy.getName();
+	}
 
-public void setName(String name)
-{
-    throw new Error("AmiCo agent name cannot be changed");
-}
+	public void setName(String name) {
+		throw new Error("AmiCo agent name cannot be changed");
+	}
 
-protected void finalize() throws Throwable
-{
-    try
-    {
-        if (amicoJavaPy != null)
-            amicoJavaPy.finalizePythonEnvironment();
-    }
-    finally
-    {
-        super.finalize();
-    }
-}
+	protected void finalize() throws Throwable {
+		try {
+			if (amicoJavaPy != null)
+				amicoJavaPy.finalizePythonEnvironment();
+		} finally {
+			super.finalize();
+		}
+	}
 }

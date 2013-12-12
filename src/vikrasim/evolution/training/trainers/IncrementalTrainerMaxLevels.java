@@ -58,8 +58,8 @@ public class IncrementalTrainerMaxLevels extends AverageTrainer {
 
 	public boolean trainNetwork(String[] trainingSets,
 			double winnerPercentageThreshold, MasterAgent agent,
-			int maxDifficulty, String populationFile, int minDifficulty, int startingNumberOfLevels)
-			throws IOException {
+			int maxDifficulty, String populationFile, int minDifficulty,
+			int startingNumberOfLevels) throws IOException {
 		boolean status;
 
 		// Test if all variables have been set
@@ -126,8 +126,8 @@ public class IncrementalTrainerMaxLevels extends AverageTrainer {
 
 	private void experimentSession(MasterAgent agent, int generations,
 			String[] trainingSets, double winnerPercentageThreshold,
-			int maxDifficulty, String populationFile, int minDifficulty, int startingNumberOfLevels)
-			throws IOException {
+			int maxDifficulty, String populationFile, int minDifficulty,
+			int startingNumberOfLevels) throws IOException {
 
 		// Open the file with the starter genome data
 		// Create starter genome
@@ -136,7 +136,8 @@ public class IncrementalTrainerMaxLevels extends AverageTrainer {
 		// Start experiments
 		for (int expCount = 0; expCount < Neat.p_num_runs; expCount++) {
 			runExperiment(populationFile, generations, trainingSets,
-					winnerPercentageThreshold, maxDifficulty, minDifficulty, startingNumberOfLevels);
+					winnerPercentageThreshold, maxDifficulty, minDifficulty,
+					startingNumberOfLevels);
 		}
 
 	}
@@ -217,7 +218,8 @@ public class IncrementalTrainerMaxLevels extends AverageTrainer {
 
 	private void runExperiment(String populationFile, int maxGenerations,
 			String[] trainingSets, double winnerPercentageThreshold,
-			int maxDifficulty, int minDifficulty, int startingNumberOfLevels) throws IOException {
+			int maxDifficulty, int minDifficulty, int startingNumberOfLevels)
+			throws IOException {
 		String mask6 = "000000";
 		DecimalFormat fmt6 = new DecimalFormat(mask6);
 
@@ -263,12 +265,13 @@ public class IncrementalTrainerMaxLevels extends AverageTrainer {
 						System.out.println();
 						System.out.println("Changing difficulty level to "
 								+ difficultyLevel);
-						System.out.println();						
-						//Reset fitness counters
-						//Makes sure that delta coding only happens when really necessary
-						pop.setHighest_last_changed(0); 
+						System.out.println();
+						// Reset fitness counters
+						// Makes sure that delta coding only happens when really
+						// necessary
+						pop.setHighest_last_changed(0);
 						pop.setHighest_fitness(Double.NEGATIVE_INFINITY);
-						
+
 					} else {
 						System.out.println();
 						System.out.println("Adding new level");

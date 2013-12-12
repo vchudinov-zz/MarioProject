@@ -40,209 +40,191 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey.karakovskiy@gmail.com
- * Date: Aug 28, 2010
- * Time: 10:30:34 PM
- * Package: ch.idsia.unittests
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy,
+ * sergey.karakovskiy@gmail.com Date: Aug 28, 2010 Time: 10:30:34 PM Package:
+ * ch.idsia.unittests
  */
-public class LevelGeneratorTest extends TestCase
-{
-@BeforeTest
-public void setUp()
-{
+public class LevelGeneratorTest extends TestCase {
+	@BeforeTest
+	public void setUp() {
 
-}
+	}
 
-@AfterTest
-public void tearDown()
-{
+	@AfterTest
+	public void tearDown() {
 
-}
+	}
 
-@Test
-public void testRegressionLBBug() throws Exception
-{
-    // This test has to be first because it only happens if blocks have
-    // never been on before.
-    final MarioAIOptions marioAIOptions = new MarioAIOptions();
-    marioAIOptions.setArgs("-lb off");
-    Level level1 = LevelGenerator.createLevel(marioAIOptions);
-    marioAIOptions.setArgs("-vis off -ag ch.idsia.agents.controllers.ForwardJumpingAgent -lb on");
-    final BasicTask basicTask = new BasicTask(marioAIOptions);
-    basicTask.setOptionsAndReset(marioAIOptions);
-    basicTask.runSingleEpisode(1);
-    marioAIOptions.setArgs("-lb off");
-    Level level2 = LevelGenerator.createLevel(marioAIOptions);
+	@Test
+	public void testRegressionLBBug() throws Exception {
+		// This test has to be first because it only happens if blocks have
+		// never been on before.
+		final MarioAIOptions marioAIOptions = new MarioAIOptions();
+		marioAIOptions.setArgs("-lb off");
+		Level level1 = LevelGenerator.createLevel(marioAIOptions);
+		marioAIOptions
+				.setArgs("-vis off -ag ch.idsia.agents.controllers.ForwardJumpingAgent -lb on");
+		final BasicTask basicTask = new BasicTask(marioAIOptions);
+		basicTask.setOptionsAndReset(marioAIOptions);
+		basicTask.runSingleEpisode(1);
+		marioAIOptions.setArgs("-lb off");
+		Level level2 = LevelGenerator.createLevel(marioAIOptions);
 
+		for (int i = 0; i < level1.length; i++)
+			for (int j = 0; j < level1.height; j++)
+				assertEquals(level1.getBlock(i, j), level2.getBlock(i, j));
+	}
 
-    for (int i = 0; i < level1.length; i++)
-        for (int j = 0; j < level1.height; j++)
-            assertEquals(level1.getBlock(i, j), level2.getBlock(i, j));
-}
+	@Test
+	public void testCreateLevel() throws Exception {
+		final MarioAIOptions marioAIOptions = new MarioAIOptions();
+		Level level1 = LevelGenerator.createLevel(marioAIOptions);
+		Level level2 = LevelGenerator.createLevel(marioAIOptions);
 
-@Test
-public void testCreateLevel() throws Exception
-{
-    final MarioAIOptions marioAIOptions = new MarioAIOptions();
-    Level level1 = LevelGenerator.createLevel(marioAIOptions);
-    Level level2 = LevelGenerator.createLevel(marioAIOptions);
+		for (int i = 0; i < level1.length; i++)
+			for (int j = 0; j < level1.height; j++)
+				assertEquals(level1.getBlock(i, j), level2.getBlock(i, j));
+	}
 
-    for (int i = 0; i < level1.length; i++)
-        for (int j = 0; j < level1.height; j++)
-            assertEquals(level1.getBlock(i, j), level2.getBlock(i, j));
-}
+	@Test
+	public void testSpriteTemplates() throws Exception {
+		final MarioAIOptions marioAIOptions = new MarioAIOptions();
+		Level level1 = LevelGenerator.createLevel(marioAIOptions);
+		Level level2 = LevelGenerator.createLevel(marioAIOptions);
 
-@Test
-public void testSpriteTemplates() throws Exception
-{
-    final MarioAIOptions marioAIOptions = new MarioAIOptions();
-    Level level1 = LevelGenerator.createLevel(marioAIOptions);
-    Level level2 = LevelGenerator.createLevel(marioAIOptions);
+		for (int i = 0; i < level1.length; i++)
+			for (int j = 0; j < level1.height; j++) {
+				int t1 = 0;
+				int t2 = 0;
+				SpriteTemplate st1 = level1.getSpriteTemplate(i, j);
+				SpriteTemplate st2 = level2.getSpriteTemplate(i, j);
 
+				if (st1 != null)
+					t1 = st1.getType();
 
-    for (int i = 0; i < level1.length; i++)
-        for (int j = 0; j < level1.height; j++)
-        {
-            int t1 = 0;
-            int t2 = 0;
-            SpriteTemplate st1 = level1.getSpriteTemplate(i, j);
-            SpriteTemplate st2 = level2.getSpriteTemplate(i, j);
+				if (st2 != null) {
+					t2 = st2.getType();
+				} else if (st1 != null) {
+					throw new AssertionError("st1 is not null, st2 is null!");
+				}
 
-            if (st1 != null)
-                t1 = st1.getType();
+				assertEquals(t1, t2);
+			}
+	}
 
-            if (st2 != null)
-            {
-                t2 = st2.getType();
-            } else if (st1 != null)
-            {
-                throw new AssertionError("st1 is not null, st2 is null!");
-            }
+	@Test
+	public void testCreateLevelWithoutCreatures() throws Exception {
+		final MarioAIOptions marioAIOptions = new MarioAIOptions("-le off");
+		Level level = LevelGenerator.createLevel(marioAIOptions);
 
-            assertEquals(t1, t2);
-        }
-}
+		for (int i = 0; i < level.length; i++)
+			for (int j = 0; j < level.height; j++) {
+				SpriteTemplate st = level.getSpriteTemplate(i, j);
 
-@Test
-public void testCreateLevelWithoutCreatures() throws Exception
-{
-    final MarioAIOptions marioAIOptions = new MarioAIOptions("-le off");
-    Level level = LevelGenerator.createLevel(marioAIOptions);
+				if (st != null && st.getType() == Sprite.KIND_PRINCESS)
+					continue;
 
-    for (int i = 0; i < level.length; i++)
-        for (int j = 0; j < level.height; j++)
-        {
-            SpriteTemplate st = level.getSpriteTemplate(i, j);
+				assertNull(st);
+			}
+	}
 
-            if (st != null && st.getType() == Sprite.KIND_PRINCESS)
-                continue;
+	// @Test
+	// public void testCreateLevelWithTubesWithoutFlowers()
+	// {
+	// final MarioAIOptions marioAIOptions = new
+	// MarioAIOptions("-ltb on -le g,gw,gk,gkw,rk,rkw,s,sw");
+	// Level level = LevelGenerator.createLevel(marioAIOptions);
+	//
+	// assertEquals(true, level.counters.tubesCount > 0);
+	// assertEquals(true, level.counters.totalTubes == Integer.MAX_VALUE);
+	// }
 
-            assertNull(st);
-        }
-}
+	// @Test
+	// public void testCreateLevelWithTubesWithFlowers()
+	// {
+	// final MarioAIOptions marioAIOptions = new
+	// MarioAIOptions("-ltb on -le f -ld 5 -ls 222");
+	// Level level = LevelGenerator.createLevel(marioAIOptions);
+	//
+	// boolean fl = false;
+	//
+	// for (int i = 0; i < level.length; i++)
+	// for (int j = 0; j < level.height; j++)
+	// if ((level.getSpriteTemplate (i, j) != null) && (level.getSpriteTemplate
+	// (i, j).getType() == Sprite.KIND_ENEMY_FLOWER))
+	// {
+	// fl = true;
+	// break;
+	// }
+	//
+	// assertEquals(true, fl);
+	// }
 
-//    @Test
-//    public void testCreateLevelWithTubesWithoutFlowers()
-//    {
-//        final MarioAIOptions marioAIOptions = new MarioAIOptions("-ltb on -le g,gw,gk,gkw,rk,rkw,s,sw");
-//        Level level = LevelGenerator.createLevel(marioAIOptions);
-//
-//        assertEquals(true, level.counters.tubesCount > 0);
-//        assertEquals(true, level.counters.totalTubes == Integer.MAX_VALUE);
-//    }
+	@Test
+	public void testRandomCreatureGenerator_RedKoopaWinged() {
+		RandomCreatureGenerator g = new RandomCreatureGenerator(0, "rkw", 0);
+		assertEquals(Sprite.KIND_RED_KOOPA_WINGED, g.nextCreature());
+	}
 
-//    @Test
-//    public void testCreateLevelWithTubesWithFlowers()
-//    {
-//        final MarioAIOptions marioAIOptions = new MarioAIOptions("-ltb on -le f -ld 5 -ls 222");
-//        Level level = LevelGenerator.createLevel(marioAIOptions);
-//
-//        boolean fl = false;
-//
-//        for (int i = 0; i < level.length; i++)
-//            for (int j = 0; j < level.height; j++)
-//                if ((level.getSpriteTemplate (i, j) != null) && (level.getSpriteTemplate (i, j).getType() == Sprite.KIND_ENEMY_FLOWER))
-//                {
-//                    fl = true;
-//                    break;
-//                }
-//
-//        assertEquals(true, fl);
-//    }
+	@Test
+	public void testRandomCreatureGenerator_GreenKoopaWinged() {
+		RandomCreatureGenerator g = new RandomCreatureGenerator(0, "gkw", 0);
+		assertEquals(Sprite.KIND_GREEN_KOOPA_WINGED, g.nextCreature());
+	}
 
-@Test
-public void testRandomCreatureGenerator_RedKoopaWinged()
-{
-    RandomCreatureGenerator g = new RandomCreatureGenerator(0, "rkw", 0);
-    assertEquals(Sprite.KIND_RED_KOOPA_WINGED, g.nextCreature());
-}
+	@Test
+	public void testRandomCreatureGenerator_Goomba() {
+		RandomCreatureGenerator g = new RandomCreatureGenerator(0, "g", 0);
+		assertEquals(Sprite.KIND_GOOMBA, g.nextCreature());
+	}
 
-@Test
-public void testRandomCreatureGenerator_GreenKoopaWinged()
-{
-    RandomCreatureGenerator g = new RandomCreatureGenerator(0, "gkw", 0);
-    assertEquals(Sprite.KIND_GREEN_KOOPA_WINGED, g.nextCreature());
-}
+	@Test
+	public void testRandomCreatureGenerator_10Goombas() {
+		final MarioAIOptions marioAIOptions = new MarioAIOptions("-le g:10");
+		Level level = LevelGenerator.createLevel(marioAIOptions);
 
-@Test
-public void testRandomCreatureGenerator_Goomba()
-{
-    RandomCreatureGenerator g = new RandomCreatureGenerator(0, "g", 0);
-    assertEquals(Sprite.KIND_GOOMBA, g.nextCreature());
-}
+		int counter = 0;
 
-@Test
-public void testRandomCreatureGenerator_10Goombas()
-{
-    final MarioAIOptions marioAIOptions = new MarioAIOptions("-le g:10");
-    Level level = LevelGenerator.createLevel(marioAIOptions);
+		for (int i = 0; i < level.length; i++)
+			for (int j = 0; j < level.height; j++) {
+				SpriteTemplate st1 = level.getSpriteTemplate(i, j);
 
-    int counter = 0;
+				if (st1 != null && st1.getType() != Sprite.KIND_PRINCESS) {
+					int type = st1.getType();
+					assertEquals(Sprite.KIND_GOOMBA, type);
 
-    for (int i = 0; i < level.length; i++)
-        for (int j = 0; j < level.height; j++)
-        {
-            SpriteTemplate st1 = level.getSpriteTemplate(i, j);
+					++counter;
+				}
+			}
 
-            if (st1 != null && st1.getType() != Sprite.KIND_PRINCESS)
-            {
-                int type = st1.getType();
-                assertEquals(Sprite.KIND_GOOMBA, type);
+		System.out.println("level.counters.creatures = "
+				+ Level.counters.creatures);
 
-                ++counter;
-            }
-        }
+		assertEquals(10, counter);
+	}
 
-    System.out.println("level.counters.creatures = " + Level.counters.creatures);
+	@Test
+	public void testRandomCreatureGenerator_20RedWingedKoopas() {
+		final MarioAIOptions marioAIOptions = new MarioAIOptions("-le rkw:20");
+		Level level = LevelGenerator.createLevel(marioAIOptions);
 
-    assertEquals(10, counter);
-}
+		int counter = 0;
 
-@Test
-public void testRandomCreatureGenerator_20RedWingedKoopas()
-{
-    final MarioAIOptions marioAIOptions = new MarioAIOptions("-le rkw:20");
-    Level level = LevelGenerator.createLevel(marioAIOptions);
+		for (int i = 0; i < level.length; i++)
+			for (int j = 0; j < level.height; j++) {
+				SpriteTemplate st1 = level.getSpriteTemplate(i, j);
 
-    int counter = 0;
+				if (st1 != null && st1.getType() != Sprite.KIND_PRINCESS) {
+					int type = st1.getType();
+					assertEquals(Sprite.KIND_RED_KOOPA_WINGED, type);
 
-    for (int i = 0; i < level.length; i++)
-        for (int j = 0; j < level.height; j++)
-        {
-            SpriteTemplate st1 = level.getSpriteTemplate(i, j);
+					++counter;
+				}
+			}
 
-            if (st1 != null && st1.getType() != Sprite.KIND_PRINCESS)
-            {
-                int type = st1.getType();
-                assertEquals(Sprite.KIND_RED_KOOPA_WINGED, type);
+		System.out.println("level.counters.creatures = "
+				+ Level.counters.creatures);
 
-                ++counter;
-            }
-        }
-
-    System.out.println("level.counters.creatures = " + Level.counters.creatures);
-
-    assertEquals(20, counter);
-}
+		assertEquals(20, counter);
+	}
 }

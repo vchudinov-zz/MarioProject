@@ -31,28 +31,25 @@ import ch.idsia.agents.Agent;
 import ch.idsia.tools.MarioAIOptions;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy
- * Date: Apr 8, 2009
- * Time: 11:20:41 AM
- * Package: ch.idsia.maibe.tasks
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy Date: Apr 8, 2009 Time:
+ * 11:20:41 AM Package: ch.idsia.maibe.tasks
  */
 
-public interface Task
-{
-public int evaluate(final Agent controller);
+public interface Task {
+	public int evaluate(final Agent controller);
 
-public void setOptionsAndReset(final MarioAIOptions options);
+	public void setOptionsAndReset(final MarioAIOptions options);
 
-public void setOptionsAndReset(final String options);
+	public void setOptionsAndReset(final String options);
 
-void reset();
+	void reset();
 
-void doEpisodes(final int amount, final boolean verbose, final int repetitionsOfSingleEpisode);
+	void doEpisodes(final int amount, final boolean verbose,
+			final int repetitionsOfSingleEpisode);
 
-boolean isFinished();
+	boolean isFinished();
 
-public String getName();
+	public String getName();
 
-public void printStatistics();
+	public void printStatistics();
 }

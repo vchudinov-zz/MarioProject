@@ -34,146 +34,146 @@ import ch.idsia.tools.EvaluationInfo;
 import ch.idsia.tools.MarioAIOptions;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy
- * Date: Mar 28, 2009
- * Time: 8:51:57 PM
- * Package: .Environments
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy Date: Mar 28, 2009 Time:
+ * 8:51:57 PM Package: .Environments
  */
 
-public interface Environment
-{
-public static final int numberOfKeys = 6;
+public interface Environment {
+	public static final int numberOfKeys = 6;
 
-public static final int MARIO_KEY_DOWN = Mario.KEY_DOWN;
-public static final int MARIO_KEY_JUMP = Mario.KEY_JUMP;
-public static final int MARIO_KEY_LEFT = Mario.KEY_LEFT;
-public static final int MARIO_KEY_RIGHT = Mario.KEY_RIGHT;
-public static final int MARIO_KEY_SPEED = Mario.KEY_SPEED;
-public static final int MARIO_STATUS_WIN = Mario.STATUS_WIN;
-public static final int MARIO_STATUS_DEAD = Mario.STATUS_DEAD;
-public static final int MARIO_STATUS_RUNNING = Mario.STATUS_RUNNING;
+	public static final int MARIO_KEY_DOWN = Mario.KEY_DOWN;
+	public static final int MARIO_KEY_JUMP = Mario.KEY_JUMP;
+	public static final int MARIO_KEY_LEFT = Mario.KEY_LEFT;
+	public static final int MARIO_KEY_RIGHT = Mario.KEY_RIGHT;
+	public static final int MARIO_KEY_SPEED = Mario.KEY_SPEED;
+	public static final int MARIO_STATUS_WIN = Mario.STATUS_WIN;
+	public static final int MARIO_STATUS_DEAD = Mario.STATUS_DEAD;
+	public static final int MARIO_STATUS_RUNNING = Mario.STATUS_RUNNING;
 
-// tunable dimensionality:
-// default: 21x21 cells [0..20][0..20]
-// always centered on the agent
+	// tunable dimensionality:
+	// default: 21x21 cells [0..20][0..20]
+	// always centered on the agent
 
-// Chaning ZLevel during the game on-the-fly;
-// if your agent recieves too ambiguous observation, it might request for more precise one for the next step
+	// Chaning ZLevel during the game on-the-fly;
+	// if your agent recieves too ambiguous observation, it might request for
+	// more precise one for the next step
 
-public void resetDefault();
+	public void resetDefault();
 
-public void reset(String setUpOptions);
+	public void reset(String setUpOptions);
 
-public void tick();
+	public void tick();
 
-public float[] getMarioFloatPos();
+	public float[] getMarioFloatPos();
 
-public int getMarioMode();
+	public int getMarioMode();
 
-public float[] getEnemiesFloatPos();
+	public float[] getEnemiesFloatPos();
 
-public boolean isMarioOnGround();
+	public boolean isMarioOnGround();
 
-public boolean isMarioAbleToJump();
+	public boolean isMarioAbleToJump();
 
-public boolean isMarioCarrying();
+	public boolean isMarioCarrying();
 
-public boolean isMarioAbleToShoot();
+	public boolean isMarioAbleToShoot();
 
-// OBSERVATION
+	// OBSERVATION
 
-public int getReceptiveFieldWidth();
+	public int getReceptiveFieldWidth();
 
-public int getReceptiveFieldHeight();
+	public int getReceptiveFieldHeight();
 
+	public byte[][] getMergedObservationZZ(int ZLevelScene, int ZLevelEnemies);
 
-public byte[][] getMergedObservationZZ(int ZLevelScene, int ZLevelEnemies);
+	public byte[][] getLevelSceneObservationZ(int ZLevelScene);
 
-public byte[][] getLevelSceneObservationZ(int ZLevelScene);
+	public byte[][] getEnemiesObservationZ(int ZLevelEnemies);
 
-public byte[][] getEnemiesObservationZ(int ZLevelEnemies);
+	// OBSERVATION FOR AmiCo Agents
 
-// OBSERVATION FOR AmiCo Agents
+	public int[] getSerializedFullObservationZZ(int ZLevelScene,
+			int ZLevelEnemies);
 
-public int[] getSerializedFullObservationZZ(int ZLevelScene, int ZLevelEnemies);
+	/**
+	 * Serializes the LevelScene observation from 22x22 byte array to a 1x484
+	 * byte array
+	 * 
+	 * @param ZLevelScene
+	 *            -- Zoom Level of the levelScene the caller expects to get
+	 * @return byte[] with sequenced elements of corresponding
+	 *         getLevelSceneObservationZ output
+	 */
+	public int[] getSerializedLevelSceneObservationZ(int ZLevelScene);
 
-/**
- * Serializes the LevelScene observation from 22x22 byte array to a 1x484 byte array
- *
- * @param ZLevelScene -- Zoom Level of the levelScene the caller expects to get
- * @return byte[] with sequenced elements of corresponding getLevelSceneObservationZ output
- */
-public int[] getSerializedLevelSceneObservationZ(int ZLevelScene);
+	/**
+	 * Serializes the LevelScene observation from 22x22 byte array to a 1x484
+	 * byte array
+	 * 
+	 * @param ZLevelEnemies
+	 *            -- Zoom Level of the enemies observation the caller expects to
+	 *            get
+	 * @return byte[] with sequenced elements of corresponding
+	 *         <code>getLevelSceneObservationZ</code> output
+	 */
+	public int[] getSerializedEnemiesObservationZ(int ZLevelEnemies);
 
-/**
- * Serializes the LevelScene observation from 22x22 byte array to a 1x484 byte array
- *
- * @param ZLevelEnemies -- Zoom Level of the enemies observation the caller expects to get
- * @return byte[] with sequenced elements of corresponding <code>getLevelSceneObservationZ</code> output
- */
-public int[] getSerializedEnemiesObservationZ(int ZLevelEnemies);
+	public int[] getSerializedMergedObservationZZ(int ZLevelScene,
+			int ZLevelEnemies);
 
-public int[] getSerializedMergedObservationZZ(int ZLevelScene, int ZLevelEnemies);
+	public float[] getCreaturesFloatPos();
 
-public float[] getCreaturesFloatPos();
+	// KILLS
 
-// KILLS
+	public int getKillsTotal();
 
-public int getKillsTotal();
+	public int getKillsByFire();
 
-public int getKillsByFire();
+	public int getKillsByStomp();
 
-public int getKillsByStomp();
+	public int getKillsByShell();
 
-public int getKillsByShell();
+	int getMarioStatus();
 
-int getMarioStatus();
+	/**
+	 * @return int array filled with data about Mario : marioState[0] =
+	 *         this.getMarioStatus(); marioState[1] = this.getMarioMode();
+	 *         marioState[2] = this.isMarioOnGround() ? 1 : 0; marioState[3] =
+	 *         this.isMarioAbleToJump() ? 1 : 0; marioState[4] =
+	 *         this.isMarioAbleToShoot() ? 1 : 0; marioState[5] =
+	 *         this.isMarioCarrying() ? 1 : 0; marioState[6] =
+	 *         this.getKillsTotal(); marioState[7] = this.getKillsByFire();
+	 *         marioState[8] = this.getKillsByStomp(); marioState[9] =
+	 *         this.getKillsByStomp(); marioState[10] = this.getKillsByShell();
+	 *         marioState[11] = this.getTimeLeft();
+	 */
+	public int[] getMarioState();
 
-/**
- * @return int array filled with data about Mario :
- *         marioState[0] = this.getMarioStatus();
- *         marioState[1] = this.getMarioMode();
- *         marioState[2] = this.isMarioOnGround() ? 1 : 0;
- *         marioState[3] = this.isMarioAbleToJump() ? 1 : 0;
- *         marioState[4] = this.isMarioAbleToShoot() ? 1 : 0;
- *         marioState[5] = this.isMarioCarrying() ? 1 : 0;
- *         marioState[6] = this.getKillsTotal();
- *         marioState[7] = this.getKillsByFire();
- *         marioState[8] = this.getKillsByStomp();
- *         marioState[9] = this.getKillsByStomp();
- *         marioState[10] = this.getKillsByShell();
- *         marioState[11] = this.getTimeLeft();
- */
-public int[] getMarioState();
+	void performAction(boolean[] action);
 
-void performAction(boolean[] action);
+	boolean isLevelFinished();
 
-boolean isLevelFinished();
+	int[] getEvaluationInfoAsInts();
 
-int[] getEvaluationInfoAsInts();
+	String getEvaluationInfoAsString();
 
-String getEvaluationInfoAsString();
+	EvaluationInfo getEvaluationInfo();
 
-EvaluationInfo getEvaluationInfo();
+	void reset(MarioAIOptions marioAIOptions);
 
-void reset(MarioAIOptions marioAIOptions);
+	void setAgent(Agent agent);
 
-void setAgent(Agent agent);
+	public int getIntermediateReward();
 
-public int getIntermediateReward();
+	public int[] getMarioEgoPos();
 
-public int[] getMarioEgoPos();
+	public void closeRecorder();
 
-public void closeRecorder();
+	public void setReplayer(Replayer recorder);
 
-public void setReplayer(Replayer recorder);
+	public int getTimeSpent();
 
-public int getTimeSpent();
+	public byte[][] getScreenCapture();
 
-public byte[][] getScreenCapture();
-
-void saveLastRun(String filename);
+	void saveLastRun(String filename);
 }
-
-

@@ -28,17 +28,14 @@
 package ch.idsia.benchmark.mario.engine.level;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey.karakovskiy@gmail.com
- * Date: 4/16/11
- * Time: 4:13 PM
- * Package: ch.idsia.benchmark.mario.engine.level
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy,
+ * sergey.karakovskiy@gmail.com Date: 4/16/11 Time: 4:13 PM Package:
+ * ch.idsia.benchmark.mario.engine.level
  */
-public interface ILevelGenerator
-{
-public Level generateLevel();
+public interface ILevelGenerator {
+	public Level generateLevel();
 
-public int[] giveLevelComponents();
+	public int[] giveLevelComponents();
 
-public void buildLevelPart();
+	public void buildLevelPart();
 }

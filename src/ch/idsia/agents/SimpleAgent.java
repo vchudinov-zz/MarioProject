@@ -31,54 +31,55 @@ import ch.idsia.benchmark.mario.engine.sprites.Mario;
 import ch.idsia.benchmark.mario.environments.Environment;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, firstname_at_idsia_dot_ch
- * Date: May 12, 2009
- * Time: 7:28:57 PM
- * Package: ch.idsia.controllers.agents
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy, firstname_at_idsia_dot_ch
+ * Date: May 12, 2009 Time: 7:28:57 PM Package: ch.idsia.controllers.agents
  */
-public class SimpleAgent implements Agent
-{
-protected boolean Action[] = new boolean[Environment.numberOfKeys];
-protected String Name = "SimpleAgent";
+public class SimpleAgent implements Agent {
+	protected boolean Action[] = new boolean[Environment.numberOfKeys];
+	protected String Name = "SimpleAgent";
 
-public void integrateObservation(int[] serializedLevelSceneObservationZ, int[] serializedEnemiesObservationZ, float[] marioFloatPos, float[] enemiesFloatPos, int[] marioState)
-{
-    //To change body of implemented methods use File | Settings | File Templates.
-}
+	public void integrateObservation(int[] serializedLevelSceneObservationZ,
+			int[] serializedEnemiesObservationZ, float[] marioFloatPos,
+			float[] enemiesFloatPos, int[] marioState) {
+		// To change body of implemented methods use File | Settings | File
+		// Templates.
+	}
 
-public boolean[] getAction()
-{
-    return new boolean[0];  //To change body of implemented methods use File | Settings | File Templates.
-}
+	public boolean[] getAction() {
+		return new boolean[0]; // To change body of implemented methods use File
+								// | Settings | File Templates.
+	}
 
-public void integrateObservation(Environment environment)
-{
-    //To change body of implemented methods use File | Settings | File Templates.
-}
+	public void integrateObservation(Environment environment) {
+		// To change body of implemented methods use File | Settings | File
+		// Templates.
+	}
 
-public void giveIntermediateReward(float intermediateReward)
-{
+	public void giveIntermediateReward(float intermediateReward) {
 
-}
+	}
 
-public void reset()
-{
-    Action = new boolean[Environment.numberOfKeys];
-    Action[Mario.KEY_RIGHT] = true;
-    Action[Mario.KEY_SPEED] = true;
-}
+	public void reset() {
+		Action = new boolean[Environment.numberOfKeys];
+		Action[Mario.KEY_RIGHT] = true;
+		Action[Mario.KEY_SPEED] = true;
+	}
 
-public void setObservationDetails(final int rfWidth, final int rfHeight, final int egoRow, final int egoCol)
-{}
+	public void setObservationDetails(final int rfWidth, final int rfHeight,
+			final int egoRow, final int egoCol) {
+	}
 
-public boolean[] getAction(Environment observation)
-{
-    Action[Mario.KEY_SPEED] = Action[Mario.KEY_JUMP] = observation.isMarioAbleToJump() || !observation.isMarioOnGround();
-    return Action;
-}
+	public boolean[] getAction(Environment observation) {
+		Action[Mario.KEY_SPEED] = Action[Mario.KEY_JUMP] = observation
+				.isMarioAbleToJump() || !observation.isMarioOnGround();
+		return Action;
+	}
 
-public String getName() { return Name; }
+	public String getName() {
+		return Name;
+	}
 
-public void setName(String Name) { this.Name = Name; }
+	public void setName(String Name) {
+		this.Name = Name;
+	}
 }

@@ -28,28 +28,25 @@
 package ch.idsia.benchmark.tasks;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey@idsia.ch
- * Date: Apr 4, 2010 Time: 11:52:31 AM
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy, sergey@idsia.ch Date: Apr
+ * 4, 2010 Time: 11:52:31 AM
  */
 
-public class MarioCustomSystemOfValues extends SystemOfValues
-{
+public class MarioCustomSystemOfValues extends SystemOfValues {
 
-public MarioCustomSystemOfValues()
-{
-    this.distance = 2;
-    this.win = 1;
-    this.mode = 500;
-    this.coins = 0;
-    this.flowerFire = 1640;
-    this.mushroom = 1650;
-    this.kills = 2;
-    this.killedByFire = 4;
-    this.killedByShell = 170;
-    this.killedByStomp = 1;
-    this.timeLeft = 1;
-    this.hiddenBlock = 24;
-}
+	public MarioCustomSystemOfValues() {
+		this.distance = 2;
+		this.win = 1;
+		this.mode = 500;
+		this.coins = 0;
+		this.flowerFire = 1640;
+		this.mushroom = 1650;
+		this.kills = 2;
+		this.killedByFire = 4;
+		this.killedByShell = 170;
+		this.killedByStomp = 1;
+		this.timeLeft = 1;
+		this.hiddenBlock = 24;
+	}
 
 }

@@ -30,25 +30,22 @@ package ch.idsia.agents;
 import ch.idsia.benchmark.tasks.LearningTask;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey@idsia.ch
- * Date: May 19, 2010
- * Time: 3:45:19 PM
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy, sergey@idsia.ch Date: May
+ * 19, 2010 Time: 3:45:19 PM
  */
 
-public interface LearningAgent extends Agent
-{
-public void learn();
+public interface LearningAgent extends Agent {
+	public void learn();
 
-public void giveReward(float reward);
+	public void giveReward(float reward);
 
-public void newEpisode();
+	public void newEpisode();
 
-public void setLearningTask(LearningTask learningTask);
+	public void setLearningTask(LearningTask learningTask);
 
-public void setEvaluationQuota(long num);
+	public void setEvaluationQuota(long num);
 
-public Agent getBestAgent();
+	public Agent getBestAgent();
 
-public void init(); // TODO: remove it as redundant
+	public void init(); // TODO: remove it as redundant
 }

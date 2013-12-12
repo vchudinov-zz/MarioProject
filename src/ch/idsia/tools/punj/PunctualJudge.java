@@ -35,87 +35,83 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey.karakovskiy@gmail.com
- * Date: 3/9/11
- * Time: 6:27 PM
- * Package: ch.idsia.tools.punj
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy,
+ * sergey.karakovskiy@gmail.com Date: 3/9/11 Time: 6:27 PM Package:
+ * ch.idsia.tools.punj
  */
-public class PunctualJudge extends ClassLoader
-{
-private static long counter;
+public class PunctualJudge extends ClassLoader {
+	private static long counter;
 
-public Class<?> buildClass(byte[] data, String name)
-{
-    return defineClass(name, data, 0, data.length);
-}
+	public Class<?> buildClass(byte[] data, String name) {
+		return defineClass(name, data, 0, data.length);
+	}
 
-public static void incrementCounter()
-{
-    ++counter;
-}
+	public static void incrementCounter() {
+		++counter;
+	}
 
-public static long getCounter()
-{
-    return counter;
-}
+	public static long getCounter() {
+		return counter;
+	}
 
-public static void resetCounter()
-{
-    counter = 0;
-}
+	public static void resetCounter() {
+		counter = 0;
+	}
 
-/**
- * @param classFileName -- path to the class file. Example: competition.cig.sergeykarakovskiy.SergeyKarakovskiy_JumpingAgent.class
- * @return bytecode of the class
- * @throws IOException
- */
-public byte[] instrumentClass(String classFileName) throws IOException
-{
-    byte[] instrumentedClass = null;
+	/**
+	 * @param classFileName
+	 *            -- path to the class file. Example:
+	 *            competition.cig.sergeykarakovskiy
+	 *            .SergeyKarakovskiy_JumpingAgent.class
+	 * @return bytecode of the class
+	 * @throws IOException
+	 */
+	public byte[] instrumentClass(String classFileName) throws IOException {
+		byte[] instrumentedClass = null;
 
-    final ClassReader cr = new ClassReader(new FileInputStream(classFileName));
+		final ClassReader cr = new ClassReader(new FileInputStream(
+				classFileName));
 
-    // create an empty ClassNode (in-memory representation of a class)
-    final ClassNode clazz = new ClassNode();
+		// create an empty ClassNode (in-memory representation of a class)
+		final ClassNode clazz = new ClassNode();
 
-    // have the ClassReader read the class file and populate the ClassNode with the corresponding information
-    cr.accept(clazz, 0);
+		// have the ClassReader read the class file and populate the ClassNode
+		// with the corresponding information
+		cr.accept(clazz, 0);
 
-    // get the list of all methods in that class
-    final List<MethodNode> methods = clazz.methods;
-    for (int m = 0; m < methods.size(); m++)
-    {
-        final MethodNode method = methods.get(m);
-        if (method.name.equals("<init>") ||
-                method.name.equals("<clinit>") ||
-                method.name.startsWith("reset"))
-            continue;
-        instrumentMethod(method);
-    }
+		// get the list of all methods in that class
+		final List<MethodNode> methods = clazz.methods;
+		for (int m = 0; m < methods.size(); m++) {
+			final MethodNode method = methods.get(m);
+			if (method.name.equals("<init>") || method.name.equals("<clinit>")
+					|| method.name.startsWith("reset"))
+				continue;
+			instrumentMethod(method);
+		}
 
-    ClassWriter cw = new ClassWriter(0);
+		ClassWriter cw = new ClassWriter(0);
 
-    clazz.accept(cw);
+		clazz.accept(cw);
 
-    instrumentedClass = cw.toByteArray();
-    return instrumentedClass;
-}
+		instrumentedClass = cw.toByteArray();
+		return instrumentedClass;
+	}
 
-private void instrumentMethod(MethodNode methodNode)
-{
-    // get the list of all instructions in that method
-    final InsnList instructions = methodNode.instructions;
-    ListIterator it = instructions.iterator();
-    while (it.hasNext())
-    {
-        final AbstractInsnNode instruction = (AbstractInsnNode) it.next();
-        if (instruction.getOpcode() != -1 &&
-                instruction.getOpcode() != Opcodes.RETURN &&
-                instruction.getOpcode() != Opcodes.IRETURN &&
-                instruction.getOpcode() != Opcodes.ARETURN)
-            instructions.insert(instruction, new MethodInsnNode(Opcodes.INVOKESTATIC, "ch/idsia/tools/punj/PunctualJudge", "incrementCounter", "()V"));
-    }
-}
+	private void instrumentMethod(MethodNode methodNode) {
+		// get the list of all instructions in that method
+		final InsnList instructions = methodNode.instructions;
+		ListIterator it = instructions.iterator();
+		while (it.hasNext()) {
+			final AbstractInsnNode instruction = (AbstractInsnNode) it.next();
+			if (instruction.getOpcode() != -1
+					&& instruction.getOpcode() != Opcodes.RETURN
+					&& instruction.getOpcode() != Opcodes.IRETURN
+					&& instruction.getOpcode() != Opcodes.ARETURN)
+				instructions.insert(instruction, new MethodInsnNode(
+						Opcodes.INVOKESTATIC,
+						"ch/idsia/tools/punj/PunctualJudge",
+						"incrementCounter", "()V"));
+		}
+	}
 
 }

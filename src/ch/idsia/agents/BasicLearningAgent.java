@@ -32,59 +32,47 @@ import ch.idsia.agents.learning.SmallMLPAgent;
 import ch.idsia.benchmark.tasks.LearningTask;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey.karakovskiy@gmail.com
- * Date: Jun 9, 2010
- * Time: 7:03:17 PM
- * Package: ch.idsia.agents
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy,
+ * sergey.karakovskiy@gmail.com Date: Jun 9, 2010 Time: 7:03:17 PM Package:
+ * ch.idsia.agents
  */
-public class BasicLearningAgent extends SimpleMLPAgent implements LearningAgent
-{
-Agent agent;
-Agent finalAgent;
+public class BasicLearningAgent extends SimpleMLPAgent implements LearningAgent {
+	Agent agent;
+	Agent finalAgent;
 
-public BasicLearningAgent(Agent agent)
-{
-    this.agent = agent;
-}
+	public BasicLearningAgent(Agent agent) {
+		this.agent = agent;
+	}
 
-public BasicLearningAgent()
-{
-    this.agent = new SmallMLPAgent();
-}
+	public BasicLearningAgent() {
+		this.agent = new SmallMLPAgent();
+	}
 
-public void learn()
-{
+	public void learn() {
 
-}
+	}
 
-public void giveReward(float r)
-{
+	public void giveReward(float r) {
 
-}
+	}
 
-public void newEpisode()
-{
+	public void newEpisode() {
 
-}
+	}
 
-public Agent getBestAgent()
-{
-    return null;
-}
+	public Agent getBestAgent() {
+		return null;
+	}
 
-public void setEvaluationQuota(long num)
-{
+	public void setEvaluationQuota(long num) {
 
-}
+	}
 
-public void setLearningTask(LearningTask task)
-{
+	public void setLearningTask(LearningTask task) {
 
-}
+	}
 
-public void init()
-{
+	public void init() {
 
-}
+	}
 }

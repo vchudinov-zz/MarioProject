@@ -36,58 +36,53 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey.karakovskiy@gmail.com
- * Date: Jul 8, 2010
- * Time: 5:39:55 PM
- * Package: ch.idsia.scenarios.champ
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy,
+ * sergey.karakovskiy@gmail.com Date: Jul 8, 2010 Time: 5:39:55 PM Package:
+ * ch.idsia.scenarios.champ
  */
 
-public class LearningTask extends BasicTask implements Task
-{
-private static final long EVALUATION_QUOTA = 100000;
-private long currentEvaluation = 0;
-public int uid;
+public class LearningTask extends BasicTask implements Task {
+	private static final long EVALUATION_QUOTA = 100000;
+	private long currentEvaluation = 0;
+	public int uid;
 
-private String fileTimeStamp = "-uid-" + uid + "-" + GlobalOptions.getTimeStamp();
-private int fitnessEvaluations = 0;
+	private String fileTimeStamp = "-uid-" + uid + "-"
+			+ GlobalOptions.getTimeStamp();
+	private int fitnessEvaluations = 0;
 
-public LearningTask(MarioAIOptions marioAIOptions)
-{
-    super(marioAIOptions);
-}
+	public LearningTask(MarioAIOptions marioAIOptions) {
+		super(marioAIOptions);
+	}
 
-public void reset(MarioAIOptions marioAIOptions)
-{
-    options = marioAIOptions;
-    environment.reset(marioAIOptions);
-}
+	public void reset(MarioAIOptions marioAIOptions) {
+		options = marioAIOptions;
+		environment.reset(marioAIOptions);
+	}
 
-public int evaluate(Agent agent)
-{
-    if (currentEvaluation++ > EVALUATION_QUOTA)
-        return 0;
-    options.setAgent(agent);
-    environment.reset(options);
-    fitnessEvaluations++; // TODO : remove either or two currentEvaluation or fitnessEvaluations
-    this.runSingleEpisode(1);
-    return this.getEvaluationInfo().computeWeightedFitness();
-}
+	public int evaluate(Agent agent) {
+		if (currentEvaluation++ > EVALUATION_QUOTA)
+			return 0;
+		options.setAgent(agent);
+		environment.reset(options);
+		fitnessEvaluations++; // TODO : remove either or two currentEvaluation
+								// or fitnessEvaluations
+		this.runSingleEpisode(1);
+		return this.getEvaluationInfo().computeWeightedFitness();
+	}
 
-public static long getEvaluationQuota()
-{return LearningTask.EVALUATION_QUOTA;}
+	public static long getEvaluationQuota() {
+		return LearningTask.EVALUATION_QUOTA;
+	}
 
-public void dumpFitnessEvaluation(float fitness, String fileName)
-{
-    try
-    {
-        BufferedWriter out = new BufferedWriter(new FileWriter(fileName + fileTimeStamp + ".txt", true));
-        out.write(this.fitnessEvaluations + " " + fitness + "\n");
-        out.close();
-    } catch (IOException e)
-    {
-        e.printStackTrace();
-    }
-}
+	public void dumpFitnessEvaluation(float fitness, String fileName) {
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(fileName
+					+ fileTimeStamp + ".txt", true));
+			out.write(this.fitnessEvaluations + " " + fitness + "\n");
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

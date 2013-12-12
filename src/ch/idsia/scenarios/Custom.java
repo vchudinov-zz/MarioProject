@@ -36,43 +36,36 @@ import ch.idsia.tools.MarioAIOptions;
 import java.io.IOException;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey@idsia.ch
- * Date: May 7, 2009
- * Time: 4:38:23 PM
- * Package: ch.idsia
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy, sergey@idsia.ch Date: May
+ * 7, 2009 Time: 4:38:23 PM Package: ch.idsia
  */
 
-public class Custom
-{
-public static void main(String[] args)
-{
-//final String argsString = "-vis on";
-    final MarioAIOptions marioAIOptions = new MarioAIOptions(args);
-    final Agent agent = new ForwardAgent();
-    final BasicTask basicTask = new BasicTask(marioAIOptions);
-    for (int i = 0; i < 10; ++i)
-    {
-        int seed = 0;
-        do
-        {
-            marioAIOptions.setLevelDifficulty(i);
-            marioAIOptions.setLevelRandSeed(seed++);
-            basicTask.setOptionsAndReset(marioAIOptions);
-            basicTask.runSingleEpisode(1);
-            System.out.println(basicTask.getEnvironment().getEvaluationInfoAsString());
-        } while (basicTask.getEnvironment().getEvaluationInfo().marioStatus != Environment.MARIO_STATUS_WIN);
-    }
-    Runtime rt = Runtime.getRuntime();
-    try
-    {
-//            Process proc = rt.exec("/usr/local/bin/mate " + marioTraceFileName);
-        Process proc = rt.exec("python hello.py");
-    } catch (IOException e)
-    {
-        e.printStackTrace();
-    }
-    System.exit(0);
+public class Custom {
+	public static void main(String[] args) {
+		// final String argsString = "-vis on";
+		final MarioAIOptions marioAIOptions = new MarioAIOptions(args);
+		final Agent agent = new ForwardAgent();
+		final BasicTask basicTask = new BasicTask(marioAIOptions);
+		for (int i = 0; i < 10; ++i) {
+			int seed = 0;
+			do {
+				marioAIOptions.setLevelDifficulty(i);
+				marioAIOptions.setLevelRandSeed(seed++);
+				basicTask.setOptionsAndReset(marioAIOptions);
+				basicTask.runSingleEpisode(1);
+				System.out.println(basicTask.getEnvironment()
+						.getEvaluationInfoAsString());
+			} while (basicTask.getEnvironment().getEvaluationInfo().marioStatus != Environment.MARIO_STATUS_WIN);
+		}
+		Runtime rt = Runtime.getRuntime();
+		try {
+			// Process proc = rt.exec("/usr/local/bin/mate " +
+			// marioTraceFileName);
+			Process proc = rt.exec("python hello.py");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.exit(0);
 
-}
+	}
 }

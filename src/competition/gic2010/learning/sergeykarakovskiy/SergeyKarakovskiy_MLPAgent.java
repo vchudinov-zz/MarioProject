@@ -39,128 +39,125 @@ import ch.idsia.utils.wox.serial.Easy;
 import java.text.DecimalFormat;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey.karakovskiy@gmail.com
- * Date: 12/15/10
- * Time: 1:46 AM
- * Package: competition.gic2010.learning
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy,
+ * sergey.karakovskiy@gmail.com Date: 12/15/10 Time: 1:46 AM Package:
+ * competition.gic2010.learning
  */
-public class SergeyKarakovskiy_MLPAgent implements LearningAgent
-{
-private LearningTask learningTask = null;
+public class SergeyKarakovskiy_MLPAgent implements LearningAgent {
+	private LearningTask learningTask = null;
 
-private MediumSRNAgent agent;
-Agent bestAgent;
-private int bestScore = 5;
-ES es;
-int populationSize = 10;
-int generations = 50;
-long evaluationQuota; //common number of trials
-long currentEvaluation; // number of exhausted trials
-private String name = getClass().getSimpleName();
-DecimalFormat df = new DecimalFormat("###.####");
+	private MediumSRNAgent agent;
+	Agent bestAgent;
+	private int bestScore = 5;
+	ES es;
+	int populationSize = 10;
+	int generations = 50;
+	long evaluationQuota; // common number of trials
+	long currentEvaluation; // number of exhausted trials
+	private String name = getClass().getSimpleName();
+	DecimalFormat df = new DecimalFormat("###.####");
 
-public SergeyKarakovskiy_MLPAgent()
-{
-    agent = new MediumSRNAgent();
-}
+	public SergeyKarakovskiy_MLPAgent() {
+		agent = new MediumSRNAgent();
+	}
 
-public void learn()
-{
-    String fileName;
+	public void learn() {
+		String fileName;
 
-    for (int gen = 0; gen < generations; gen++)
-    {
-        es.nextGeneration();
+		for (int gen = 0; gen < generations; gen++) {
+			es.nextGeneration();
 
-        int fitn = (int) es.getBestFitnesses()[0];
-        System.out.print("Generation: " + gen + " current best: " + df.format(fitn) + ";  ");
+			int fitn = (int) es.getBestFitnesses()[0];
+			System.out.print("Generation: " + gen + " current best: "
+					+ df.format(fitn) + ";  ");
 
-        if (fitn > bestScore /*&& marioStatus == Environment.MARIO_STATUS_WIN*/)
-        {
-            bestScore = fitn;
-            fileName = "evolved-progress-" + name + gen + "-uid-" + GlobalOptions.getTimeStamp() + ".xml";
-            final Agent a = (Agent) es.getBests()[0];
-            Easy.save(a, fileName);
-            learningTask.dumpFitnessEvaluation(bestScore, "fitnessImprovements-" + name + ".txt");
+			if (fitn > bestScore /*
+								 * && marioStatus ==
+								 * Environment.MARIO_STATUS_WIN
+								 */) {
+				bestScore = fitn;
+				fileName = "evolved-progress-" + name + gen + "-uid-"
+						+ GlobalOptions.getTimeStamp() + ".xml";
+				final Agent a = (Agent) es.getBests()[0];
+				Easy.save(a, fileName);
+				learningTask.dumpFitnessEvaluation(bestScore,
+						"fitnessImprovements-" + name + ".txt");
 
-            System.out.println("new best:" + fitn);
-            System.out.print("MODE: = " + learningTask.getEnvironment().getEvaluationInfo().marioMode);
-            System.out.print("TIME LEFT: " + learningTask.getEnvironment().getEvaluationInfo().timeLeft);
-            System.out.println(", STATUS = " + learningTask.getEnvironment().getEvaluationInfo().marioStatus);
-            bestAgent = a;
-            System.out.println("bestAgent = " + a);
-        }
-    }
-}
+				System.out.println("new best:" + fitn);
+				System.out
+						.print("MODE: = "
+								+ learningTask.getEnvironment()
+										.getEvaluationInfo().marioMode);
+				System.out
+						.print("TIME LEFT: "
+								+ learningTask.getEnvironment()
+										.getEvaluationInfo().timeLeft);
+				System.out
+						.println(", STATUS = "
+								+ learningTask.getEnvironment()
+										.getEvaluationInfo().marioStatus);
+				bestAgent = a;
+				System.out.println("bestAgent = " + a);
+			}
+		}
+	}
 
-public void giveReward(final float reward)
-{
+	public void giveReward(final float reward) {
 
-}
+	}
 
-public void newEpisode()
-{
+	public void newEpisode() {
 
-}
+	}
 
-public void setLearningTask(final LearningTask learningTask)
-{
-    this.learningTask = learningTask;
-}
+	public void setLearningTask(final LearningTask learningTask) {
+		this.learningTask = learningTask;
+	}
 
-public void setEvaluationQuota(final long num)
-{
-    this.evaluationQuota = num;
-}
+	public void setEvaluationQuota(final long num) {
+		this.evaluationQuota = num;
+	}
 
-public Agent getBestAgent()
-{
-    return bestAgent;
-}
+	public Agent getBestAgent() {
+		return bestAgent;
+	}
 
-public void init()
-{
-    es = new ES(learningTask, agent, populationSize);
-}
+	public void init() {
+		es = new ES(learningTask, agent, populationSize);
+	}
 
-public boolean[] getAction()
-{
-    System.out.println("agent = " + agent);
-    return agent.getAction();
-}
+	public boolean[] getAction() {
+		System.out.println("agent = " + agent);
+		return agent.getAction();
+	}
 
-public void integrateObservation(final Environment environment)
-{
-    agent.integrateObservation(environment);
-}
+	public void integrateObservation(final Environment environment) {
+		agent.integrateObservation(environment);
+	}
 
-public void giveIntermediateReward(final float intermediateReward)
-{
-    agent.giveIntermediateReward(intermediateReward);
-}
+	public void giveIntermediateReward(final float intermediateReward) {
+		agent.giveIntermediateReward(intermediateReward);
+	}
 
-/**
- * clears all dynamic data, such as hidden layers in recurrent networks
- * just implement an empty method for a reactive controller
- */
-public void reset()
-{
-    agent.reset();
-}
+	/**
+	 * clears all dynamic data, such as hidden layers in recurrent networks just
+	 * implement an empty method for a reactive controller
+	 */
+	public void reset() {
+		agent.reset();
+	}
 
-public void setObservationDetails(final int rfWidth, final int rfHeight, final int egoRow, final int egoCol)
-{
-    agent.setObservationDetails(rfWidth, rfHeight, egoRow, egoCol);
-}
+	public void setObservationDetails(final int rfWidth, final int rfHeight,
+			final int egoRow, final int egoCol) {
+		agent.setObservationDetails(rfWidth, rfHeight, egoRow, egoCol);
+	}
 
-public String getName()
-{
-    return name;  //To change body of implemented methods use File | Settings | File Templates.
-}
+	public String getName() {
+		return name; // To change body of implemented methods use File |
+						// Settings | File Templates.
+	}
 
-public void setName(final String name)
-{
-    this.name = name;
-}
+	public void setName(final String name) {
+		this.name = name;
+	}
 }

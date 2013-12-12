@@ -8,15 +8,14 @@ public abstract class MasterEvaluator {
 	protected String levelParameters;
 	protected MasterAgent agent;
 
-	
-	public MasterEvaluator(String levelParameters, MasterAgent agent){
+	public MasterEvaluator(String levelParameters, MasterAgent agent) {
 		this.levelParameters = levelParameters;
 		this.agent = agent;
 	}
-	
+
 	public abstract boolean evaluate(Organism organism);
-	
-	public void setLevelParameters(String levelParameters ){
+
+	public void setLevelParameters(String levelParameters) {
 		this.levelParameters = levelParameters;
 	}
 

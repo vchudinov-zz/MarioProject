@@ -9,40 +9,42 @@ public abstract class MasterAgent extends BasicMarioAIAgent implements Agent {
 	String genomeFileName;
 	boolean isOnGround;
 
-	public MasterAgent(String agentName, String genomeFileName, int zLevelEnemies, int zLevelScene) {
+	public MasterAgent(String agentName, String genomeFileName,
+			int zLevelEnemies, int zLevelScene) {
 		super(agentName);
-		
+
 		this.zLevelEnemies = zLevelEnemies;
 		this.zLevelScene = zLevelScene;
-		
-		this.genomeFileName=genomeFileName;
-	}
-	
-	public MasterAgent(String agentName, Organism brain, int zLevelEnemies, int zLevelScene) {
-		super(agentName);
-		
-		this.zLevelEnemies = zLevelEnemies;
-		this.zLevelScene = zLevelScene;
-		
-		this.brain = brain;
-	}
-	
-	public void setBrain(Organism brain){
-		this.brain = brain;
-	}
-	
-	public Organism getBrain(){
-		return this.brain;
-	}
-	
-	public void setgenomeFileName(String genomeFileName){
+
 		this.genomeFileName = genomeFileName;
 	}
-	
-	public abstract void create();	
-	
+
+	public MasterAgent(String agentName, Organism brain, int zLevelEnemies,
+			int zLevelScene) {
+		super(agentName);
+
+		this.zLevelEnemies = zLevelEnemies;
+		this.zLevelScene = zLevelScene;
+
+		this.brain = brain;
+	}
+
+	public void setBrain(Organism brain) {
+		this.brain = brain;
+	}
+
+	public Organism getBrain() {
+		return this.brain;
+	}
+
+	public void setgenomeFileName(String genomeFileName) {
+		this.genomeFileName = genomeFileName;
+	}
+
+	public abstract void create();
+
 	public abstract void createBrain();
-	
+
 	public boolean isOnGround() {
 		return isOnGround;
 	}

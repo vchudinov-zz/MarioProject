@@ -28,26 +28,24 @@
 package ch.idsia.benchmark.tasks;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey@idsia.ch
- * Date: Apr 4, 2010 Time: 11:50:43 AM
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy, sergey@idsia.ch Date: Apr
+ * 4, 2010 Time: 11:50:43 AM
  */
 
-public class SystemOfValues
-{
-public int distance = 1;
-public int win = 1024;
-public int mode = 32;
-public int coins = 16;
-public int flowerFire = 64;
-public int kills = 42;
-public int killedByFire = 4;
-public int killedByShell = 17;
-public int killedByStomp = 12;
-public int mushroom = 58;
-public int timeLeft = 8;
-public int hiddenBlock = 24;
-public int greenMushroom = 58;
-// For Intermediate rewards only
-public int stomp = 10;
+public class SystemOfValues {
+	public int distance = 1;
+	public int win = 1024;
+	public int mode = 32;
+	public int coins = 16;
+	public int flowerFire = 64;
+	public int kills = 42;
+	public int killedByFire = 4;
+	public int killedByShell = 17;
+	public int killedByStomp = 12;
+	public int mushroom = 58;
+	public int timeLeft = 8;
+	public int hiddenBlock = 24;
+	public int greenMushroom = 58;
+	// For Intermediate rewards only
+	public int stomp = 10;
 }

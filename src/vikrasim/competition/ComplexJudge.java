@@ -43,7 +43,8 @@ public class ComplexJudge {
 		int minDifficulty = 0; // Min possible difficulty
 		int maxDifficulty = 3; // Max possible difficulty
 		String baseResultFileName;
-		String baseCompetitionFolder = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Results\\" + competitionName;
+		String baseCompetitionFolder = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Results\\"
+				+ competitionName;
 		String baseResultFolder;
 		String[] levels;
 
@@ -57,9 +58,9 @@ public class ComplexJudge {
 			levels = createLevelsToTestOn(numberOfLevels, possibleLevels, dif,
 					dif);
 			double[][][] results = runCompetitionRound(agentList, levels);
-			
-			baseResultFolder = baseCompetitionFolder +"\\Tube with enemies";
-			baseResultFileName = baseResultFolder + "\\ld " + dif;			
+
+			baseResultFolder = baseCompetitionFolder + "\\Tube with enemies";
+			baseResultFileName = baseResultFolder + "\\ld " + dif;
 			testAndCreate(baseResultFolder);
 			writeAllResultsToFile(baseResultFileName, agentList, results);
 		}
@@ -71,10 +72,10 @@ public class ComplexJudge {
 			levels = createLevelsToTestOn(numberOfLevels, possibleLevels, dif,
 					dif);
 			double[][][] results = runCompetitionRound(agentList, levels);
-			baseResultFolder = baseCompetitionFolder +"\\Tube without enemies";
-			baseResultFileName = baseResultFolder + "\\ld " + dif;			
+			baseResultFolder = baseCompetitionFolder + "\\Tube without enemies";
+			baseResultFileName = baseResultFolder + "\\ld " + dif;
 			testAndCreate(baseResultFolder);
-			
+
 			writeAllResultsToFile(baseResultFileName, agentList, results);
 		}
 
@@ -85,8 +86,8 @@ public class ComplexJudge {
 			levels = createLevelsToTestOn(numberOfLevels, possibleLevels, dif,
 					dif);
 			double[][][] results = runCompetitionRound(agentList, levels);
-			baseResultFolder = baseCompetitionFolder +"\\Gap without enemies";
-			baseResultFileName = baseResultFolder + "\\ld " + dif;			
+			baseResultFolder = baseCompetitionFolder + "\\Gap without enemies";
+			baseResultFileName = baseResultFolder + "\\ld " + dif;
 			testAndCreate(baseResultFolder);
 			writeAllResultsToFile(baseResultFileName, agentList, results);
 		}
@@ -98,8 +99,8 @@ public class ComplexJudge {
 			levels = createLevelsToTestOn(numberOfLevels, possibleLevels, dif,
 					dif);
 			double[][][] results = runCompetitionRound(agentList, levels);
-			baseResultFolder = baseCompetitionFolder +"\\Gap with enemies";
-			baseResultFileName = baseResultFolder + "\\ld " + dif;			
+			baseResultFolder = baseCompetitionFolder + "\\Gap with enemies";
+			baseResultFileName = baseResultFolder + "\\ld " + dif;
 			testAndCreate(baseResultFolder);
 			writeAllResultsToFile(baseResultFileName, agentList, results);
 		}
@@ -111,8 +112,8 @@ public class ComplexJudge {
 			levels = createLevelsToTestOn(numberOfLevels, possibleLevels, dif,
 					dif);
 			double[][][] results = runCompetitionRound(agentList, levels);
-			baseResultFolder = baseCompetitionFolder +"\\Standard mario";
-			baseResultFileName = baseResultFolder + "\\ld " + dif;			
+			baseResultFolder = baseCompetitionFolder + "\\Standard mario";
+			baseResultFileName = baseResultFolder + "\\ld " + dif;
 			testAndCreate(baseResultFolder);
 			writeAllResultsToFile(baseResultFileName, agentList, results);
 		}
@@ -361,8 +362,8 @@ public class ComplexJudge {
 		}
 
 	}
-	
-	private void testAndCreate(String folderPath){
+
+	private void testAndCreate(String folderPath) {
 		File f = new File(folderPath);
 		f.mkdirs();
 	}

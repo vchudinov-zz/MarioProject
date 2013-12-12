@@ -31,33 +31,29 @@ import ch.idsia.agents.Agent;
 import ch.idsia.tools.MarioAIOptions;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey at idsia dot ch
- * Date: Apr 4, 2010 Time: 11:33:15 AM
- * Package: ch.idsia.maibe.tasks
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy, sergey at idsia dot ch
+ * Date: Apr 4, 2010 Time: 11:33:15 AM Package: ch.idsia.maibe.tasks
  */
-public class MushroomTask extends BasicTask implements Task
-{
-private MarioCustomSystemOfValues sov = new MarioCustomSystemOfValues();
+public class MushroomTask extends BasicTask implements Task {
+	private MarioCustomSystemOfValues sov = new MarioCustomSystemOfValues();
 
-public MushroomTask(MarioAIOptions marioAIOptions)
-{
-    super(marioAIOptions);
-    this.options = marioAIOptions;
-}
+	public MushroomTask(MarioAIOptions marioAIOptions) {
+		super(marioAIOptions);
+		this.options = marioAIOptions;
+	}
 
-public int evaluate(Agent controller)
-{
-    float fitness = 0;
-    controller.reset();
-//        options.setLevelRandSeed(startingSeed++);
-//        System.out.println("controller = " + controller);
-    options.setAgent(controller);
-//        this.setAgent(controller);
-    this.setOptionsAndReset(options);
-    this.runSingleEpisode(1);
-    fitness += this.getEnvironment().getEvaluationInfo().computeWeightedFitness(sov);
-    return (int) fitness;
-}
+	public int evaluate(Agent controller) {
+		float fitness = 0;
+		controller.reset();
+		// options.setLevelRandSeed(startingSeed++);
+		// System.out.println("controller = " + controller);
+		options.setAgent(controller);
+		// this.setAgent(controller);
+		this.setOptionsAndReset(options);
+		this.runSingleEpisode(1);
+		fitness += this.getEnvironment().getEvaluationInfo()
+				.computeWeightedFitness(sov);
+		return (int) fitness;
+	}
 
 }

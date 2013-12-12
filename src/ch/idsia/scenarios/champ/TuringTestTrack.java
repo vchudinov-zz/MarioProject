@@ -28,16 +28,12 @@
 package ch.idsia.scenarios.champ;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sergey Karakovskiy, sergey.karakovskiy@gmail.com
- * Date: Nov 29, 2010
- * Time: 9:44:41 AM
- * Package: ch.idsia.scenarios.champ
+ * Created by IntelliJ IDEA. User: Sergey Karakovskiy,
+ * sergey.karakovskiy@gmail.com Date: Nov 29, 2010 Time: 9:44:41 AM Package:
+ * ch.idsia.scenarios.champ
  */
-public class TuringTestTrack
-{
-public static void main(String[] args)
-{
+public class TuringTestTrack {
+	public static void main(String[] args) {
 
-}
+	}
 }

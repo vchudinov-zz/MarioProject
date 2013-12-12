@@ -38,53 +38,46 @@ import ch.idsia.tools.MarioAIOptions;
 import ch.idsia.utils.wox.serial.Easy;
 
 /**
- * Created by IntelliJ IDEA.
- * User: julian
- * Date: May 24, 2009
- * Time: 1:18:44 AM
+ * Created by IntelliJ IDEA. User: julian Date: May 24, 2009 Time: 1:18:44 AM
  */
 
-public class EvolveMultiSeed
-{
+public class EvolveMultiSeed {
 
-final static int generations = 100;
-final static int populationSize = 100;
+	final static int generations = 100;
+	final static int populationSize = 100;
 
-public static void main(String[] args)
-{
-    MarioAIOptions options = new MarioAIOptions(new String[0]);
-//        options.setEvaluationQuota(1);
-    Evolvable initial = new SimpleMLPAgent();
+	public static void main(String[] args) {
+		MarioAIOptions options = new MarioAIOptions(new String[0]);
+		// options.setEvaluationQuota(1);
+		Evolvable initial = new SimpleMLPAgent();
 
-    if (args.length > 0)
-    {
-        initial = (Evolvable) AgentsPool.loadAgent(args[0], options.isPunj());
-    }
-    options.setFPS(GlobalOptions.MaxFPS);
-    options.setVisualization(false);
-    MultiSeedProgressTask task = new MultiSeedProgressTask(options);
-    task.setNumberOfSeeds(3);
-    task.setStartingSeed(0);
-    ES es = new ES(task, initial, populationSize);
-    System.out.println("Evolving " + initial + " with task " + task);
-    for (int gen = 0; gen < generations; gen++)
-    {
-        //task.setStartingSeed((int)(Math.random () * Integer.MAX_VALUE));
-        es.nextGeneration();
-        double bestResult = es.getBestFitnesses()[0];
-        System.out.println("Generation " + gen + " best " + bestResult);
-        options.setVisualization(gen % 5 == 0 || bestResult > 4000);
-        Agent a = (Agent) es.getBests()[0];
-        a.setName(((Agent) initial).getName() + gen);
-//                RegisterableAgent.registerAgent(a);
-//                AgentsPool.setCurrentAgent(a);
-        int result = task.evaluate(a);
-        options.setVisualization(false);
-        Easy.save(es.getBests()[0], "evolved-" + gen + ".xml");
-        if (result > 4000)
-        {
-            break; //finished
-        }
-    }
-}
+		if (args.length > 0) {
+			initial = (Evolvable) AgentsPool.loadAgent(args[0],
+					options.isPunj());
+		}
+		options.setFPS(GlobalOptions.MaxFPS);
+		options.setVisualization(false);
+		MultiSeedProgressTask task = new MultiSeedProgressTask(options);
+		task.setNumberOfSeeds(3);
+		task.setStartingSeed(0);
+		ES es = new ES(task, initial, populationSize);
+		System.out.println("Evolving " + initial + " with task " + task);
+		for (int gen = 0; gen < generations; gen++) {
+			// task.setStartingSeed((int)(Math.random () * Integer.MAX_VALUE));
+			es.nextGeneration();
+			double bestResult = es.getBestFitnesses()[0];
+			System.out.println("Generation " + gen + " best " + bestResult);
+			options.setVisualization(gen % 5 == 0 || bestResult > 4000);
+			Agent a = (Agent) es.getBests()[0];
+			a.setName(((Agent) initial).getName() + gen);
+			// RegisterableAgent.registerAgent(a);
+			// AgentsPool.setCurrentAgent(a);
+			int result = task.evaluate(a);
+			options.setVisualization(false);
+			Easy.save(es.getBests()[0], "evolved-" + gen + ".xml");
+			if (result > 4000) {
+				break; // finished
+			}
+		}
+	}
 }
