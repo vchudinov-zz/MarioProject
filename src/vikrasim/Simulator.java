@@ -27,7 +27,6 @@ public class Simulator {
 
 		// Write parameters to use in simulation
 		String options = "-vis on -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
-		options = options;
 		// options = "-ls 20 -vis on";
 		System.out.print(options);
 
