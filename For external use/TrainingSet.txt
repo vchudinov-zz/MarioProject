@@ -1,8 +1,0 @@
--vis off -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off
--vis off -lb on -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off
--vis off -lb on -lca off -lco on -lde off -le off -lf off -lg off -lhs off -ltb off
--vis off -lb on -lca off -lco on -lde off -le off -lf off -lg on -lhs off -ltb off
--vis off -lb on -lca off -lco on -lde on -le off -lf off -lg on -lhs off -ltb off
--vis off -lb on -lca off -lco on -lde on -le off -lf off -lg on -lhs off -ltb on
--vis off -lb on -lca off -lco on -lde on -le on -lf off -lg on -lhs off -ltb on -fc on
--vis off -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on
