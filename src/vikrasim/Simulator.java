@@ -26,8 +26,8 @@ public class Simulator {
 		String everything = "-vis off -lb on -lca on -lco on -lde on -lf off -lg on -lhs on -ltb on";
 
 		// Write parameters to use in simulation
-		String options = "-vis on -lb off -lca off -lco off -lde off -le off -lf off -lg off -lhs off -ltb off";
-		// options = "-ls 20 -vis on";
+		String options = "-vis on -lb on -lca off -lco on -lde off -le off -lf off -lg on -lhs off -ltb off";
+		 options = options + " -ls 0 -ld 2 -z on";
 		System.out.print(options);
 
 		// Create new environment with chosen parameters
@@ -35,18 +35,18 @@ public class Simulator {
 		environment.reset(options);
 
 		// Create new agent
-		String file = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Simon\\5 Triathlon 3 gen 732 best";
-		MasterAgent agent = new AgentScannerNEAT("ThisRocks", file, 1, 1, 7, 7);
+		String file = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Recordings\\5 gen 434";
+		MasterAgent agent = new GapAgent("ThisRocks", file, 1, 1, 7, 7);
 		agent.createBrain();
 
 		// Visualize the agent
 		GraphVizWriter writer = new GraphVizWriter();
-		String targetFile = "D:\\Users\\Simon\\Dropbox\\MarioFun\\NEAT data\\Training data\\Special design RewardNoJump\\Vizualized.txt";
-		writer.writer(file, targetFile, "WinnerDif4");
+		String targetFile = "D:\\Users\\Simon\\Dropbox\\Mario Project\\Agents\\Recordings\\5 gen 434 Vis";
+		writer.writer(file, targetFile, "Starter");
 
 		// Agent agent = new HumanKeyboardAgent();
 		while (!environment.isLevelFinished()) {
-			environment.tick(); // Execute one tick in the game (I think) //STC
+			environment.tick(); // Execute one tick in the game //STC
 			agent.integrateObservation(environment);
 			environment.performAction(agent.getAction());
 		}
